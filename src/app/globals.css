@@ -1,0 +1,244 @@
+@import "tailwindcss";
+@import "@fontsource-variable/source-sans-3";
+@import "@fontsource-variable/source-code-pro";
+
+/*
+ * Design tokens. The palette follows the Tabby (tabby.sh) look: a deep navy
+ * canvas, light-weight Source Sans type, frosted-glass panels and a band of
+ * oversaturated colour behind the hero.
+ */
+:root {
+  --bg: #0c131b;
+  --bg-elevated: #111a24;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.1);
+  --fg: #ccd6df;
+  --fg-strong: #e9eef3;
+  --fg-muted: #8696a7;
+  --accent: #3b8ff2;
+  --accent-strong: #63a6ff;
+  --glow-magenta: #ff3d81;
+  --glow-orange: #ff7a1a;
+  --glow-cyan: #22d3ee;
+  --glow-violet: #7c3aed;
+  --radius: 0.35rem;
+  --radius-lg: 0.75rem;
+  --glass: rgba(14, 21, 29, 0.72);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-strong: var(--fg-strong);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-magenta: var(--glow-magenta);
+  --color-orange: var(--glow-orange);
+  --color-cyan: var(--glow-cyan);
+  --color-violet: var(--glow-violet);
+  --radius-sm: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --font-sans: "Source Sans 3 Variable", "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Source Code Pro Variable", "Source Code Pro", ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: white;
+}
+
+/* Frosted glass panel, as used by the terminal window and the nav bar. */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/* The skewed colour band behind the hero. */
+.hero-band {
+  position: absolute;
+  inset: 32% -10% 10% -10%;
+  transform: skewY(-6deg);
+  background:
+    radial-gradient(60% 90% at 10% 50%, var(--glow-violet) 0%, transparent 60%),
+    radial-gradient(50% 80% at 35% 70%, var(--glow-magenta) 0%, transparent 55%),
+    radial-gradient(45% 80% at 60% 30%, var(--glow-orange) 0%, transparent 55%),
+    radial-gradient(55% 90% at 90% 50%, var(--glow-cyan) 0%, transparent 60%),
+    linear-gradient(90deg, #1b0b3a, #3a0b2f 40%, #4a1a0b 65%, #052a3a);
+  opacity: 0.85;
+  filter: saturate(130%);
+  pointer-events: none;
+}
+
+.hero-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0 22px,
+    rgba(255, 255, 255, 0.06) 22px 24px
+  );
+  mix-blend-mode: soft-light;
+}
+
+.hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--bg) 0%,
+    transparent 28%,
+    transparent 70%,
+    var(--bg) 100%
+  );
+  pointer-events: none;
+}
+
+/* Section headings, light weight like Tabby's. */
+.display {
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: var(--fg-strong);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition:
+    background 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    transform 0.15s ease-in-out;
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.85rem;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-strong);
+}
+
+.btn-ghost {
+  border-color: var(--border);
+  color: var(--fg-strong);
+}
+
+.btn-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--surface);
+}
+
+/* Terminal */
+.term-caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.15em;
+  vertical-align: text-bottom;
+  background: var(--glow-orange);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.term-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.term-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .term-caret {
+    animation: none;
+  }
+}
+
+/* Print view: plain, ink-friendly, one source of truth. */
+@media print {
+  :root {
+    --bg: #fff;
+    --fg: #111;
+    --fg-strong: #000;
+    --fg-muted: #444;
+    --border: #ccc;
+  }
+  body {
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

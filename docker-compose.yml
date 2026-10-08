@@ -1,0 +1,23 @@
+# Local parity with the home-lab deployment. `docker compose up --build`.
+services:
+  web:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-local}
+        APP_VERSION: ${APP_VERSION:-local}
+    image: living-resume:local
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/ready"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3

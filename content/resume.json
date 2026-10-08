@@ -1,0 +1,156 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Chris Russell",
+    "label": "Platform Engineer · Cloud Native · Home Lab Enthusiast",
+    "email": "chris@example.com",
+    "url": "https://chrisrussell.example",
+    "summary": "SAMPLE CONTENT — replace with your own. Platform engineer who builds and runs the infrastructure behind high-traffic products: Kubernetes, GitOps delivery, observability, and the developer platforms that let teams ship safely every day.",
+    "location": {
+      "city": "Austin",
+      "region": "TX",
+      "countryCode": "US"
+    },
+    "profiles": [
+      { "network": "GitHub", "username": "xerodok", "url": "https://github.com/xerodok" },
+      {
+        "network": "LinkedIn",
+        "username": "chrisrussell",
+        "url": "https://www.linkedin.com/in/chrisrussell"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Acme Talent (sample employer)",
+      "position": "Senior Platform Engineer",
+      "url": "https://example.com",
+      "startDate": "2022-03",
+      "summary": "Owned the Kubernetes platform behind a large recruiting marketplace serving millions of candidates and employers.",
+      "highlights": [
+        "Migrated 40+ services from VM-based deploys to Kubernetes with Argo CD GitOps, cutting lead time for changes from days to under an hour.",
+        "Built the observability stack (OpenTelemetry, Prometheus, Grafana, Loki, Tempo) and SLO-based alerting that reduced on-call pages by 60%.",
+        "Designed multi-region ingress with cert-manager, external-dns and Cloudflare, achieving 99.95% availability over 18 months."
+      ],
+      "keywords": ["Kubernetes", "Argo CD", "Terraform", "OpenTelemetry", "AWS"]
+    },
+    {
+      "name": "Northwind Logistics (sample employer)",
+      "position": "DevOps Engineer",
+      "startDate": "2019-06",
+      "endDate": "2022-02",
+      "summary": "Built CI/CD and infrastructure-as-code for a logistics SaaS platform.",
+      "highlights": [
+        "Replaced hand-built Jenkins pipelines with GitHub Actions and reusable workflows across 25 repositories.",
+        "Introduced Terraform modules and policy-as-code (OPA) that brought cloud spend down 30% year over year.",
+        "Led incident response process and blameless post-mortems."
+      ],
+      "keywords": ["GitHub Actions", "Terraform", "Docker", "PostgreSQL", "GCP"]
+    },
+    {
+      "name": "Contoso Health (sample employer)",
+      "position": "Systems Administrator",
+      "startDate": "2016-01",
+      "endDate": "2019-05",
+      "summary": "Ran on-prem Linux and Windows infrastructure for a regional healthcare provider.",
+      "highlights": [
+        "Virtualized 120 physical servers onto a Proxmox and VMware fleet.",
+        "Automated patching and configuration with Ansible, cutting maintenance windows in half."
+      ],
+      "keywords": ["Linux", "Ansible", "VMware", "Proxmox", "Networking"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "State University (sample)",
+      "area": "Computer Science",
+      "studyType": "B.S.",
+      "startDate": "2011-08",
+      "endDate": "2015-05"
+    }
+  ],
+  "certificates": [
+    { "name": "Certified Kubernetes Administrator (CKA)", "issuer": "CNCF", "date": "2023-04" },
+    {
+      "name": "AWS Solutions Architect – Associate",
+      "issuer": "Amazon Web Services",
+      "date": "2021-09"
+    },
+    { "name": "HashiCorp Terraform Associate", "issuer": "HashiCorp", "date": "2020-11" }
+  ],
+  "skills": [
+    {
+      "name": "Platform & Orchestration",
+      "level": "Expert",
+      "keywords": ["Kubernetes", "Helm", "Argo CD", "Docker", "Containerd", "Istio"]
+    },
+    {
+      "name": "Infrastructure as Code",
+      "level": "Expert",
+      "keywords": ["Terraform", "Ansible", "Pulumi", "Crossplane", "Packer"]
+    },
+    {
+      "name": "Observability",
+      "level": "Advanced",
+      "keywords": ["OpenTelemetry", "Prometheus", "Grafana", "Loki", "Tempo", "Datadog"]
+    },
+    {
+      "name": "Cloud",
+      "level": "Advanced",
+      "keywords": ["AWS", "GCP", "Cloudflare", "Proxmox", "TrueNAS"]
+    },
+    {
+      "name": "Languages",
+      "level": "Intermediate",
+      "keywords": ["Go", "TypeScript", "Python", "Bash"]
+    },
+    {
+      "name": "Delivery & Security",
+      "level": "Advanced",
+      "keywords": ["GitHub Actions", "GitOps", "OPA", "Vault", "SOPS", "Trivy"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Living Resume",
+      "description": "This site. A Next.js application that renders a JSON Resume document, ships as a container, and runs on my home lab behind a cloud-native ingress.",
+      "highlights": [
+        "Next.js 16, React 19, Tailwind 4",
+        "Multi-stage container image",
+        "Kubernetes probes and JSON API"
+      ],
+      "keywords": ["Next.js", "TypeScript", "Kubernetes"],
+      "url": "https://github.com/xerodok/chrisrussell",
+      "startDate": "2026-10"
+    },
+    {
+      "name": "Home lab platform",
+      "description": "Three-node Kubernetes cluster on Proxmox with GitOps-managed workloads, Cloudflare tunnels, and full observability.",
+      "highlights": [
+        "Talos Linux nodes",
+        "Argo CD app-of-apps",
+        "Longhorn storage, MetalLB, Traefik"
+      ],
+      "keywords": ["Proxmox", "Talos", "Argo CD", "Traefik"],
+      "startDate": "2023-01"
+    },
+    {
+      "name": "otel-lab",
+      "description": "Reference OpenTelemetry collector pipelines and Grafana dashboards for small teams adopting tracing.",
+      "highlights": ["Collector configs for traces, metrics, logs", "Tail-sampling examples"],
+      "keywords": ["OpenTelemetry", "Grafana", "Go"],
+      "url": "https://github.com/xerodok",
+      "startDate": "2024-05"
+    }
+  ],
+  "languages": [{ "language": "English", "fluency": "Native" }],
+  "interests": [
+    { "name": "Home lab", "keywords": ["Proxmox", "Kubernetes", "10GbE networking"] },
+    { "name": "Open source", "keywords": ["Tabby", "OpenTelemetry"] }
+  ],
+  "meta": {
+    "canonical": "https://chrisrussell.example/api/resume",
+    "version": "v0.1.0",
+    "lastModified": "2026-10-08"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "tagline": "A resume for a more modern age",
+  "prompt": "chris@homelab",
+  "stats": [
+    { "label": "Years in infrastructure", "value": "10+" },
+    { "label": "Services migrated to Kubernetes", "value": "40+" },
+    { "label": "Availability sustained", "value": "99.95%" },
+    { "label": "On-call pages reduced", "value": "60%" }
+  ],
+  "highlights": [
+    {
+      "icon": "cluster",
+      "title": "Kubernetes, end to end",
+      "body": "From bare-metal Talos nodes in the lab to multi-region managed clusters in production. Ingress, storage, policy, upgrades."
+    },
+    {
+      "icon": "git",
+      "title": "GitOps delivery",
+      "body": "Everything is a pull request. Argo CD app-of-apps, reusable GitHub Actions, signed images and policy gates."
+    },
+    {
+      "icon": "pulse",
+      "title": "Observability first",
+      "body": "OpenTelemetry pipelines, SLOs and alerting that pages for symptoms, not causes. Dashboards people actually open."
+    },
+    {
+      "icon": "shield",
+      "title": "Secure by default",
+      "body": "Secrets with Vault and SOPS, image scanning with Trivy, least-privilege IAM, and OPA guardrails in CI."
+    },
+    {
+      "icon": "code",
+      "title": "Infrastructure as code",
+      "body": "Terraform modules and Ansible roles that are tested, versioned and reviewed like application code."
+    },
+    {
+      "icon": "terminal",
+      "title": "This site is the proof",
+      "body": "Built with Next.js, shipped as a container, deployed on-prem with the same tooling used at work. Try the terminal above."
+    }
+  ],
+  "nav": [
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Skills", "href": "#skills" },
+    { "label": "Projects", "href": "#projects" },
+    { "label": "Contact", "href": "#contact" }
+  ]
+}
