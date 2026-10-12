@@ -152,7 +152,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
       className="glass flex flex-col overflow-hidden rounded-lg font-mono text-[13.5px] leading-relaxed sm:text-sm"
       onClick={() => {
         skipIntro();
-        inputRef.current?.focus();
+        inputRef.current?.focus({ preventScroll: true });
       }}
       data-testid="terminal"
     >
@@ -177,7 +177,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
 
       <div
         ref={scrollRef}
-        className="term-scroll relative h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
+        className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
         aria-live="polite"
       >
         <div className="text-fg-muted">
@@ -195,7 +195,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
             <Output lines={entry.lines} />
           </div>
         ))}
-        <div className="mt-2 flex items-center">
+        <div className="relative mt-2 flex items-center">
           <Prompt prompt={site.prompt} />
           <span className="text-fg-strong">{value}</span>
           <span className="term-caret" />
