@@ -181,8 +181,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
         aria-live="polite"
       >
         <div className="text-fg-muted">
-          Welcome to the living resume. Type <span className="text-fg-strong">help</span> to get
-          started.
+          Welcome. Type <span className="text-fg-strong">help</span> to get started.
         </div>
         {entries.map((entry) => (
           <div key={entry.id} className="mt-2">

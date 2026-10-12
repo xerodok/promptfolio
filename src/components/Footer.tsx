@@ -24,7 +24,7 @@ export function Footer({ resume }: { resume: Resume }) {
           </a>
         </span>
         <span className="text-xs">
-          Built on{" "}
+          Built based off{" "}
           <a
             href={TEMPLATE.url}
             className="text-fg hover:text-fg-strong"
@@ -33,7 +33,9 @@ export function Footer({ resume }: { resume: Resume }) {
           >
             {TEMPLATE.name}
           </a>{" "}
-          by {TEMPLATE.author}.
+          for {resume.basics.name}.
+          {resume.basics.name !== TEMPLATE.author &&
+            ` ${TEMPLATE.name} was created by ${TEMPLATE.author}.`}
         </span>
       </div>
     </footer>

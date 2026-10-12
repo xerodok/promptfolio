@@ -95,8 +95,8 @@ const commands: Command[] = [
       ),
   },
   {
-    name: "projects",
-    usage: "projects",
+    name: "repos",
+    usage: "repos",
     run: ({ resume }) =>
       resume.projects.flatMap((p) => [
         ok(p.name + (p.url ? `  ${p.url}` : "")),
@@ -169,7 +169,7 @@ function describe(name: string): string {
       summary: "the short version",
       experience: "work history, or one role in detail",
       skills: "skills by category",
-      projects: "things I have built",
+      repos: "repositories and projects",
       education: "degrees and certifications",
       contact: "how to reach me",
       open: "jump to a section of the page",
@@ -183,7 +183,7 @@ function describe(name: string): string {
 export const commandNames = commands.map((c) => c.name);
 
 /** Commands surfaced as tappable shortcuts under the terminal, for touch screens. */
-export const quickCommands = ["help", "experience", "skills", "projects", "contact"] as const;
+export const quickCommands = ["help", "experience", "skills", "repos", "contact"] as const;
 
 export function completeCommand(partial: string): string[] {
   if (!partial) return [];

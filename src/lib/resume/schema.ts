@@ -129,16 +129,46 @@ export type HighlightIcon = (typeof highlightIcons)[number];
 export const siteSchema = z.object({
   /** Italic line under the name. Leave empty to show `basics.label` there instead. */
   tagline: z.string().default(""),
+  /** Headings for each section of the page. Every field has a sensible default. */
   sections: z
     .object({
       highlights: z
         .object({ eyebrow: z.string(), title: z.string() })
         .default({ eyebrow: "Skill Portfolio", title: "Platform engineering, end to end" }),
-      contact: z
-        .object({ blurb: z.string() })
-        .default({ blurb: "The fastest way to reach me is email." }),
+      experience: z
+        .object({ eyebrow: z.string(), title: z.string() })
+        .default({ eyebrow: "Experience", title: "Where I have worked" }),
+      skills: z
+        .object({ eyebrow: z.string(), title: z.string() })
+        .default({ eyebrow: "Skills", title: "Tools I reach for" }),
+      projects: z
+        .object({ eyebrow: z.string(), title: z.string() })
+        .default({ eyebrow: "Repositories", title: "Code I have shipped" }),
+      education: z
+        .object({ eyebrow: z.string(), title: z.string() })
+        .default({ eyebrow: "Education", title: "Degrees and certifications" }),
+      contact: z.object({ eyebrow: z.string(), title: z.string(), blurb: z.string() }).default({
+        eyebrow: "Contact",
+        title: "Let's talk",
+        blurb: "The fastest way to reach me is email.",
+      }),
     })
     .prefault({}),
+  /**
+   * Optional leadership block rendered above the skill portfolio: a short
+   * narrative (your LinkedIn "About" works well) plus a few focus points.
+   */
+  leadership: z
+    .object({
+      eyebrow: z.string().default("Leadership"),
+      title: z.string(),
+      summary: z.string(),
+      points: z
+        .array(z.object({ title: z.string(), body: z.string() }))
+        .max(6)
+        .default([]),
+    })
+    .optional(),
   prompt: z.string().default("guest@resume"),
   stats: z
     .array(z.object({ label: z.string(), value: z.string() }))

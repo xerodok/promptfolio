@@ -1,27 +1,26 @@
-# Living Resume
+# Promptfolio
+
+**A resume that boots to a terminal.** One [JSON Resume](https://jsonresume.org/schema)
+document drives a Tabby-inspired site with an interactive `bash`-style terminal,
+a print view for PDF export, a JSON API, and Kubernetes probes. It ships as a
+small non-root container and is built to run on a home lab with the same
+cloud-native tooling used on production platforms.
 
 Created by [Chris Russell](https://github.com/xerodok).
 
-A resume that runs as a web application. One [JSON Resume](https://jsonresume.org/schema)
-document drives a Tabby-inspired site, an interactive terminal, a print view
-for PDF export and a JSON API. It ships as a small container with Kubernetes
-probes, built for self-hosting on a home lab with the same tooling used on
-production platforms.
-
-This repository is a **template**. It contains a fictional sample persona and
-no personal data. See [PLAN.md](./PLAN.md) for the architecture and roadmap.
+> This repository is a **template**. The committed persona is fictional and it
+> contains no personal data. Fork it, drop in your resume, and it is yours.
 
 ## Use this template
 
 1. Click **Use this template** on GitHub (or fork it).
-2. Edit `content/resume.json` with your resume. It is standard JSON Resume, so
-   you can also export it from any JSON Resume tool.
-3. Edit `content/site.json`: tagline, stats, highlight cards, nav labels and
-   the terminal prompt.
-4. Run `pnpm install && pnpm dev` and open http://localhost:3000.
+2. Edit `content/resume.json` with your resume (standard JSON Resume).
+3. Edit `content/site.json`: headings, tagline, leadership block, stats,
+   highlight cards, nav, terminal prompt. See `docs/CUSTOMIZING.md`.
+4. `pnpm install && pnpm dev`, open http://localhost:3000, type `help`.
 
-Both content files are validated with Zod. `pnpm test` and the build fail on a
-malformed document, and `/api/ready` returns 503.
+Or hand it to a coding agent: `AGENTS.md` is written so an agent can take the
+repository from fork to a finished, deployed resume with your content.
 
 | Path          | What it is                                     |
 | ------------- | ---------------------------------------------- |
@@ -38,33 +37,29 @@ pnpm check     # lint, typecheck, unit tests, formatting
 pnpm build     # production build (standalone output)
 ```
 
-## Container
+## Container and cluster
 
 ```bash
-docker compose up --build
-# or
-docker build --build-arg GIT_SHA=$(git rev-parse --short HEAD) -t living-resume .
-docker run --rm -p 3000:3000 living-resume
+docker compose up --build            # local, read-only container
+kubectl apply -k deploy/kubernetes   # Kustomize base with probes and hardening
 ```
 
-The image runs as a non-root user, exposes port 3000 and has a HEALTHCHECK on
-`/api/health`. No secrets or environment variables are required; `APP_VERSION`
-and `GIT_SHA` are optional build args surfaced on `/api/health`.
+Images are published to GHCR by `.github/workflows/release.yml`. Full details
+in `docs/DEPLOYMENT.md`, including how to keep a real resume out of a public fork.
 
-## Keeping a public repo clean
+## Docs
 
-- A resume is public by nature, but keep phone numbers, street addresses and
-  employer-confidential details out of `content/`.
-- CI runs a secret scan (gitleaks) on every push and pull request.
-- If you would rather keep your real resume out of a public fork, keep the
-  content in a private overlay and inject it at build time (see Phase 2 in
-  `PLAN.md`).
+- `AGENTS.md` — the brief for coding agents and contributors
+- `docs/ARCHITECTURE.md` — how it is put together and why
+- `docs/CUSTOMIZING.md` — every field you can change
+- `docs/DEPLOYMENT.md` — container, GHCR, Kubernetes, GitOps, static preview
+- `PLAN.md` — roadmap
 
 ## Credits
 
-Living Resume was created by Chris Russell. The visual language is inspired
-by [Tabby](https://tabby.sh), the open-source terminal. If you build your own
-resume from this template, a link back is appreciated but not required.
+Promptfolio was created by Chris Russell. The visual language is inspired by
+[Tabby](https://tabby.sh), the open-source terminal. If you build your resume
+from this template, a link back is appreciated but not required.
 
 ## License
 

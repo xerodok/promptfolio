@@ -2,7 +2,13 @@ import { Icon, profileIcon } from "@/components/Icon";
 import type { Resume } from "@/lib/resume/schema";
 import { Section } from "./Section";
 
-export function Contact({ basics, blurb }: { basics: Resume["basics"]; blurb: string }) {
+export function Contact({
+  basics,
+  heading,
+}: {
+  basics: Resume["basics"];
+  heading: { eyebrow: string; title: string; blurb: string };
+}) {
   const links = [
     ...(basics.email
       ? [{ label: basics.email, href: `mailto:${basics.email}`, icon: "mail" as const }]
@@ -21,9 +27,9 @@ export function Contact({ basics, blurb }: { basics: Resume["basics"]; blurb: st
       .map((p) => ({ label: p.network, href: p.url!, icon: profileIcon(p.network) })),
   ];
   return (
-    <Section id="contact" eyebrow="Contact" title="Let's talk">
+    <Section id="contact" eyebrow={heading.eyebrow} title={heading.title}>
       <div className="card flex flex-col items-center gap-6 p-8 text-center">
-        <p className="text-fg-muted max-w-xl text-lg">{blurb}</p>
+        <p className="text-fg-muted max-w-xl text-lg">{heading.blurb}</p>
         <div className="flex flex-wrap justify-center gap-2">
           {links.map((l) => (
             <a

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 # Multi-stage build producing a small, non-root image that runs the Next.js
 # standalone server. Build with:
-#   docker build --build-arg GIT_SHA=$(git rev-parse --short HEAD) -t living-resume .
+#   docker build --build-arg GIT_SHA=$(git rev-parse --short HEAD) -t promptfolio .
 
 ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-alpine AS base

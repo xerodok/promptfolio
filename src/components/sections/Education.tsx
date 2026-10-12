@@ -5,12 +5,14 @@ import { Section } from "./Section";
 export function Education({
   education,
   certificates,
+  heading,
 }: {
   education: Resume["education"];
   certificates: Resume["certificates"];
+  heading: { eyebrow: string; title: string };
 }) {
   return (
-    <Section id="education" eyebrow="Education" title="Degrees and certifications">
+    <Section id="education" eyebrow={heading.eyebrow} title={heading.title}>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-4">
           {education.map((e) => (

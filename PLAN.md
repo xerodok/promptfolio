@@ -1,4 +1,4 @@
-# Living Resume — Plan
+# Promptfolio — Plan
 
 A resume that is a real, running web application: one structured document
 (JSON Resume), rendered as a rich site, a print view and a JSON API, built and
@@ -60,6 +60,7 @@ content/site.json    ──┤  (presentation only: tagline, stats, nav, highlig
 - [x] JSON API, liveness and readiness probes, build metadata
 - [x] Dockerfile, compose, CI workflow
 - [x] Mobile navigation, touch-friendly terminal, template hygiene
+- [x] AGENTS.md, docs, Kustomize base, GHCR release workflow, Renovate, static preview script
 - [ ] Replace the sample content in `content/` with the real resume
 
 ### Phase 2 — Container and registry

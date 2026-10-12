@@ -2,9 +2,15 @@ import { formatRange } from "@/lib/resume/format";
 import type { Resume } from "@/lib/resume/schema";
 import { Section } from "./Section";
 
-export function Experience({ work }: { work: Resume["work"] }) {
+export function Experience({
+  work,
+  heading,
+}: {
+  work: Resume["work"];
+  heading: { eyebrow: string; title: string };
+}) {
   return (
-    <Section id="experience" eyebrow="Experience" title="Where I have worked">
+    <Section id="experience" eyebrow={heading.eyebrow} title={heading.title}>
       <ol className="border-border relative border-l pl-8">
         {work.map((job, i) => (
           <li key={`${job.name}-${job.startDate}`} className={i < work.length - 1 ? "pb-12" : ""}>

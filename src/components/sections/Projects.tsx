@@ -2,9 +2,15 @@ import { Icon } from "@/components/Icon";
 import type { Resume } from "@/lib/resume/schema";
 import { Section } from "./Section";
 
-export function Projects({ projects }: { projects: Resume["projects"] }) {
+export function Projects({
+  projects,
+  heading,
+}: {
+  projects: Resume["projects"];
+  heading: { eyebrow: string; title: string };
+}) {
   return (
-    <Section id="projects" eyebrow="Projects" title="Things I have built">
+    <Section id="projects" eyebrow={heading.eyebrow} title={heading.title}>
       <div className="flex flex-wrap justify-center gap-4">
         {projects.map((p) => (
           <article

@@ -1,8 +1,8 @@
 {
-  "name": "living-resume",
+  "name": "promptfolio",
   "version": "0.1.0",
   "private": true,
-  "description": "A living resume: a JSON Resume document rendered as a Tabby-inspired web app, shipped as a container.",
+  "description": "Promptfolio: a resume that boots to a terminal. JSON Resume in; Tabby-inspired site, print view, JSON API and a container out.",
   "author": "Chris Russell",
   "license": "MIT",
   "repository": {
@@ -20,8 +20,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format:check",
-    "docker:build": "docker build -t living-resume:local .",
-    "docker:run": "docker run --rm -p 3000:3000 living-resume:local"
+    "docker:build": "docker build -t promptfolio:local .",
+    "docker:run": "docker run --rm -p 3000:3000 promptfolio:local",
+    "preview:static": "python3 scripts/static-preview.py .next out/preview"
   },
   "dependencies": {
     "@fontsource-variable/source-code-pro": "^5.3.0",

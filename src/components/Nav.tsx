@@ -3,15 +3,35 @@ import { Icon } from "./Icon";
 import { MobileMenu } from "./MobileMenu";
 import type { SiteConfig } from "@/lib/resume/schema";
 
-export function Nav({ name, nav }: { name: string; nav: SiteConfig["nav"] }) {
+export function Nav({
+  name,
+  image,
+  nav,
+}: {
+  name: string;
+  image?: string;
+  nav: SiteConfig["nav"];
+}) {
   return (
     <header className="no-print fixed inset-x-0 top-0 z-50">
       <div className="relative mx-auto mt-3 flex max-w-6xl items-center gap-4 px-4">
         <nav className="glass flex w-full items-center gap-2 rounded-full px-3 py-2">
           <Link href="/" className="text-fg-strong flex items-center gap-2 pr-2 pl-1">
-            <span className="bg-accent grid h-7 w-7 place-items-center rounded-md font-mono text-xs font-bold text-white">
-              {initials(name)}
-            </span>
+            {image ? (
+              // Plain <img>: the photo is a static asset or an external URL and needs no optimization pipeline.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image}
+                alt=""
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-full object-cover ring-1 ring-white/20"
+              />
+            ) : (
+              <span className="bg-accent grid h-7 w-7 place-items-center rounded-md font-mono text-xs font-bold text-white">
+                {initials(name)}
+              </span>
+            )}
             <span className="hidden font-semibold sm:inline">{name}</span>
           </Link>
           <ul className="ml-2 hidden items-center gap-1 md:flex">

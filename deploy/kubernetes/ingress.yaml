@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: promptfolio
+  annotations: {}
+    # cert-manager.io/cluster-issuer: letsencrypt
+    # external-dns.alpha.kubernetes.io/hostname: resume.example.com
+spec:
+  # ingressClassName: traefik
+  rules:
+    - host: resume.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: promptfolio
+                port:
+                  name: http
+  # tls:
+  #   - hosts: [resume.example.com]
+  #     secretName: promptfolio-tls

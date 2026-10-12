@@ -9,9 +9,15 @@ const LEVELS: Record<string, number> = {
   master: 4,
 };
 
-export function Skills({ skills }: { skills: Resume["skills"] }) {
+export function Skills({
+  skills,
+  heading,
+}: {
+  skills: Resume["skills"];
+  heading: { eyebrow: string; title: string };
+}) {
   return (
-    <Section id="skills" eyebrow="Skills" title="Tools I reach for">
+    <Section id="skills" eyebrow={heading.eyebrow} title={heading.title}>
       <div className="flex flex-wrap justify-center gap-4">
         {skills.map((s) => {
           const level = s.level ? (LEVELS[s.level.toLowerCase()] ?? 0) : 0;
