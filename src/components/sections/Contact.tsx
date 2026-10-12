@@ -22,11 +22,11 @@ export function Contact({ basics }: { basics: Resume["basics"] }) {
   ];
   return (
     <Section id="contact" eyebrow="Contact" title="Let's talk">
-      <div className="card flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between">
+      <div className="card flex flex-col items-center gap-6 p-8 text-center">
         <p className="text-fg-muted max-w-xl text-lg">
           Open to platform, SRE and infrastructure roles. The fastest way to reach me is email.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           {links.map((l) => (
             <a
               key={l.href}

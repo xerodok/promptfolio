@@ -13,13 +13,13 @@ export function Experience({ work }: { work: Resume["work"] }) {
               aria-hidden="true"
             />
             <div className="card p-6">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <div className="flex flex-wrap items-baseline justify-center gap-x-4 gap-y-1 text-center sm:justify-between sm:text-left">
                 <h3 className="text-fg-strong text-xl font-semibold">{job.position}</h3>
                 <span className="text-fg-muted font-mono text-sm">
                   {formatRange(job.startDate, job.endDate)}
                 </span>
               </div>
-              <div className="text-fg mt-0.5">
+              <div className="text-fg mt-0.5 text-center sm:text-left">
                 {job.url ? (
                   <a
                     href={job.url}

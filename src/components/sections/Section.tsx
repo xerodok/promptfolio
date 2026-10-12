@@ -13,7 +13,7 @@ export function Section({
 }) {
   return (
     <section id={id} className={`mx-auto w-full max-w-6xl px-4 py-16 sm:py-24 ${className}`}>
-      <div className="mb-10">
+      <div className="mb-10 text-center">
         <div className="text-accent mb-2 font-mono text-xs tracking-[0.2em] uppercase">
           {eyebrow}
         </div>

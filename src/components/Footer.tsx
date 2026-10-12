@@ -4,7 +4,7 @@ import { TEMPLATE } from "@/lib/template";
 export function Footer({ resume }: { resume: Resume }) {
   return (
     <footer className="no-print border-border border-t">
-      <div className="text-fg-muted mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-6 text-sm">
+      <div className="text-fg-muted mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-6 text-center text-sm">
         <span>
           {resume.basics.name}
           {resume.meta?.version ? ` · resume ${resume.meta.version}` : ""}
@@ -23,7 +23,7 @@ export function Footer({ resume }: { resume: Resume }) {
             /print
           </a>
         </span>
-        <span className="basis-full text-xs">
+        <span className="text-xs">
           Built on{" "}
           <a
             href={TEMPLATE.url}

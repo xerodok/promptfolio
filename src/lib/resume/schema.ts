@@ -127,7 +127,15 @@ export const highlightIcons = ["cluster", "git", "pulse", "shield", "code", "ter
 export type HighlightIcon = (typeof highlightIcons)[number];
 
 export const siteSchema = z.object({
-  tagline: z.string(),
+  /** Italic line under the name. Leave empty to show `basics.label` there instead. */
+  tagline: z.string().default(""),
+  sections: z
+    .object({
+      highlights: z
+        .object({ eyebrow: z.string(), title: z.string() })
+        .default({ eyebrow: "Skill Portfolio", title: "Platform engineering, end to end" }),
+    })
+    .prefault({}),
   prompt: z.string().default("guest@resume"),
   stats: z
     .array(z.object({ label: z.string(), value: z.string() }))

@@ -19,7 +19,9 @@ export default function HomePage() {
       <main className="flex-1">
         <Hero resume={resume} site={site} />
         <Stats stats={site.stats} />
-        {site.highlights.length > 0 && <Highlights items={site.highlights} />}
+        {site.highlights.length > 0 && (
+          <Highlights items={site.highlights} heading={site.sections.highlights} />
+        )}
         {resume.work.length > 0 && <Experience work={resume.work} />}
         {resume.skills.length > 0 && <Skills skills={resume.skills} />}
         {resume.projects.length > 0 && <Projects projects={resume.projects} />}

@@ -14,7 +14,7 @@ export function Education({
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-4">
           {education.map((e) => (
-            <div key={e.institution} className="card p-6">
+            <div key={e.institution} className="card p-6 text-center">
               <h3 className="text-fg-strong font-semibold">
                 {[e.studyType, e.area].filter(Boolean).join(" ")}
               </h3>

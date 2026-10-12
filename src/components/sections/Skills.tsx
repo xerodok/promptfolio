@@ -16,8 +16,8 @@ export function Skills({ skills }: { skills: Resume["skills"] }) {
         {skills.map((s) => {
           const level = s.level ? (LEVELS[s.level.toLowerCase()] ?? 0) : 0;
           return (
-            <div key={s.name} className="card p-6">
-              <div className="flex items-center justify-between gap-4">
+            <div key={s.name} className="card p-6 text-center">
+              <div className="flex flex-col items-center gap-2">
                 <h3 className="text-fg-strong font-semibold">{s.name}</h3>
                 {level > 0 && (
                   <div className="flex gap-1" title={s.level} aria-label={`${s.level}`}>
@@ -30,7 +30,7 @@ export function Skills({ skills }: { skills: Resume["skills"] }) {
                   </div>
                 )}
               </div>
-              <div className="mt-4 flex flex-wrap gap-1.5">
+              <div className="mt-4 flex flex-wrap justify-center gap-1.5">
                 {s.keywords.map((k) => (
                   <span key={k} className="chip">
                     {k}
