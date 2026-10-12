@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import type { Resume, SiteConfig } from "@/lib/resume/schema";
-import { completeCommand, runCommand, type Line } from "./commands";
+import { completeCommand, quickCommands, runCommand, type Line } from "./commands";
 
 type Entry = { id: number; input?: string; lines: Line[] };
 
@@ -24,6 +24,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
+  const skipRef = useRef<(() => void) | null>(null);
 
   const execute = useCallback(
     (raw: string) => {
@@ -46,14 +47,28 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
   );
 
   // Boot sequence: type the intro commands as if someone were at the keyboard.
+  // Any tap or keypress on the terminal skips ahead and runs what is left.
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let cancelled = false;
+    let done = 0;
     const timers: number[] = [];
     const wait = (ms: number) =>
       new Promise<void>((resolve) => {
         timers.push(window.setTimeout(resolve, reduced ? 0 : ms));
       });
+    const finish = () => {
+      cancelled = true;
+      timers.forEach((t) => window.clearTimeout(t));
+      skipRef.current = null;
+      setBooted(true);
+    };
+    skipRef.current = () => {
+      if (cancelled) return;
+      for (const cmd of INTRO.slice(done)) execute(cmd);
+      setValue("");
+      finish();
+    };
 
     (async () => {
       await wait(400);
@@ -67,14 +82,16 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
         if (cancelled) return;
         setValue("");
         execute(cmd);
+        done++;
         await wait(500);
       }
-      if (!cancelled) setBooted(true);
+      if (!cancelled) finish();
     })();
 
     return () => {
       cancelled = true;
       timers.forEach((t) => window.clearTimeout(t));
+      skipRef.current = null;
     };
   }, [execute]);
 
@@ -83,7 +100,17 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
     if (el) el.scrollTop = el.scrollHeight;
   }, [entries, value]);
 
+  function skipIntro(): boolean {
+    if (!skipRef.current) return false;
+    skipRef.current();
+    return true;
+  }
+
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (skipIntro()) {
+      e.preventDefault();
+      return;
+    }
     if (e.key === "Enter") {
       e.preventDefault();
       execute(value);
@@ -115,10 +142,18 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
     }
   }
 
+  function runQuick(cmd: string) {
+    skipIntro();
+    execute(cmd);
+  }
+
   return (
     <div
       className="glass flex flex-col overflow-hidden rounded-lg font-mono text-[13.5px] leading-relaxed sm:text-sm"
-      onClick={() => inputRef.current?.focus()}
+      onClick={() => {
+        skipIntro();
+        inputRef.current?.focus();
+      }}
       data-testid="terminal"
     >
       {/* Title bar with tabs, in the style of Tabby. */}
@@ -140,7 +175,11 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
         <div className="text-fg-muted ml-auto flex items-center px-4 text-xs">bash</div>
       </div>
 
-      <div ref={scrollRef} className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]">
+      <div
+        ref={scrollRef}
+        className="term-scroll relative h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
+        aria-live="polite"
+      >
         <div className="text-fg-muted">
           Welcome to the living resume. Type <span className="text-fg-strong">help</span> to get
           started.
@@ -153,11 +192,7 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
                 <span className="text-fg-strong">{entry.input}</span>
               </div>
             )}
-            {entry.lines.map((line, i) => (
-              <div key={i} className={`whitespace-pre-wrap ${LINE_CLASS[line.kind]}`}>
-                {line.text || " "}
-              </div>
-            ))}
+            <Output lines={entry.lines} />
           </div>
         ))}
         <div className="mt-2 flex items-center">
@@ -167,18 +202,67 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
           <input
             ref={inputRef}
             aria-label="Terminal input"
-            className="absolute h-0 w-0 opacity-0"
+            className="absolute top-0 left-0 h-px w-px text-base opacity-0"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={onKeyDown}
             autoComplete="off"
             autoCapitalize="off"
+            autoCorrect="off"
+            enterKeyHint="send"
             spellCheck={false}
-            disabled={!booted}
+            readOnly={!booted}
           />
         </div>
       </div>
+
+      {/* Tappable shortcuts: the keyboard is optional, especially on phones. */}
+      <div
+        className="border-border flex flex-wrap items-center gap-1.5 border-t bg-black/20 px-3 py-2 font-sans text-xs"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="text-fg-muted mr-1">Try:</span>
+        {quickCommands.map((cmd) => (
+          <button
+            key={cmd}
+            type="button"
+            onClick={() => runQuick(cmd)}
+            className="chip font-mono hover:border-white/30 hover:bg-white/10 active:bg-white/15"
+          >
+            {cmd}
+          </button>
+        ))}
+      </div>
     </div>
+  );
+}
+
+/**
+ * Renders output lines. Consecutive two-column lines share one grid so their
+ * columns align, and wrap instead of overflowing on narrow screens.
+ */
+function Output({ lines }: { lines: Line[] }) {
+  const groups: Line[][] = [];
+  for (const line of lines) {
+    const last = groups[groups.length - 1];
+    if (line.cols && last?.[0]?.cols) last.push(line);
+    else groups.push([line]);
+  }
+  return groups.map((group, g) =>
+    group[0].cols ? (
+      <div key={g} className="grid grid-cols-[fit-content(45%)_1fr] gap-x-3">
+        {group.map((line, i) => (
+          <Fragment key={i}>
+            <span className={`break-words ${LINE_CLASS[line.kind]}`}>{line.cols![0]}</span>
+            <span className={`break-words ${LINE_CLASS[line.kind]}`}>{line.cols![1]}</span>
+          </Fragment>
+        ))}
+      </div>
+    ) : (
+      <div key={g} className={`whitespace-pre-wrap ${LINE_CLASS[group[0].kind]}`}>
+        {group[0].text || "\u00a0"}
+      </div>
+    ),
   );
 }
 

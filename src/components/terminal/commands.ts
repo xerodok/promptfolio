@@ -1,7 +1,16 @@
 import type { Resume, SiteConfig } from "@/lib/resume/schema";
 import { formatRange } from "@/lib/resume/format";
 
-export type Line = { kind: "out" | "err" | "muted" | "ok"; text: string };
+/**
+ * One line of terminal output. `cols` is an optional two-column form of the
+ * same text; the UI renders it as a grid so it wraps cleanly on narrow screens
+ * while `text` stays a plain, single-string fallback.
+ */
+export type Line = {
+  kind: "out" | "err" | "muted" | "ok";
+  text: string;
+  cols?: [string, string];
+};
 
 export type CommandContext = { resume: Resume; site: SiteConfig };
 
@@ -20,6 +29,11 @@ const out = (text: string): Line => ({ kind: "out", text });
 const muted = (text: string): Line => ({ kind: "muted", text });
 const ok = (text: string): Line => ({ kind: "ok", text });
 const err = (text: string): Line => ({ kind: "err", text });
+const cols = (kind: Line["kind"], a: string, b: string): Line => ({
+  kind,
+  text: `${a}  ${b}`,
+  cols: [a, b],
+});
 
 const SECTIONS = ["experience", "skills", "projects", "education", "contact"] as const;
 
@@ -29,9 +43,9 @@ const commands: Command[] = [
     usage: "help",
     run: () => [
       out("Available commands:"),
-      ...commands.map((c) => muted(`  ${c.usage.padEnd(22)} ${describe(c.name)}`)),
+      ...commands.map((c) => cols("muted", c.usage, describe(c.name))),
       muted(""),
-      muted("Tip: ↑/↓ for history, Tab to complete."),
+      muted("Tip: ↑/↓ for history, Tab to complete, or tap a command below."),
     ],
   },
   {
@@ -77,7 +91,7 @@ const commands: Command[] = [
     usage: "skills",
     run: ({ resume }) =>
       resume.skills.map((s) =>
-        out(`${s.name.padEnd(26)} ${s.keywords.join(", ")}${s.level ? `  [${s.level}]` : ""}`),
+        cols("out", s.name, `${s.keywords.join(", ")}${s.level ? `  [${s.level}]` : ""}`),
       ),
   },
   {
@@ -103,10 +117,10 @@ const commands: Command[] = [
     name: "contact",
     usage: "contact",
     run: ({ resume }) => [
-      ...(resume.basics.email ? [out(`email     ${resume.basics.email}`)] : []),
-      ...(resume.basics.url ? [out(`web       ${resume.basics.url}`)] : []),
+      ...(resume.basics.email ? [cols("out", "email", resume.basics.email)] : []),
+      ...(resume.basics.url ? [cols("out", "web", resume.basics.url)] : []),
       ...resume.basics.profiles.map((p) =>
-        out(`${p.network.toLowerCase().padEnd(10)}${p.url ?? p.username ?? ""}`),
+        cols("out", p.network.toLowerCase(), p.url ?? p.username ?? ""),
       ),
     ],
   },
@@ -167,6 +181,9 @@ function describe(name: string): string {
 }
 
 export const commandNames = commands.map((c) => c.name);
+
+/** Commands surfaced as tappable shortcuts under the terminal, for touch screens. */
+export const quickCommands = ["help", "experience", "skills", "projects", "contact"] as const;
 
 export function completeCommand(partial: string): string[] {
   if (!partial) return [];

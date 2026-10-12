@@ -59,11 +59,16 @@ content/site.json    ──┤  (presentation only: tagline, stats, nav, highlig
 - [x] Print view for PDF export
 - [x] JSON API, liveness and readiness probes, build metadata
 - [x] Dockerfile, compose, CI workflow
+- [x] Mobile navigation, touch-friendly terminal, template hygiene
 - [ ] Replace the sample content in `content/` with the real resume
 
 ### Phase 2 — Container and registry
 
-- Build and push the image from CI to GHCR (`ghcr.io/xerodok/chrisrussell`)
+- Content injection: let the build read `content/` from a path given by an
+  environment variable, so a private overlay repo can hold the real resume
+  while this public template keeps the sample persona.
+
+- Build and push the image from CI to GHCR (`ghcr.io/<owner>/<repo>`)
   tagged with the git SHA and semver; sign with cosign; scan with Trivy.
 - Pin the Node base image by digest; add Renovate for dependency updates.
 

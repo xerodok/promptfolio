@@ -1,5 +1,5 @@
 {
-  "name": "chrisrussell-living-resume",
+  "name": "living-resume",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,8 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format:check",
-    "docker:build": "docker build -t chrisrussell/living-resume:local .",
-    "docker:run": "docker run --rm -p 3000:3000 chrisrussell/living-resume:local"
+    "docker:build": "docker build -t living-resume:local .",
+    "docker:run": "docker run --rm -p 3000:3000 living-resume:local"
   },
   "dependencies": {
     "@fontsource-variable/source-code-pro": "^5.3.0",

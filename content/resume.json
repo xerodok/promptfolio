@@ -1,22 +1,26 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
-    "name": "Chris Russell",
+    "name": "Jordan Reyes",
     "label": "Platform Engineer · Cloud Native · Home Lab Enthusiast",
-    "email": "chris@example.com",
-    "url": "https://chrisrussell.example",
-    "summary": "SAMPLE CONTENT — replace with your own. Platform engineer who builds and runs the infrastructure behind high-traffic products: Kubernetes, GitOps delivery, observability, and the developer platforms that let teams ship safely every day.",
+    "email": "jordan@example.com",
+    "url": "https://resume.example.com",
+    "summary": "SAMPLE CONTENT for the template; replace with your own. Platform engineer who builds and runs the infrastructure behind high-traffic products: Kubernetes, GitOps delivery, observability, and the developer platforms that let teams ship safely every day.",
     "location": {
       "city": "Austin",
       "region": "TX",
       "countryCode": "US"
     },
     "profiles": [
-      { "network": "GitHub", "username": "xerodok", "url": "https://github.com/xerodok" },
+      {
+        "network": "GitHub",
+        "username": "your-github-handle",
+        "url": "https://github.com/your-github-handle"
+      },
       {
         "network": "LinkedIn",
-        "username": "chrisrussell",
-        "url": "https://www.linkedin.com/in/chrisrussell"
+        "username": "your-linkedin-handle",
+        "url": "https://www.linkedin.com/in/your-linkedin-handle"
       }
     ]
   },
@@ -70,13 +74,21 @@
     }
   ],
   "certificates": [
-    { "name": "Certified Kubernetes Administrator (CKA)", "issuer": "CNCF", "date": "2023-04" },
+    {
+      "name": "Certified Kubernetes Administrator (CKA)",
+      "issuer": "CNCF",
+      "date": "2023-04"
+    },
     {
       "name": "AWS Solutions Architect – Associate",
       "issuer": "Amazon Web Services",
       "date": "2021-09"
     },
-    { "name": "HashiCorp Terraform Associate", "issuer": "HashiCorp", "date": "2020-11" }
+    {
+      "name": "HashiCorp Terraform Associate",
+      "issuer": "HashiCorp",
+      "date": "2020-11"
+    }
   ],
   "skills": [
     {
@@ -113,14 +125,14 @@
   "projects": [
     {
       "name": "Living Resume",
-      "description": "This site. A Next.js application that renders a JSON Resume document, ships as a container, and runs on my home lab behind a cloud-native ingress.",
+      "description": "This site. A Next.js application that renders a JSON Resume document, ships as a container, and runs on a home lab behind a cloud-native ingress.",
       "highlights": [
         "Next.js 16, React 19, Tailwind 4",
         "Multi-stage container image",
         "Kubernetes probes and JSON API"
       ],
       "keywords": ["Next.js", "TypeScript", "Kubernetes"],
-      "url": "https://github.com/xerodok/chrisrussell",
+      "url": "https://github.com/your-github-handle/living-resume",
       "startDate": "2026-10"
     },
     {
@@ -139,17 +151,28 @@
       "description": "Reference OpenTelemetry collector pipelines and Grafana dashboards for small teams adopting tracing.",
       "highlights": ["Collector configs for traces, metrics, logs", "Tail-sampling examples"],
       "keywords": ["OpenTelemetry", "Grafana", "Go"],
-      "url": "https://github.com/xerodok",
+      "url": "https://github.com/your-github-handle/otel-lab",
       "startDate": "2024-05"
     }
   ],
-  "languages": [{ "language": "English", "fluency": "Native" }],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native"
+    }
+  ],
   "interests": [
-    { "name": "Home lab", "keywords": ["Proxmox", "Kubernetes", "10GbE networking"] },
-    { "name": "Open source", "keywords": ["Tabby", "OpenTelemetry"] }
+    {
+      "name": "Home lab",
+      "keywords": ["Proxmox", "Kubernetes", "10GbE networking"]
+    },
+    {
+      "name": "Open source",
+      "keywords": ["Tabby", "OpenTelemetry"]
+    }
   ],
   "meta": {
-    "canonical": "https://chrisrussell.example/api/resume",
+    "canonical": "https://resume.example.com/api/resume",
     "version": "v0.1.0",
     "lastModified": "2026-10-08"
   }

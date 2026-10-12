@@ -1,7 +1,16 @@
 import type { HighlightIcon } from "@/lib/resume/schema";
 
 type IconName =
-  HighlightIcon | "github" | "linkedin" | "mail" | "globe" | "link" | "download" | "json";
+  | HighlightIcon
+  | "github"
+  | "linkedin"
+  | "mail"
+  | "globe"
+  | "link"
+  | "download"
+  | "json"
+  | "menu"
+  | "close";
 
 const paths: Record<IconName, React.ReactNode> = {
   cluster: (
@@ -54,6 +63,8 @@ const paths: Record<IconName, React.ReactNode> = {
     <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />
   ),
   download: <path d="M12 3v12M7 10l5 5 5-5M4 19h16" />,
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  close: <path d="M6 6l12 12M18 6L6 18" />,
   json: (
     <path d="M8 4c-2 0-3 1-3 3v3c0 1-1 2-2 2 1 0 2 1 2 2v3c0 2 1 3 3 3M16 4c2 0 3 1 3 3v3c0 1 1 2 2 2-1 0-2 1-2 2v3c0 2-1 3-3 3" />
   ),

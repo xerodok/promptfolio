@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Icon } from "./Icon";
+import { MobileMenu } from "./MobileMenu";
 import type { SiteConfig } from "@/lib/resume/schema";
 
 export function Nav({ name, nav }: { name: string; nav: SiteConfig["nav"] }) {
   return (
     <header className="no-print fixed inset-x-0 top-0 z-50">
-      <div className="mx-auto mt-3 flex max-w-6xl items-center gap-4 px-4">
+      <div className="relative mx-auto mt-3 flex max-w-6xl items-center gap-4 px-4">
         <nav className="glass flex w-full items-center gap-2 rounded-full px-3 py-2">
           <Link href="/" className="text-fg-strong flex items-center gap-2 pr-2 pl-1">
             <span className="bg-accent grid h-7 w-7 place-items-center rounded-md font-mono text-xs font-bold text-white">
@@ -28,7 +29,7 @@ export function Nav({ name, nav }: { name: string; nav: SiteConfig["nav"] }) {
           <div className="ml-auto flex items-center gap-2">
             <a
               href="/api/resume"
-              className="btn btn-ghost !px-3 !py-1.5 text-sm"
+              className="btn btn-ghost hidden !px-3 !py-1.5 text-sm sm:inline-flex"
               title="JSON Resume document"
             >
               <Icon name="json" className="h-4 w-4" /> JSON
@@ -36,6 +37,7 @@ export function Nav({ name, nav }: { name: string; nav: SiteConfig["nav"] }) {
             <Link href="/print" className="btn btn-primary !px-3 !py-1.5 text-sm">
               <Icon name="download" className="h-4 w-4" /> PDF
             </Link>
+            <MobileMenu nav={nav} />
           </div>
         </nav>
       </div>

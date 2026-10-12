@@ -1,20 +1,25 @@
-# chrisrussell — living resume
+# Living Resume
 
-A resume that runs as a web application. One JSON Resume document in
-`content/resume.json` drives the site, a print view, a JSON API and an
-interactive terminal. Built with Next.js 16, shipped as a container, meant to
-run on a home-lab Kubernetes cluster.
+A resume that runs as a web application. One [JSON Resume](https://jsonresume.org/schema)
+document drives a Tabby-inspired site, an interactive terminal, a print view
+for PDF export and a JSON API. It ships as a small container with Kubernetes
+probes, built for self-hosting on a home lab with the same tooling used on
+production platforms.
 
-See [PLAN.md](./PLAN.md) for the architecture and roadmap.
+This repository is a **template**. It contains a fictional sample persona and
+no personal data. See [PLAN.md](./PLAN.md) for the architecture and roadmap.
 
-## Quick start
+## Use this template
 
-```bash
-pnpm install
-pnpm dev
-```
+1. Click **Use this template** on GitHub (or fork it).
+2. Edit `content/resume.json` with your resume. It is standard JSON Resume, so
+   you can also export it from any JSON Resume tool.
+3. Edit `content/site.json`: tagline, stats, highlight cards, nav labels and
+   the terminal prompt.
+4. Run `pnpm install && pnpm dev` and open http://localhost:3000.
 
-Open http://localhost:3000. Try typing `help` in the terminal.
+Both content files are validated with Zod. `pnpm test` and the build fail on a
+malformed document, and `/api/ready` returns 503.
 
 | Path          | What it is                                     |
 | ------------- | ---------------------------------------------- |
@@ -23,15 +28,6 @@ Open http://localhost:3000. Try typing `help` in the terminal.
 | `/api/resume` | The resume as a JSON Resume document           |
 | `/api/health` | Liveness probe with version and commit         |
 | `/api/ready`  | Readiness probe; 503 if the content is invalid |
-
-## Editing the resume
-
-- `content/resume.json` — the resume, in [JSON Resume](https://jsonresume.org/schema) format.
-- `content/site.json` — tagline, stats, highlight cards, nav, terminal prompt.
-
-Both files are validated with Zod. `pnpm test` fails on a malformed document,
-and so does the build. The sample content shipped here is placeholder text and
-is marked as such in the summary field.
 
 ## Checks
 
@@ -50,4 +46,18 @@ docker run --rm -p 3000:3000 living-resume
 ```
 
 The image runs as a non-root user, exposes port 3000 and has a HEALTHCHECK on
-`/api/health`.
+`/api/health`. No secrets or environment variables are required; `APP_VERSION`
+and `GIT_SHA` are optional build args surfaced on `/api/health`.
+
+## Keeping a public repo clean
+
+- A resume is public by nature, but keep phone numbers, street addresses and
+  employer-confidential details out of `content/`.
+- CI runs a secret scan (gitleaks) on every push and pull request.
+- If you would rather keep your real resume out of a public fork, keep the
+  content in a private overlay and inject it at build time (see Phase 2 in
+  `PLAN.md`).
+
+## License
+
+[MIT](./LICENSE)

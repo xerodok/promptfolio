@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getResume, getSite } from "@/lib/resume/load";
-import { commandNames, completeCommand, runCommand } from "../commands";
+import { commandNames, completeCommand, quickCommands, runCommand } from "../commands";
 
 const ctx = { resume: getResume(), site: getSite() };
 
@@ -17,6 +17,15 @@ describe("runCommand", () => {
       .lines.map((l) => l.text)
       .join("\n");
     for (const name of commandNames) expect(text).toContain(name);
+  });
+  it("renders tabular output as two columns with a plain-text fallback", () => {
+    const line = runCommand("help", ctx).lines[1];
+    expect(line.cols).toEqual(["help", "list commands"]);
+    expect(line.text).toBe("help  list commands");
+    for (const l of runCommand("skills", ctx).lines) expect(l.cols?.[0]).toBeTruthy();
+  });
+  it("quick commands are all real commands", () => {
+    for (const q of quickCommands) expect(commandNames).toContain(q);
   });
   it("whoami prints the name from the resume", () => {
     expect(runCommand("whoami", ctx).lines[0].text).toBe(ctx.resume.basics.name);

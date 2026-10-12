@@ -1,11 +1,23 @@
 {
   "tagline": "A resume for a more modern age",
-  "prompt": "chris@homelab",
+  "prompt": "jordan@homelab",
   "stats": [
-    { "label": "Years in infrastructure", "value": "10+" },
-    { "label": "Services migrated to Kubernetes", "value": "40+" },
-    { "label": "Availability sustained", "value": "99.95%" },
-    { "label": "On-call pages reduced", "value": "60%" }
+    {
+      "label": "Years in infrastructure",
+      "value": "10+"
+    },
+    {
+      "label": "Services migrated to Kubernetes",
+      "value": "40+"
+    },
+    {
+      "label": "Availability sustained",
+      "value": "99.95%"
+    },
+    {
+      "label": "On-call pages reduced",
+      "value": "60%"
+    }
   ],
   "highlights": [
     {
@@ -40,9 +52,21 @@
     }
   ],
   "nav": [
-    { "label": "Experience", "href": "#experience" },
-    { "label": "Skills", "href": "#skills" },
-    { "label": "Projects", "href": "#projects" },
-    { "label": "Contact", "href": "#contact" }
+    {
+      "label": "Experience",
+      "href": "#experience"
+    },
+    {
+      "label": "Skills",
+      "href": "#skills"
+    },
+    {
+      "label": "Projects",
+      "href": "#projects"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
   ]
 }
