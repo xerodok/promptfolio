@@ -1,5 +1,7 @@
 # Living Resume
 
+Created by [Chris Russell](https://github.com/xerodok).
+
 A resume that runs as a web application. One [JSON Resume](https://jsonresume.org/schema)
 document drives a Tabby-inspired site, an interactive terminal, a print view
 for PDF export and a JSON API. It ships as a small container with Kubernetes
@@ -58,6 +60,12 @@ and `GIT_SHA` are optional build args surfaced on `/api/health`.
   content in a private overlay and inject it at build time (see Phase 2 in
   `PLAN.md`).
 
+## Credits
+
+Living Resume was created by Chris Russell. The visual language is inspired
+by [Tabby](https://tabby.sh), the open-source terminal. If you build your own
+resume from this template, a link back is appreciated but not required.
+
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE) © Chris Russell

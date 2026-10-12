@@ -1,4 +1,5 @@
 import type { Resume } from "@/lib/resume/schema";
+import { TEMPLATE } from "@/lib/template";
 
 export function Footer({ resume }: { resume: Resume }) {
   return (
@@ -21,6 +22,18 @@ export function Footer({ resume }: { resume: Resume }) {
           <a href="/print" className="hover:text-fg-strong">
             /print
           </a>
+        </span>
+        <span className="basis-full text-xs">
+          Built on{" "}
+          <a
+            href={TEMPLATE.url}
+            className="text-fg hover:text-fg-strong"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {TEMPLATE.name}
+          </a>{" "}
+          by {TEMPLATE.author}.
         </span>
       </div>
     </footer>
