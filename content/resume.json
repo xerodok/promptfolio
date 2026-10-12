@@ -124,15 +124,15 @@
   ],
   "projects": [
     {
-      "name": "Living Resume",
-      "description": "This site. A Next.js application that renders a JSON Resume document, ships as a container, and runs on a home lab behind a cloud-native ingress.",
+      "name": "Promptfolio",
+      "description": "This site. A Next.js application that boots to a terminal, renders a JSON Resume document, ships as a container, and runs on a home lab behind a cloud-native ingress.",
       "highlights": [
         "Next.js 16, React 19, Tailwind 4",
         "Multi-stage container image",
         "Kubernetes probes and JSON API"
       ],
       "keywords": ["Next.js", "TypeScript", "Kubernetes"],
-      "url": "https://github.com/your-github-handle/living-resume",
+      "url": "https://github.com/your-github-handle/promptfolio",
       "startDate": "2026-10"
     },
     {

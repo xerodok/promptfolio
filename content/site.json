@@ -7,8 +7,33 @@
       "title": "Platform engineering, end to end"
     },
     "contact": {
+      "eyebrow": "Contact",
+      "title": "Let's talk",
       "blurb": "Open to platform, SRE and infrastructure roles. The fastest way to reach me is email."
+    },
+    "projects": {
+      "eyebrow": "Repositories",
+      "title": "Code I have shipped"
     }
+  },
+  "leadership": {
+    "eyebrow": "Leadership",
+    "title": "How I lead",
+    "summary": "I run platform teams the way I run platforms: clear interfaces, measured outcomes, and no heroics. I hire for curiosity, set SLOs for the team as well as the systems, and keep the roadmap public so partner teams can plan around it.",
+    "points": [
+      {
+        "title": "Teams",
+        "body": "Built and led a 12-person platform group across SRE, developer experience and security."
+      },
+      {
+        "title": "Scope",
+        "body": "Owned Kubernetes, delivery and observability for 40+ services and a few million daily users."
+      },
+      {
+        "title": "Operating Model",
+        "body": "GitOps for everything, blameless post-mortems, and a published platform roadmap."
+      }
+    ]
   },
   "stats": [
     {
@@ -62,6 +87,10 @@
   ],
   "nav": [
     {
+      "label": "Leadership",
+      "href": "#leadership"
+    },
+    {
       "label": "Experience",
       "href": "#experience"
     },
@@ -70,7 +99,7 @@
       "href": "#skills"
     },
     {
-      "label": "Projects",
+      "label": "Repositories",
       "href": "#projects"
     },
     {
