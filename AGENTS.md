@@ -55,7 +55,8 @@ src/components/     Nav, MobileMenu, Footer, Icon, sections/*, terminal/*
 src/lib/resume/     schema.ts (Zod), load.ts (cached loader), format.ts (dates)
 src/lib/            build-info.ts (version/commit from env), template.ts (attribution)
 deploy/kubernetes/  Kustomize base: Deployment, Service, Ingress
-scripts/            static-preview.py (relocatable static bundle of the built site)
+scripts/            static-preview.py (relocatable static bundle), use-content.sh (private/sample swap)
+private/            gitignored: your real resume.json, site.json, photo.jpg
 docs/               ARCHITECTURE.md, CUSTOMIZING.md, DEPLOYMENT.md
 .github/workflows/  ci.yml (verify + image smoke test), release.yml (push to GHCR)
 ```
@@ -90,8 +91,10 @@ docs/               ARCHITECTURE.md, CUSTOMIZING.md, DEPLOYMENT.md
    left-aligned inside a centered block.
 9. **No secrets, no personal data in the template.** The committed sample
    persona is fictional. Do not commit real resumes, photos, phone numbers or
-   tokens. CI runs gitleaks. Real content for a private deployment is injected
-   at build time (see `docs/DEPLOYMENT.md`).
+   tokens. CI runs gitleaks. Real content lives in the gitignored `private/`
+   directory and is swapped in with `pnpm content:private` before a build;
+   `pnpm content:sample` restores the sample (see `docs/DEPLOYMENT.md`).
+   Before committing, confirm `content/` still holds the sample persona.
 10. **Mobile first.** Every change is checked at 390px width. The terminal must
     stay usable with touch (quick-command chips) and the nav must collapse.
 11. **Accessibility.** Buttons have labels, the terminal output is `aria-live`,

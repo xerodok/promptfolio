@@ -1,5 +1,25 @@
 # Promptfolio — Plan
 
+## Status (2026-10-12)
+
+Everything below Phase 1 is built and pushed. What is still open for the real
+deployment, in order:
+
+1. **Private content.** `private/resume.json` and `private/site.json` hold the
+   owner's draft (not committed). Still missing: LinkedIn "About" text for the
+   leadership summary, LinkedIn URL for the profiles list, `private/photo.jpg`
+   for the nav avatar, work history with dates, education, certifications, and
+   optional hero stats. Run `pnpm content:private` to build with them.
+2. **Repository rename** to `promptfolio` on GitHub, then update
+   `src/lib/template.ts` (`url`) and `content/resume.json` project link.
+3. **Template setting**: GitHub → Settings → "Template repository".
+4. **Phase 2**: first GHCR push happens automatically on merge to `main`
+   (`.github/workflows/release.yml`).
+
+Previews published from this branch (private to the owner's Claude account):
+template sample and the owner's draft, both static bundles produced by
+`scripts/static-preview.py`.
+
 A resume that is a real, running web application: one structured document
 (JSON Resume), rendered as a rich site, a print view and a JSON API, built and
 shipped with the same cloud-native tooling used on a production platform, and

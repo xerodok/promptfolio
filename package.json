@@ -22,7 +22,9 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format:check",
     "docker:build": "docker build -t promptfolio:local .",
     "docker:run": "docker run --rm -p 3000:3000 promptfolio:local",
-    "preview:static": "python3 scripts/static-preview.py .next out/preview"
+    "preview:static": "python3 scripts/static-preview.py .next out/preview",
+    "content:private": "sh scripts/use-content.sh private",
+    "content:sample": "sh scripts/use-content.sh sample"
   },
   "dependencies": {
     "@fontsource-variable/source-code-pro": "^5.3.0",

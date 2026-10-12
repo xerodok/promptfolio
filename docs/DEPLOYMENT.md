@@ -67,12 +67,16 @@ Point an Argo CD or Flux application at the overlay directory. Bump
 
 The committed content is a fictional sample. For a private deployment:
 
-1. Keep your real `resume.json` and `site.json` in a private repository or a
-   secret-managed path on the build runner.
-2. Copy them over `content/` immediately before `pnpm build` (CI step or a
-   `--build-context` in Docker). The build validates them like any other.
-3. Never commit them back. CI's gitleaks job will not catch a resume, so this
-   is a process rule, not a tool.
+1. Keep your real `resume.json`, `site.json` and `photo.jpg` in the
+   gitignored `private/` directory (or a private repository, or a
+   secret-managed path on the build runner).
+2. Run `pnpm content:private` before `pnpm dev` or `pnpm build`. It copies the
+   files over `content/` (and the photo into `public/`); the build validates
+   them like any other content. `pnpm content:sample` restores the sample.
+3. Never commit `content/` while it holds private data. CI's gitleaks job will
+   not catch a resume, so this is a process rule, not a tool. A pre-commit
+   check that refuses to commit when `content/` differs from `private/` is a
+   reasonable addition.
 
 ## Static preview
 
