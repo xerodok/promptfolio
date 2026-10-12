@@ -134,6 +134,9 @@ export const siteSchema = z.object({
       highlights: z
         .object({ eyebrow: z.string(), title: z.string() })
         .default({ eyebrow: "Skill Portfolio", title: "Platform engineering, end to end" }),
+      contact: z
+        .object({ blurb: z.string() })
+        .default({ blurb: "The fastest way to reach me is email." }),
     })
     .prefault({}),
   prompt: z.string().default("guest@resume"),

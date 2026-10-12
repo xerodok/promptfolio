@@ -28,7 +28,7 @@ export default function HomePage() {
         {(resume.education.length > 0 || resume.certificates.length > 0) && (
           <Education education={resume.education} certificates={resume.certificates} />
         )}
-        <Contact basics={resume.basics} />
+        <Contact basics={resume.basics} blurb={site.sections.contact.blurb} />
       </main>
       <Footer resume={resume} />
     </>

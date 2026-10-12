@@ -12,11 +12,14 @@ const LEVELS: Record<string, number> = {
 export function Skills({ skills }: { skills: Resume["skills"] }) {
   return (
     <Section id="skills" eyebrow="Skills" title="Tools I reach for">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-wrap justify-center gap-4">
         {skills.map((s) => {
           const level = s.level ? (LEVELS[s.level.toLowerCase()] ?? 0) : 0;
           return (
-            <div key={s.name} className="card p-6 text-center">
+            <div
+              key={s.name}
+              className="card w-full p-6 text-center sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)]"
+            >
               <div className="flex flex-col items-center gap-2">
                 <h3 className="text-fg-strong font-semibold">{s.name}</h3>
                 {level > 0 && (

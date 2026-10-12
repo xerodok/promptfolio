@@ -5,9 +5,12 @@ import { Section } from "./Section";
 export function Projects({ projects }: { projects: Resume["projects"] }) {
   return (
     <Section id="projects" eyebrow="Projects" title="Things I have built">
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="flex flex-wrap justify-center gap-4">
         {projects.map((p) => (
-          <article key={p.name} className="card flex flex-col items-center p-6 text-center">
+          <article
+            key={p.name}
+            className="card flex w-full flex-col items-center p-6 text-center sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)]"
+          >
             <div className="flex items-center justify-center gap-2">
               <h3 className="text-fg-strong text-lg font-semibold">{p.name}</h3>
               {p.url && (

@@ -2,7 +2,7 @@ import { Icon, profileIcon } from "@/components/Icon";
 import type { Resume } from "@/lib/resume/schema";
 import { Section } from "./Section";
 
-export function Contact({ basics }: { basics: Resume["basics"] }) {
+export function Contact({ basics, blurb }: { basics: Resume["basics"]; blurb: string }) {
   const links = [
     ...(basics.email
       ? [{ label: basics.email, href: `mailto:${basics.email}`, icon: "mail" as const }]
@@ -23,9 +23,7 @@ export function Contact({ basics }: { basics: Resume["basics"] }) {
   return (
     <Section id="contact" eyebrow="Contact" title="Let's talk">
       <div className="card flex flex-col items-center gap-6 p-8 text-center">
-        <p className="text-fg-muted max-w-xl text-lg">
-          Open to platform, SRE and infrastructure roles. The fastest way to reach me is email.
-        </p>
+        <p className="text-fg-muted max-w-xl text-lg">{blurb}</p>
         <div className="flex flex-wrap justify-center gap-2">
           {links.map((l) => (
             <a
