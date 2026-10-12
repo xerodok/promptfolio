@@ -1,6 +1,15 @@
 {
   "tagline": "A resume for a more modern age",
   "prompt": "jordan@homelab",
+  "sections": {
+    "highlights": {
+      "eyebrow": "Skill Portfolio",
+      "title": "Platform engineering, end to end"
+    },
+    "contact": {
+      "blurb": "Open to platform, SRE and infrastructure roles. The fastest way to reach me is email."
+    }
+  },
   "stats": [
     {
       "label": "Years in infrastructure",
@@ -22,32 +31,32 @@
   "highlights": [
     {
       "icon": "cluster",
-      "title": "Kubernetes, end to end",
+      "title": "Kubernetes, End to End",
       "body": "From bare-metal Talos nodes in the lab to multi-region managed clusters in production. Ingress, storage, policy, upgrades."
     },
     {
       "icon": "git",
-      "title": "GitOps delivery",
+      "title": "GitOps Delivery",
       "body": "Everything is a pull request. Argo CD app-of-apps, reusable GitHub Actions, signed images and policy gates."
     },
     {
       "icon": "pulse",
-      "title": "Observability first",
+      "title": "Observability First",
       "body": "OpenTelemetry pipelines, SLOs and alerting that pages for symptoms, not causes. Dashboards people actually open."
     },
     {
       "icon": "shield",
-      "title": "Secure by default",
+      "title": "Secure by Default",
       "body": "Secrets with Vault and SOPS, image scanning with Trivy, least-privilege IAM, and OPA guardrails in CI."
     },
     {
       "icon": "code",
-      "title": "Infrastructure as code",
+      "title": "Infrastructure as Code",
       "body": "Terraform modules and Ansible roles that are tested, versioned and reviewed like application code."
     },
     {
       "icon": "terminal",
-      "title": "This site is the proof",
+      "title": "This Site Is the Proof",
       "body": "Built with Next.js, shipped as a container, deployed on-prem with the same tooling used at work. Try the terminal above."
     }
   ],
