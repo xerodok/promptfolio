@@ -84,12 +84,12 @@ The runtime stage is bare Alpine plus the Node binary (debug symbols stripped)
 and its two runtime libraries, running as an unprivileged user. Measured on
 one build in 2026-10, so you can judge the alternatives:
 
-| Runtime base                        | Image  | Notes                          |
-| ----------------------------------- | ------ | ------------------------------ |
-| `node:22-alpine` (the obvious one)  | 322 MB | npm, corepack, yarn never used |
-| `gcr.io/distroless/nodejs22`        | 288 MB | no shell at all, uid 65532     |
+| Runtime base                         | Image  | Notes                          |
+| ------------------------------------ | ------ | ------------------------------ |
+| `node:22-alpine` (the obvious one)   | 322 MB | npm, corepack, yarn never used |
+| `gcr.io/distroless/nodejs22`         | 288 MB | no shell at all, uid 65532     |
 | **Alpine + stripped Node (default)** | 257 MB | `sh` present, uid 100          |
-| `pnpm export:static` (no server)    | ~1 MB  | static files, see below        |
+| `pnpm export:static` (no server)     | ~1 MB  | static files, see below        |
 
 The app layer (standalone server, static assets, `public/`) is about 60 MB;
 the Node binary is the rest, so ~250 MB is the floor for any Node server.
