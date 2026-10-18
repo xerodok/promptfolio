@@ -29,7 +29,7 @@ hosted on-prem in a home lab.
 
 The look follows [Tabby](https://tabby.sh): a deep navy canvas (`#0c131b`),
 light-weight Source Sans type with an oversized thin display heading and an
-italic tagline, frosted-glass panels, a skewed band of oversaturated colour
+tagline, frosted-glass panels, a skewed band of oversaturated colour
 behind the hero, and a terminal window as the centrepiece. Tokens live in
 `src/app/globals.css`; everything else uses Tailwind utilities on top of them.
 

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { Icon } from "./Icon";
+import { NavLink } from "./NavLink";
 import type { SiteConfig } from "@/lib/resume/schema";
 
 /** Hamburger menu shown below the md breakpoint; the desktop link row hides it. */
@@ -21,7 +22,7 @@ export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
     <div className="md:hidden">
       <button
         type="button"
-        className="btn btn-ghost !px-2.5 !py-1.5"
+        className="nav-btn !px-2"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls={panelId}
@@ -32,29 +33,25 @@ export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
       {open && (
         <div
           id={panelId}
-          className="border-border bg-bg-elevated absolute inset-x-4 top-full mt-2 rounded-lg border p-2 shadow-2xl shadow-black/60"
+          className="border-border bg-bg-elevated absolute inset-x-0 top-full border-b p-3 shadow-2xl shadow-black/60"
         >
-          <ul>
+          <ul className="flex flex-col gap-1 font-mono text-base">
             {nav.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="text-fg-strong block rounded-md px-3 py-2.5 hover:bg-white/5"
-                >
+              <li key={item.href} className="flex">
+                <NavLink href={item.href} onClick={() => setOpen(false)}>
                   {item.label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
-          <div className="border-border mt-2 flex gap-2 border-t pt-2">
-            <a href="/api/resume" className="btn btn-ghost flex-1 justify-center !py-2 text-sm">
+          <div className="border-border mt-3 flex gap-2 border-t pt-3">
+            <a href="/api/resume" className="nav-btn flex-1 justify-center">
               <Icon name="json" className="h-4 w-4" /> JSON
             </a>
             <Link
               href="/print"
               onClick={() => setOpen(false)}
-              className="btn btn-primary flex-1 justify-center !py-2 text-sm"
+              className="nav-btn nav-btn-accent flex-1 justify-center"
             >
               <Icon name="download" className="h-4 w-4" /> PDF
             </Link>

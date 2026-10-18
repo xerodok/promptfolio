@@ -127,7 +127,7 @@ export const highlightIcons = ["cluster", "git", "pulse", "shield", "code", "ter
 export type HighlightIcon = (typeof highlightIcons)[number];
 
 export const siteSchema = z.object({
-  /** Italic line under the name. Leave empty to show `basics.label` there instead. */
+  /** Line under the name. Leave empty to show `basics.label` there instead. */
   tagline: z.string().default(""),
   /** Headings for each section of the page. Every field has a sensible default. */
   sections: z
@@ -184,6 +184,31 @@ export const siteSchema = z.object({
     )
     .default([]),
   nav: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
+  /**
+   * Employer logos for the experience timeline, keyed by the exact `work[].name`
+   * from resume.json: a path under public/ (e.g. "/logos/acme.svg") or a URL.
+   * Employers without an entry get a monogram tile.
+   */
+  logos: z.record(z.string(), z.string()).default({}),
 });
 
 export type SiteConfig = z.infer<typeof siteSchema>;
+
+/** content/about.json: a longer narrative page at /about, kept apart from the resume. */
+export const aboutSchema = z.object({
+  eyebrow: z.string().default("About"),
+  title: z.string().default("About"),
+  intro: z.string().default(""),
+  /** Free-form date shown in the page footer, e.g. "2026-10-13". */
+  updated: z.string().optional(),
+  sections: z
+    .array(
+      z.object({
+        heading: z.string(),
+        paragraphs: z.array(z.string()).default([]),
+        bullets: z.array(z.string()).default([]),
+      }),
+    )
+    .default([]),
+});
+export type About = z.infer<typeof aboutSchema>;

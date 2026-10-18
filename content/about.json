@@ -1,0 +1,30 @@
+{
+  "eyebrow": "About",
+  "title": "The longer version",
+  "intro": "The resume is the summary. This page is where I keep the story behind it: how I got into infrastructure, what I believe about running platforms, and what I am building in the lab right now.",
+  "updated": "2026-10-13",
+  "sections": [
+    {
+      "heading": "How I got here",
+      "paragraphs": [
+        "I started on a help desk, moved to a NOC, and spent a few years as a sysadmin before the first Kubernetes cluster landed on my desk. Every step was the same lesson: the system that is easiest to explain is the one that stays up.",
+        "These days I lead a platform group. The job is less about typing YAML and more about making the paved road the obvious choice for forty other engineers."
+      ]
+    },
+    {
+      "heading": "What I believe",
+      "bullets": [
+        "Everything is a pull request. If it is not in git, it is not real.",
+        "Alerts page for symptoms, not causes. Dashboards exist so people open them.",
+        "Blameless post-mortems, written down, acted on.",
+        "The platform team's customers are engineers. Treat them like customers."
+      ]
+    },
+    {
+      "heading": "In the lab",
+      "paragraphs": [
+        "This site runs on the same home lab I use to try things before they reach work: Talos nodes on bare metal, Argo CD for delivery, OpenTelemetry for the signals. The lab is where I break things on purpose."
+      ]
+    }
+  ]
+}

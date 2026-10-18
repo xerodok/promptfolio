@@ -9,7 +9,7 @@ import { Leadership } from "@/components/sections/Leadership";
 import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { Stats } from "@/components/sections/Stats";
-import { getResume, getSite } from "@/lib/resume/load";
+import { getAbout, getResume, getSite } from "@/lib/resume/load";
 
 export default function HomePage() {
   const resume = getResume();
@@ -18,14 +18,14 @@ export default function HomePage() {
     <>
       <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} />
       <main className="flex-1">
-        <Hero resume={resume} site={site} />
+        <Hero resume={resume} site={site} about={getAbout()} />
         <Stats stats={site.stats} />
         {site.leadership && <Leadership block={site.leadership} />}
         {site.highlights.length > 0 && (
           <Highlights items={site.highlights} heading={site.sections.highlights} />
         )}
         {resume.work.length > 0 && (
-          <Experience work={resume.work} heading={site.sections.experience} />
+          <Experience work={resume.work} heading={site.sections.experience} logos={site.logos} />
         )}
         {resume.skills.length > 0 && (
           <Skills skills={resume.skills} heading={site.sections.skills} />

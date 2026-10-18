@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getResume, getSite } from "../load";
+import { getAbout, getResume, getSite } from "../load";
 import { resumeSchema } from "../schema";
 
 describe("content/resume.json", () => {
@@ -19,10 +19,22 @@ describe("content/resume.json", () => {
   });
 });
 
+describe("content/about.json", () => {
+  it("parses with a title and at least one section", () => {
+    const about = getAbout();
+    expect(about.title.length).toBeGreaterThan(0);
+    expect(about.sections.length).toBeGreaterThan(0);
+  });
+});
+
 describe("content/site.json", () => {
   it("parses and only uses known highlight icons", () => {
     const site = getSite();
     expect(site.highlights.length).toBeGreaterThan(0);
     expect(site.nav.every((n) => n.href.startsWith("#") || n.href.startsWith("/"))).toBe(true);
+  });
+  it("only maps logos to employers that exist in the resume", () => {
+    const employers = new Set(getResume().work.map((w) => w.name));
+    for (const name of Object.keys(getSite().logos)) expect(employers).toContain(name);
   });
 });

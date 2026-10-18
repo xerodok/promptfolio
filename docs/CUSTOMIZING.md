@@ -9,7 +9,7 @@ Standard [JSON Resume](https://jsonresume.org/schema). Fields the site renders:
 | Field                           | Where it shows                                |
 | ------------------------------- | --------------------------------------------- |
 | `basics.name`                   | hero, nav, print, footer                      |
-| `basics.label`                  | italic line under the name (when no tagline)  |
+| `basics.label`                  | line under the name (when no tagline)         |
 | `basics.image`                  | nav avatar (URL or `/photo.jpg` in `public/`) |
 | `basics.email`, `url`           | contact buttons, print header                 |
 | `basics.profiles[]`             | hero icon buttons and contact buttons         |
@@ -27,7 +27,7 @@ role. Empty arrays hide their section.
 
 ```jsonc
 {
-  "tagline": "", // optional italic line; empty shows basics.label
+  "tagline": "", // optional line; empty shows basics.label
   "prompt": "you@homelab", // terminal prompt
   "sections": {
     // every heading is overridable
@@ -54,7 +54,25 @@ role. Empty arrays hide their section.
 Highlight icons: `cluster`, `git`, `pulse`, `shield`, `code`, `terminal`.
 Add more in `src/components/Icon.tsx` and the `highlightIcons` list in the schema.
 
-## 3. Attribution
+### Employer logos
+
+`site.json` → `"logos": { "<work[].name>": "/logos/acme.svg" }` puts a logo tile
+beside that employer in the experience timeline (the key must match the
+employer name in `resume.json` exactly; a unit test checks it). Files go in
+`public/logos/` — or `private/logos/`, which `pnpm content:private` copies
+there. Employers without an entry get a two-letter monogram tile. Logos are
+shown on a white tile, so transparent or light-background artwork works best.
+
+## 3. `content/about.json` (the About page)
+
+`/about` is a longer-form page that lives apart from the resume so it can
+change on its own schedule. It is a typed document (`aboutSchema`):
+`eyebrow`, `title`, `intro`, optional `updated`, and `sections` of
+`{ heading, paragraphs[], bullets[] }`. Link it from `nav` with
+`{ "label": "About", "href": "/about" }`; the terminal's `about` command opens
+it too. A private copy goes in `private/about.json`.
+
+## 4. Attribution
 
 `src/lib/template.ts` holds the template name, author and URL shown in the
 footer. Forks keep it; your own name comes from the resume.
@@ -62,9 +80,16 @@ footer. Forks keep it; your own name comes from the resume.
 ## Photo
 
 Put `photo.jpg` in `public/` and set `"image": "/photo.jpg"`, or use a full
-URL. The nav shows it as a 28px circle; initials are the fallback.
+URL. The hero shows it as a large portrait above the name and the nav as a
+32px circle; initials are the nav fallback and the hero simply omits it.
 
 ## Terminal
+
+Besides the resume commands, the terminal understands a few shell basics:
+`ls` (sections as folders, `resume.json` and `about.txt` as files), `cat`,
+`cd`, `pwd`, `echo`, `date`, `history`, `man`, `uname`, `hostname`, `clear`,
+`cmd --help`, Tab completion of commands and their arguments, and chaining
+with `;` or `&&`. All of it is pure and unit-tested in `commands.ts`.
 
 Commands live in `src/components/terminal/commands.ts`. The boot sequence
 types `whoami` then `help`; change `INTRO` in `Terminal.tsx`. Quick-command

@@ -1,12 +1,15 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import type { Resume, SiteConfig } from "@/lib/resume/schema";
+import type { About, Resume, SiteConfig } from "@/lib/resume/schema";
 import { completeCommand, quickCommands, runCommand, type Line } from "./commands";
+import { Settings, applySettings, loadSettings, type TerminalSettings } from "./Settings";
 
 type Entry = { id: number; input?: string; lines: Line[] };
 
-const INTRO = ["whoami", "help"];
+// Typed at boot, as if someone were at the keyboard. Kept short on purpose:
+// the full `help` listing is one keystroke away and was noise on every visit.
+const INTRO = ["whoami"];
 
 const LINE_CLASS: Record<Line["kind"], string> = {
   out: "text-fg",
@@ -15,41 +18,83 @@ const LINE_CLASS: Record<Line["kind"], string> = {
   err: "text-magenta",
 };
 
-export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig }) {
+const FONT_CLASS: Record<TerminalSettings["fontSize"], string> = {
+  small: "text-[12.5px] sm:text-[13px]",
+  medium: "text-[13.5px] sm:text-sm",
+  large: "text-[15px] sm:text-base",
+};
+
+export function Terminal({
+  resume,
+  site,
+  about,
+}: {
+  resume: Resume;
+  site: SiteConfig;
+  about?: About;
+}) {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [cursor, setCursor] = useState<number | null>(null);
   const [booted, setBooted] = useState(false);
+  const [tab, setTab] = useState<"shell" | "settings">("shell");
+  const [settings, setSettings] = useState<TerminalSettings>(() => loadSettings());
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
   const skipRef = useRef<(() => void) | null>(null);
+  // Mirror of `history` that commands can read without re-creating `execute`.
+  const historyRef = useRef<string[]>([]);
 
   const execute = useCallback(
     (raw: string) => {
       const input = raw.trim();
-      const { lines, action } = runCommand(input, { resume, site });
+      const { lines, action } = runCommand(input, {
+        resume,
+        site,
+        about,
+        history: historyRef.current,
+      });
       if (action?.type === "clear") {
         setEntries([]);
       } else {
         setEntries((prev) => [...prev, { id: nextId.current++, input, lines }]);
       }
-      if (input) setHistory((prev) => (prev[prev.length - 1] === input ? prev : [...prev, input]));
+      if (input) {
+        setHistory((prev) => {
+          const next = prev[prev.length - 1] === input ? prev : [...prev, input];
+          historyRef.current = next;
+          return next;
+        });
+      }
       setCursor(null);
       if (action?.type === "navigate") {
-        document.querySelector(action.href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (action.href === "#") window.scrollTo({ top: 0, behavior: "smooth" });
+        else
+          document
+            .querySelector(action.href)
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (action?.type === "goto") {
+        window.location.assign(action.href);
       } else if (action?.type === "open") {
         window.open(action.url, "_blank", "noopener");
       }
     },
-    [resume, site],
+    [resume, site, about],
   );
+
+  // Settings take effect on the document (aurora on/off) and persist per browser.
+  useEffect(() => {
+    applySettings(settings);
+  }, [settings]);
 
   // Boot sequence: type the intro commands as if someone were at the keyboard.
   // Any tap or keypress on the terminal skips ahead and runs what is left.
+  // With the boot animation turned off in Settings the intro runs instantly.
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches || !settings.bootAnimation;
     let cancelled = false;
     let done = 0;
     const timers: number[] = [];
@@ -93,6 +138,8 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
       timers.forEach((t) => window.clearTimeout(t));
       skipRef.current = null;
     };
+    // The boot runs once per mount; a later settings change must not replay it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [execute]);
 
   useEffect(() => {
@@ -136,6 +183,12 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
       e.preventDefault();
       const matches = completeCommand(value);
       if (matches.length === 1) setValue(matches[0] + " ");
+      else if (matches.length > 1) {
+        setEntries((prev) => [
+          ...prev,
+          { id: nextId.current++, lines: [{ kind: "muted", text: matches.join("  ") }] },
+        ]);
+      }
     } else if (e.key === "l" && e.ctrlKey) {
       e.preventDefault();
       setEntries([]);
@@ -143,14 +196,23 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
   }
 
   function runQuick(cmd: string) {
+    setTab("shell");
     skipIntro();
     execute(cmd);
   }
 
+  const tabClass = (active: boolean) =>
+    `flex items-center gap-3 px-4 py-2.5 ${
+      active
+        ? "border-border text-fg-strong border-x bg-white/5"
+        : "text-fg-muted hover:text-fg hover:bg-white/5"
+    }`;
+
   return (
     <div
-      className="glass flex flex-col overflow-hidden rounded-lg font-mono text-[13.5px] leading-relaxed sm:text-sm"
+      className={`glass flex flex-col overflow-hidden rounded-lg font-mono leading-relaxed ${FONT_CLASS[settings.fontSize]}`}
       onClick={() => {
+        if (tab !== "shell") return;
         skipIntro();
         inputRef.current?.focus({ preventScroll: true });
       }}
@@ -163,57 +225,84 @@ export function Terminal({ resume, site }: { resume: Resume; site: SiteConfig })
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         </div>
-        <div className="border-border text-fg-strong flex items-center gap-3 border-x bg-white/5 px-4 py-2.5">
+        <button
+          type="button"
+          className={tabClass(tab === "shell")}
+          onClick={(e) => {
+            e.stopPropagation();
+            setTab("shell");
+            inputRef.current?.focus({ preventScroll: true });
+          }}
+          aria-pressed={tab === "shell"}
+        >
           <span className="text-fg-muted">1</span>
           <span>{site.prompt}</span>
-        </div>
-        <div className="text-fg-muted hidden items-center gap-3 px-4 sm:flex">
-          <span>2</span>
+        </button>
+        <button
+          type="button"
+          className={tabClass(tab === "settings")}
+          onClick={(e) => {
+            e.stopPropagation();
+            setTab("settings");
+          }}
+          aria-pressed={tab === "settings"}
+        >
+          <span className="text-fg-muted">2</span>
           <span>Settings</span>
+        </button>
+        <div className="text-fg-muted ml-auto flex items-center px-4 text-xs">
+          {tab === "shell" ? "bash" : "settings"}
         </div>
-        <div className="text-fg-muted flex items-center px-4">+</div>
-        <div className="text-fg-muted ml-auto flex items-center px-4 text-xs">bash</div>
       </div>
 
-      <div
-        ref={scrollRef}
-        className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
-        aria-live="polite"
-      >
-        <div className="text-fg-muted">
-          Welcome. Type <span className="text-fg-strong">help</span> to get started.
+      {tab === "settings" ? (
+        <div
+          className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Settings value={settings} onChange={setSettings} />
         </div>
-        {entries.map((entry) => (
-          <div key={entry.id} className="mt-2">
-            {entry.input !== undefined && (
-              <div>
-                <Prompt prompt={site.prompt} />
-                <span className="text-fg-strong">{entry.input}</span>
-              </div>
-            )}
-            <Output lines={entry.lines} />
+      ) : (
+        <div
+          ref={scrollRef}
+          className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
+          aria-live="polite"
+        >
+          <div className="text-fg-muted">
+            Type <span className="text-fg-strong">help</span> for the commands, or tap one below.
           </div>
-        ))}
-        <div className="relative mt-2 flex items-center">
-          <Prompt prompt={site.prompt} />
-          <span className="text-fg-strong">{value}</span>
-          <span className="term-caret" />
-          <input
-            ref={inputRef}
-            aria-label="Terminal input"
-            className="absolute top-0 left-0 h-px w-px text-base opacity-0"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={onKeyDown}
-            autoComplete="off"
-            autoCapitalize="off"
-            autoCorrect="off"
-            enterKeyHint="send"
-            spellCheck={false}
-            readOnly={!booted}
-          />
+          {entries.map((entry) => (
+            <div key={entry.id} className="mt-2">
+              {entry.input !== undefined && (
+                <div>
+                  <Prompt prompt={site.prompt} />
+                  <span className="text-fg-strong">{entry.input}</span>
+                </div>
+              )}
+              <Output lines={entry.lines} />
+            </div>
+          ))}
+          <div className="relative mt-2 flex items-center">
+            <Prompt prompt={site.prompt} />
+            <span className="text-fg-strong">{value}</span>
+            <span className="term-caret" />
+            <input
+              ref={inputRef}
+              aria-label="Terminal input"
+              className="absolute top-0 left-0 h-px w-px text-base opacity-0"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={onKeyDown}
+              autoComplete="off"
+              autoCapitalize="off"
+              autoCorrect="off"
+              enterKeyHint="send"
+              spellCheck={false}
+              readOnly={!booted}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Tappable shortcuts: the keyboard is optional, especially on phones. */}
       <div
@@ -259,7 +348,7 @@ function Output({ lines }: { lines: Line[] }) {
       </div>
     ) : (
       <div key={g} className={`whitespace-pre-wrap ${LINE_CLASS[group[0].kind]}`}>
-        {group[0].text || "\u00a0"}
+        {group[0].text || " "}
       </div>
     ),
   );

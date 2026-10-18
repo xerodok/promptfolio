@@ -22,6 +22,7 @@
   --glow-orange: #ff7a1a;
   --glow-cyan: #22d3ee;
   --glow-violet: #7c3aed;
+  --glow-green: #34d399;
   --radius: 0.35rem;
   --radius-lg: 0.75rem;
   --glass: rgba(14, 21, 29, 0.72);
@@ -42,6 +43,7 @@
   --color-orange: var(--glow-orange);
   --color-cyan: var(--glow-cyan);
   --color-violet: var(--glow-violet);
+  --color-green: var(--glow-green);
   --radius-sm: var(--radius);
   --radius-lg: var(--radius-lg);
   --font-sans: "Source Sans 3 Variable", "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
@@ -74,9 +76,146 @@ body {
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid var(--border);
+  /* Tight: the stats row sits 24px below the terminal and its cards are
+     translucent, so a long shadow would show through and darken them. */
   box-shadow:
-    0 30px 80px -20px rgba(0, 0, 0, 0.7),
+    0 12px 32px -20px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+/*
+ * Aurora: curtains of colour hanging from the top of the viewport on a fixed
+ * layer behind the page. Each layer is one wide gradient band, cut into soft
+ * vertical folds by a striped mask and faded out towards the bottom, that
+ * sways sideways, breathes in height and shimmers in brightness on its own
+ * slow period, so the three never line up. Only transform and a brightness
+ * filter are animated (both GPU-composited, cheap on a phone). Low opacity is
+ * the point: felt, not seen.
+ */
+/* Turned off from the terminal's Settings tab (per-browser preference). */
+html[data-aurora="off"] .aurora {
+  display: none;
+}
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+}
+
+.aurora span {
+  position: absolute;
+  top: -10vh;
+  left: -20vw;
+  width: 140vw;
+  height: 85vh;
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+  /* Curtain folds: a stripe mask intersected with a top-to-bottom fade. */
+  mask-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 1) 70px,
+      rgba(0, 0, 0, 0.25) 140px,
+      rgba(0, 0, 0, 0.9) 210px,
+      rgba(0, 0, 0, 0.15) 280px
+    ),
+    linear-gradient(to bottom, #000 0%, #000 30%, transparent 85%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 1) 70px,
+      rgba(0, 0, 0, 0.25) 140px,
+      rgba(0, 0, 0, 0.9) 210px,
+      rgba(0, 0, 0, 0.15) 280px
+    ),
+    linear-gradient(to bottom, #000 0%, #000 30%, transparent 85%);
+  -webkit-mask-composite: source-in;
+  animation:
+    aurora-sway 48s ease-in-out infinite alternate,
+    aurora-shimmer 11s ease-in-out infinite alternate;
+}
+
+.aurora span:nth-child(1) {
+  background: linear-gradient(
+    104deg,
+    transparent 8%,
+    var(--glow-green) 24%,
+    var(--glow-cyan) 36%,
+    transparent 50%,
+    var(--glow-green) 66%,
+    transparent 82%
+  );
+  opacity: 0.16;
+}
+
+.aurora span:nth-child(2) {
+  top: 0;
+  height: 70vh;
+  background: linear-gradient(
+    96deg,
+    transparent 14%,
+    var(--glow-violet) 30%,
+    var(--glow-magenta) 42%,
+    transparent 56%,
+    var(--glow-violet) 70%,
+    transparent 86%
+  );
+  opacity: 0.12;
+  animation-duration: 70s, 17s;
+  animation-delay:
+    -25s,
+    -5s;
+  animation-direction: alternate-reverse, alternate;
+}
+
+.aurora span:nth-child(3) {
+  top: -4vh;
+  height: 60vh;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    var(--glow-cyan) 34%,
+    var(--glow-green) 44%,
+    transparent 58%,
+    var(--glow-cyan) 74%,
+    transparent 90%
+  );
+  opacity: 0.1;
+  animation-duration: 90s, 23s;
+  animation-delay:
+    -60s,
+    -11s;
+}
+
+@keyframes aurora-sway {
+  0% {
+    transform: translate3d(-4vw, 0, 0) skewX(-7deg) scaleY(1);
+  }
+  35% {
+    transform: translate3d(1vw, 1vh, 0) skewX(2deg) scaleY(1.1);
+  }
+  70% {
+    transform: translate3d(5vw, -1vh, 0) skewX(6deg) scaleY(0.94);
+  }
+  100% {
+    transform: translate3d(3vw, 2vh, 0) skewX(-3deg) scaleY(1.04);
+  }
+}
+
+@keyframes aurora-shimmer {
+  from {
+    filter: brightness(0.85);
+  }
+  to {
+    filter: brightness(1.25);
+  }
 }
 
 /* The skewed colour band behind the hero. */
@@ -110,13 +249,9 @@ body {
 .hero-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    var(--bg) 0%,
-    transparent 28%,
-    transparent 70%,
-    var(--bg) 100%
-  );
+  /* Top stays clear so the aurora runs right up under the nav; only the
+     bottom blends the band back into the canvas. */
+  background: linear-gradient(180deg, transparent 0%, transparent 70%, var(--bg) 100%);
   pointer-events: none;
 }
 
@@ -186,6 +321,33 @@ body {
   background: var(--surface);
 }
 
+@layer components {
+  /* Square, bordered actions in the top bar (JSON, PDF, menu). */
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--fg-strong);
+    white-space: nowrap;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-strong);
+  }
+
+  .nav-btn-accent {
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    color: var(--accent-strong);
+  }
+}
+
 /* Terminal */
 .term-caret {
   display: inline-block;
@@ -219,6 +381,9 @@ body {
   .term-caret {
     animation: none;
   }
+  .aurora span {
+    animation: none;
+  }
 }
 
 /* Print view: plain, ink-friendly, one source of truth. */
@@ -238,7 +403,8 @@ body {
     color: inherit;
     text-decoration: none;
   }
-  .no-print {
+  .no-print,
+  .aurora {
     display: none !important;
   }
 }

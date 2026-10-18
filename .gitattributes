@@ -1,0 +1,6 @@
+# Normalise line endings so Windows clones (core.autocrlf) do not fail Prettier.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary

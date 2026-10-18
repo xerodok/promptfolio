@@ -6,5 +6,5 @@
 export const TEMPLATE = {
   name: "Promptfolio",
   author: "Chris Russell",
-  url: "https://github.com/xerodok/chrisrussell",
+  url: "https://github.com/xerodok/promptfolio",
 } as const;
