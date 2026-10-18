@@ -57,7 +57,7 @@ src/lib/            build-info.ts (version/commit from env), template.ts (attrib
 deploy/kubernetes/  Kustomize base: Deployment, Service, Ingress
 scripts/            static-export.mjs (relocatable static site), healthcheck.mjs (container probe), use-content.sh
 private/            gitignored: your real resume.json, site.json, photo.jpg
-docs/               ARCHITECTURE.md, CUSTOMIZING.md, DEPLOYMENT.md
+docs/               ARCHITECTURE, CUSTOMIZING, CONFIGURATION, DEPLOYMENT, OPERATIONS, FAQ
 .github/workflows/  ci.yml (verify + image smoke test), release.yml (push to GHCR)
 ```
 

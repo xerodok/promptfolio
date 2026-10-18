@@ -52,7 +52,11 @@ in `docs/DEPLOYMENT.md`, including how to keep a real resume out of a public for
 - `AGENTS.md` — the brief for coding agents and contributors
 - `docs/ARCHITECTURE.md` — how it is put together and why
 - `docs/CUSTOMIZING.md` — every field you can change
-- `docs/DEPLOYMENT.md` — container, GHCR, Kubernetes, GitOps, static preview
+- `docs/DEPLOYMENT.md` — container, GHCR, Kubernetes, GitOps, static export
+- `docs/CONFIGURATION.md` — every build arg, environment variable and size
+- `docs/OPERATIONS.md` — health, logs, upgrades, rollback, incidents
+- `docs/FAQ.md` — the questions people ask first
+- `SECURITY.md` — threat model, what the manifests enforce, reporting
 - `PLAN.md` — roadmap
 
 ## Credits

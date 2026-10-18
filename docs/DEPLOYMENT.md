@@ -10,10 +10,12 @@ docker build \
 docker run --rm -p 3000:3000 promptfolio
 ```
 
-- Multi-stage build on `node:22-alpine`; the runtime stage holds only the
-  standalone server, static assets and `public/`.
+- Multi-stage build; the runtime stage is bare Alpine plus a stripped Node
+  binary, the standalone server, static assets and `public/` (see _Image and
+  footprint_ below).
 - Runs as user `app`, listens on `PORT=3000`, `HOSTNAME=0.0.0.0`.
-- `HEALTHCHECK` hits `/api/health`. Readiness is `/api/ready`.
+- `HEALTHCHECK` runs `node /app/healthcheck.mjs` against `/api/health`.
+  Readiness is `/api/ready`.
 - No runtime environment variables are required. `APP_VERSION` and `GIT_SHA`
   are optional and surfaced on `/api/health`.
 
@@ -65,7 +67,18 @@ Point an Argo CD or Flux application at the overlay directory. Bump
 
 ## Keeping real content out of a public fork
 
-The committed content is a fictional sample. For a private deployment:
+The committed content is a fictional sample. Two ways to run with your own:
+
+**A private fork (recommended).** Fork privately, commit your content, photo
+and logos directly in `content/` and `public/`, and change the release
+workflow's trigger to `workflow_dispatch` so no image of your data is
+published by accident. Pull template improvements with
+`git remote add upstream <template> && git merge upstream/main`. Your lab or
+CI builds the image from the fork.
+
+**A public fork with content kept outside git.** Keep it in the gitignored
+`private/` directory (or a private repository, or a secret-managed path on
+the build runner):
 
 1. Keep your real `resume.json`, `site.json` and `photo.jpg` in the
    gitignored `private/` directory (or a private repository, or a
