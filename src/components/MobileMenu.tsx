@@ -50,6 +50,7 @@ export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
             </a>
             <Link
               href="/print"
+              prefetch={false}
               onClick={() => setOpen(false)}
               className="nav-btn nav-btn-accent flex-1 justify-center"
             >

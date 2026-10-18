@@ -1,4 +1,10 @@
-# Local parity with the home-lab deployment. `docker compose up --build`.
+# The reference single-host deployment, and local parity with it:
+#   docker compose up --build        # build from source and run on :3000
+#   docker compose up -d             # same, detached
+# Podman works too: `podman compose up --build` (see docs/DEPLOYMENT.md).
+#
+# Footprint: the container idles at ~40 MB RSS; 128 MB is a generous cap.
+# Everything below the ports line is hardening and costs nothing to keep.
 services:
   web:
     build:
@@ -15,9 +21,18 @@ services:
       - /tmp
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/ready"]
+      # No wget/curl in the image: the probe is the same Node script the
+      # Dockerfile HEALTHCHECK uses.
+      test: ["CMD", "node", "/app/healthcheck.mjs"]
       interval: 30s
       timeout: 3s
       start_period: 10s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 128m
+          pids: 128

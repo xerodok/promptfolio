@@ -25,7 +25,7 @@ export function NavLink({
     </>
   );
   return href.startsWith("/") ? (
-    <Link href={href} onClick={onClick} className={className}>
+    <Link href={href} onClick={onClick} className={className} prefetch={false}>
       {label}
     </Link>
   ) : (

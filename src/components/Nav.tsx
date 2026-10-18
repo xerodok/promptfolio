@@ -53,7 +53,7 @@ export function Nav({
           >
             <Icon name="json" className="h-4 w-4" /> JSON
           </a>
-          <Link href="/print" className="nav-btn nav-btn-accent">
+          <Link href="/print" className="nav-btn nav-btn-accent" prefetch={false}>
             <Icon name="download" className="h-4 w-4" /> PDF
           </Link>
           <MobileMenu nav={nav} />

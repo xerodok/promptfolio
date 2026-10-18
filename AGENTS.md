@@ -55,7 +55,7 @@ src/components/     Nav, MobileMenu, Footer, Icon, sections/*, terminal/*
 src/lib/resume/     schema.ts (Zod), load.ts (cached loader), format.ts (dates)
 src/lib/            build-info.ts (version/commit from env), template.ts (attribution)
 deploy/kubernetes/  Kustomize base: Deployment, Service, Ingress
-scripts/            static-preview.py (relocatable static bundle), use-content.sh (private/sample swap)
+scripts/            static-export.mjs (relocatable static site), healthcheck.mjs (container probe), use-content.sh
 private/            gitignored: your real resume.json, site.json, photo.jpg
 docs/               ARCHITECTURE.md, CUSTOMIZING.md, DEPLOYMENT.md
 .github/workflows/  ci.yml (verify + image smoke test), release.yml (push to GHCR)
@@ -124,8 +124,7 @@ Before you report a change as done:
       `/api/ready` respond (`node .next/standalone/server.js` after copying
       `public` and `.next/static` as the Dockerfile does).
 - [ ] If the UI changed: screenshot desktop (1440px) and phone (390px). The
-      repo's Playwright-free approach is to drive the pre-installed Chromium
-      with `playwright-core`; see `scripts/static-preview.py` docs for an example.
+      easiest route is Playwright against `pnpm dev` (or the static export).
 - [ ] If content or schema changed: the sample content still parses and
       `content/*.json` are formatted.
 - [ ] No real personal data was added to the template.

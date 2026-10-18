@@ -7,3 +7,5 @@ coverage
 *.md
 !README.md
 .env*
+private
+shots

@@ -18,7 +18,7 @@ deployment, in order:
 
 Previews published from this branch (private to the owner's Claude account):
 template sample and the owner's draft, both static bundles produced by
-`scripts/static-preview.py`.
+`scripts/static-export.mjs`.
 
 A resume that is a real, running web application: one structured document
 (JSON Resume), rendered as a rich site, a print view and a JSON API, built and

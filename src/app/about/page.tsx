@@ -48,7 +48,7 @@ export default function AboutPage() {
             </section>
           ))}
           <div className="border-border text-fg-muted mt-12 flex flex-wrap items-center justify-between gap-3 border-t pt-6 font-mono text-sm">
-            <Link href="/" className="hover:text-fg-strong">
+            <Link href="/" className="hover:text-fg-strong" prefetch={false}>
               <span aria-hidden="true" className="text-accent">
                 &lt;
               </span>{" "}

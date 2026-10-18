@@ -78,15 +78,35 @@ The committed content is a fictional sample. For a private deployment:
    check that refuses to commit when `content/` differs from `private/` is a
    reasonable addition.
 
-## Static preview
+## Image and footprint
 
-`scripts/static-preview.py` turns a finished build into a relocatable static
-bundle (used for Claude artifact previews, GitHub Pages or any object store):
+The runtime stage is bare Alpine plus the Node binary (debug symbols stripped)
+and its two runtime libraries, running as an unprivileged user. Measured on
+one build in 2026-10, so you can judge the alternatives:
+
+| Runtime base                        | Image  | Notes                          |
+| ----------------------------------- | ------ | ------------------------------ |
+| `node:22-alpine` (the obvious one)  | 322 MB | npm, corepack, yarn never used |
+| `gcr.io/distroless/nodejs22`        | 288 MB | no shell at all, uid 65532     |
+| **Alpine + stripped Node (default)** | 257 MB | `sh` present, uid 100          |
+| `pnpm export:static` (no server)    | ~1 MB  | static files, see below        |
+
+The app layer (standalone server, static assets, `public/`) is about 60 MB;
+the Node binary is the rest, so ~250 MB is the floor for any Node server.
+At rest the container uses ~40 MB RSS, so **128 MB** is a comfortable memory
+cap and the Compose file sets it. There is no `wget` or `curl` in the image:
+the health probe is `scripts/healthcheck.mjs`, run with `node`.
+
+## Static export (no server at all)
 
 ```bash
-pnpm build
-python3 scripts/static-preview.py .next out/preview
+pnpm build && pnpm export:static     # -> out/static
 ```
 
-The bundle serves `/` and `/print` with the terminal fully working; the API
-routes are replaced by a static `resume.json`.
+`out/static` is a plain folder (index, about, print, resume.json, photo,
+logos, assets) that works from any path on any static host: GitHub Pages,
+Cloudflare Pages, S3 + CloudFront, Netlify. The terminal, About page and print
+view all work; `/api/resume` becomes `resume.json`; the health probes do not
+exist because there is nothing to probe. The terminal's `about` command
+navigates to `/about`, which a static host that serves `about.html` for
+`/about` (Pages and Netlify do) handles; S3 needs an equivalent rewrite.
