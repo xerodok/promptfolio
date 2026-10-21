@@ -11,3 +11,5 @@ repository. Summary of what matters most:
   request APIs in Server Components; use route handlers with `await connection()`.
 - Keep the sample persona fictional. Never commit real personal data.
 - Check mobile (390px) for any UI change.
+- Commit as the user, with no AI co-author trailers, "Generated with" lines or
+  session links in commits or pull requests (AGENTS.md rule 13).

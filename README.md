@@ -28,8 +28,9 @@ a print view for PDF, a JSON API, and health probes — shipped as a signed,
 multi-arch, non-root container (~257 MB, ~40 MB RSS) or as ~1 MB of static
 files. No database, no secrets, no third-party requests.
 
-> This repository is a **template**. The committed persona, _Jordan Reyes_, is
-> fictional. Use the template, drop in your resume, and it is yours.
+> This repository is a **template** by [Chris Russell](https://chrisrussell.io).
+> The committed sample persona is fictional. Use the template, drop in your
+> resume, and it is yours.
 
 ## What it looks like
 

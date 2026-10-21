@@ -102,6 +102,11 @@ docs/               ARCHITECTURE, CUSTOMIZING, CONFIGURATION, DEPLOYMENT, OPERAT
 12. **Minimal diffs.** Do what the task needs. Do not reformat unrelated files,
     add dependencies without a reason, or widen a change beyond its ask.
 
+13. **Commits are the author's.** Commit and author as yourself. No AI
+    co-author trailers (`Co-Authored-By: …`), no "Generated with …" lines in
+    commits or pull requests, no tool session links. Agents: write the
+    message, leave the attribution out.
+
 ## Adding things
 
 - **A new section**: add a Zod field in `siteSchema.sections` (or

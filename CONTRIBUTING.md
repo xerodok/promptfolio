@@ -11,6 +11,7 @@ Thanks for improving Promptfolio. The short version:
 ## Conventions
 
 - Commit messages: imperative mood, one line of summary, details below.
+  Author them as yourself: no AI co-author trailers or "Generated with" lines.
 - Formatting is Prettier's; do not fight it.
 - Add tests for pure logic (date formatting, terminal commands, schema).
 - Do not add personal data to `content/`. The sample persona stays fictional.
