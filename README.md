@@ -33,6 +33,10 @@ files. No database, no secrets, no third-party requests.
 
 ## What it looks like
 
+Screenshots are the author's live site, [chrisrussell.io](https://chrisrussell.io),
+built from this template unchanged. The persona committed in `content/` is a
+fictional sample.
+
 <p align="center">
   <img src="docs/images/hero.png" alt="The site: photo, name, tagline and the terminal on the hero band" width="100%">
 </p>
