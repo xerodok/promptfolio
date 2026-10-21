@@ -1,0 +1,28 @@
+name: Feature request
+description: A section, a terminal command, a deployment target, a doc
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What should exist and why. Keep the resume's data portable (JSON Resume stays standard; site-only ideas go in site.json).
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Content model
+        - Site / design
+        - Terminal
+        - Deployment (container, Kubernetes, cloud, static)
+        - Docs
+        - CI / release
+  - type: checkboxes
+    id: offer
+    attributes:
+      label: Contribution
+      options:
+        - label: I can open a pull request for this

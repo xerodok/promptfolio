@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security report
+    url: https://github.com/xerodok/promptfolio/security/advisories/new
+    about: Report a vulnerability privately; see SECURITY.md.
+  - name: Questions
+    url: https://github.com/xerodok/promptfolio/discussions
+    about: '"How do I…" questions and show-and-tell.'

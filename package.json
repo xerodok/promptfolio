@@ -1,6 +1,6 @@
 {
   "name": "promptfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Promptfolio: a resume that boots to a terminal. JSON Resume in; Tabby-inspired site, print view, JSON API and a container out.",
   "author": "Chris Russell",

@@ -1,0 +1,40 @@
+name: Bug report
+description: Something renders, builds or deploys wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, what you got.
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        [
+          Site (/),
+          About page,
+          Print view,
+          Terminal,
+          JSON API / probes,
+          Static export,
+          Container image,
+          Kubernetes,
+          Docs,
+        ]
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "e.g. Chrome 130 on Android / node 22.20 / docker 27 / GitHub Pages"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Output of `pnpm check`, `docker logs`, or a screenshot at 1440px and 390px for UI issues.
+      render: shell
