@@ -1,24 +1,25 @@
 # Promptfolio — Plan
 
-## Status (2026-10-12)
+## Status (2026-10-20)
 
-Everything below Phase 1 is built and pushed. What is still open for the real
-deployment, in order:
+Done: the site, print view, JSON API and probes; the About page; employer
+logos; a shell-like terminal with a Settings tab; a ~257 MB signed multi-arch
+image; a ~1 MB static export; the architecture, configuration, operations,
+security and FAQ docs. The template is used in production by its author.
 
-1. **Private content.** `private/resume.json` and `private/site.json` hold the
-   owner's draft (not committed). Still missing: LinkedIn "About" text for the
-   leadership summary, LinkedIn URL for the profiles list, `private/photo.jpg`
-   for the nav avatar, work history with dates, education, certifications, and
-   optional hero stats. Run `pnpm content:private` to build with them.
-2. **Repository rename** to `promptfolio` on GitHub, then update
-   `src/lib/template.ts` (`url`) and `content/resume.json` project link.
-3. **Template setting**: GitHub → Settings → "Template repository".
-4. **Phase 2**: first GHCR push happens automatically on merge to `main`
-   (`.github/workflows/release.yml`).
+Roadmap, in order:
 
-Previews published from this branch (private to the owner's Claude account):
-template sample and the owner's draft, both static bundles produced by
-`scripts/static-export.mjs`.
+1. **Containers, all the ways** — Compose profiles (bare / Caddy / Traefik),
+   Podman and Quadlet units, bare-metal systemd, reverse-proxy snippets,
+   Cloudflare Tunnel.
+2. **Self-hosting guide** — from zero to a URL on a VPS or a home lab, DNS and
+   TLS choices, what to expose and what not to.
+3. **Clouds, cheapest first** — Cloud Run, App Runner / Lightsail, static
+   S3+CloudFront, Fly.io, Azure Container Apps; Terraform for each; one cost
+   and footprint table.
+4. **Kubernetes** — overlays, HPA/PDB/NetworkPolicy, cert-manager, a Helm chart.
+5. **Template experience** — "pick your path" README, deploy scripts, issue
+   templates, a hash-based CSP, Trivy in CI.
 
 A resume that is a real, running web application: one structured document
 (JSON Resume), rendered as a rich site, a print view and a JSON API, built and
