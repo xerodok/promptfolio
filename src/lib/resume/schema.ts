@@ -169,6 +169,12 @@ export const siteSchema = z.object({
         .default([]),
     })
     .optional(),
+  /**
+   * The animated layer behind every page: "ascii" (a diagonal brush-stroke of
+   * colour rendered as monospace glyphs), "aurora" (soft curtains of colour)
+   * or "none". Visitors can turn it off in the terminal's Settings tab.
+   */
+  background: z.enum(["ascii", "aurora", "none"]).default("ascii"),
   prompt: z.string().default("guest@resume"),
   stats: z
     .array(z.object({ label: z.string(), value: z.string() }))

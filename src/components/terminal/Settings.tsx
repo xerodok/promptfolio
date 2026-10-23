@@ -65,7 +65,7 @@ export function Settings({
         Preferences for this browser. They are remembered on this device only.
       </div>
       <Toggle
-        label="Aurora background"
+        label="Background animation"
         hint="The slow drift of colour behind the page."
         checked={value.aurora}
         onChange={(aurora) => onChange({ ...value, aurora })}

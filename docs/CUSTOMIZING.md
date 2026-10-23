@@ -63,6 +63,14 @@ employer name in `resume.json` exactly; a unit test checks it). Files go in
 there. Employers without an entry get a two-letter monogram tile. Logos are
 shown on a white tile, so transparent or light-background artwork works best.
 
+### Background
+
+`site.json` → `"background"`: `"ascii"` (default — a diagonal brush-stroke of
+colour rendered as a grid of monospace glyphs, drifting slowly), `"aurora"`
+(soft curtains of colour) or `"none"`. Both animations use the `--glow-*`
+tokens, pause when the tab is hidden, paint once under `prefers-reduced-motion`,
+and can be switched off by a visitor in the terminal's Settings tab.
+
 ## 3. `content/about.json` (the About page)
 
 `/about` is a longer-form page that lives apart from the resume so it can
