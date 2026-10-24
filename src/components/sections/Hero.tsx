@@ -34,7 +34,14 @@ export function Hero({ resume, site, about }: { resume: Resume; site: SiteConfig
           <div className="min-w-0">
             <h1 className="display text-6xl sm:text-7xl md:text-8xl">{basics.name}</h1>
             {subtitle && (
-              <p className="text-fg-muted mt-3 text-2xl font-light sm:text-3xl">{subtitle}</p>
+              // One line from tablet width up: the size follows the viewport so the
+              // tagline never wraps or overflows beside the photo; phones wrap.
+              <p
+                className="text-fg-muted mt-3 text-2xl font-light md:whitespace-nowrap"
+                style={{ fontSize: "clamp(1.25rem, 1.85vw, 1.875rem)" }}
+              >
+                {subtitle}
+              </p>
             )}
             {site.tagline && basics.label && (
               <p className={`text-fg mt-5 max-w-2xl text-base sm:text-lg ${row ? "" : "mx-auto"}`}>
