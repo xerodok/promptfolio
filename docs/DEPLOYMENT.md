@@ -10,7 +10,7 @@ Every guide refers to an image as `$IMAGE`. Decide this first:
 
 | You are…                                    | `$IMAGE`                                                                                                                                                                                                  |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| trying the template with the sample persona | `ghcr.io/xerodok/promptfolio:1.0.0` (public, signed, multi-arch)                                                                                                                                          |
+| trying the template with the sample persona | `ghcr.io/xerodok/promptfolio:latest` (public, signed, multi-arch)                                                                                                                                         |
 | running **your** resume from a fork         | `ghcr.io/<you>/<repo>:main` — your fork's `release.yml` publishes it on every push to `main`. Make the package public in GitHub → Packages if your host pulls anonymously, or keep it private and log in. |
 | not using a registry at all                 | build locally: `docker build -t promptfolio .` (or `podman build`) and use `promptfolio`                                                                                                                  |
 
