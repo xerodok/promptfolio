@@ -10,12 +10,14 @@ Every guide refers to an image as `$IMAGE`. Decide this first:
 
 | You are…                                    | `$IMAGE`                                                                                                                                                                                                  |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| trying the template with the sample persona | `ghcr.io/xerodok/promptfolio:latest` (public, signed, multi-arch)                                                                                                                                         |
+| trying the template with the sample persona | `ghcr.io/xerodok/promptfolio:latest` — the newest release, public, signed, multi-arch; `latest` is only ever produced from a version tag, never from `main`                                               |
 | running **your** resume from a fork         | `ghcr.io/<you>/<repo>:main` — your fork's `release.yml` publishes it on every push to `main`. Make the package public in GitHub → Packages if your host pulls anonymously, or keep it private and log in. |
 | not using a registry at all                 | build locally: `docker build -t promptfolio .` (or `podman build`) and use `promptfolio`                                                                                                                  |
 
 The template image contains the fictional sample; it is never what you want
-in production. The static export needs no image at all.
+in production. For anything you keep running, pin a version (`:1.0.0`) or a
+commit (`:sha-abc1234`) rather than `latest`, so an update is a decision you
+make. The static export needs no image at all.
 
 ## Pick a medium
 
