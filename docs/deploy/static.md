@@ -30,6 +30,9 @@ npx serve out/static        # or: python3 -m http.server -d out/static 8080
 
 The template ships `.github/workflows/pages.yml`. It is **manual by default**
 so that forking does not publish anything by surprise.
+The template itself is published this way at
+<https://xerodok.github.io/promptfolio/> — the sample persona, served from a
+sub-path, which is the hardest case for a static export.
 
 1. Repository → Settings → Pages → _Build and deployment_ → Source: **GitHub Actions**.
 2. Actions → _Deploy static site to GitHub Pages_ → **Run workflow**.

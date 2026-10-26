@@ -14,6 +14,7 @@
 <p align="center">
   <a href="https://github.com/new?template_name=promptfolio&template_owner=xerodok"><b>Use this template</b></a> ·
   <a href="https://chrisrussell.io">Live example</a> ·
+  <a href="https://xerodok.github.io/promptfolio/">Static demo (sample persona)</a> ·
   <a href="docs/CUSTOMIZING.md">Customize</a> ·
   <a href="docs/DEPLOYMENT.md">Deploy</a> ·
   <a href="docs/ARCHITECTURE.md">Architecture</a> ·
