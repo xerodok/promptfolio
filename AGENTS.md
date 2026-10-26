@@ -54,10 +54,11 @@ src/app/            routes: page.tsx, print/, api/{resume,health,ready}, layout,
 src/components/     Nav, MobileMenu, Footer, Icon, sections/*, terminal/*
 src/lib/resume/     schema.ts (Zod), load.ts (cached loader), format.ts (dates)
 src/lib/            build-info.ts (version/commit from env), template.ts (attribution)
-deploy/kubernetes/  Kustomize base: Deployment, Service, Ingress
+deploy/             kubernetes/ (Kustomize base), podman/ (Quadlet), systemd/, caddy/, nginx/,
+                    compose/ (Caddy overlay), fly.toml, gcp/ and aws/ (Terraform)
 scripts/            static-export.mjs (relocatable static site), healthcheck.mjs (container probe), use-content.sh
 private/            gitignored: your real resume.json, site.json, photo.jpg
-docs/               ARCHITECTURE, CUSTOMIZING, CONFIGURATION, DEPLOYMENT, OPERATIONS, FAQ
+docs/               ARCHITECTURE, CUSTOMIZING, CONFIGURATION, DEPLOYMENT (hub) + deploy/<medium>.md, OPERATIONS, FAQ
 .github/workflows/  ci.yml (verify + image smoke test), release.yml (push to GHCR)
 ```
 

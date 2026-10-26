@@ -1,0 +1,9 @@
+# Caddy in front of Promptfolio: automatic Let's Encrypt, HTTP -> HTTPS,
+# HSTS. Replace the domain; point it at the container (promptfolio:3000 on a
+# shared Compose network) or at a host process (localhost:3000).
+# Used by deploy/compose/docker-compose.caddy.yml via {$DOMAIN}.
+{$DOMAIN:resume.example.com} {
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=15552000; includeSubDomains"
+	reverse_proxy {$UPSTREAM:promptfolio:3000}
+}

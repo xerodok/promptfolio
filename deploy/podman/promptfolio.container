@@ -1,0 +1,34 @@
+# Quadlet unit for Promptfolio (rootless Podman + systemd).
+# Install: ~/.config/containers/systemd/promptfolio.container, then
+#   systemctl --user daemon-reload && systemctl --user enable --now promptfolio
+# See docs/deploy/podman.md.
+[Unit]
+Description=Promptfolio — a resume that boots to a terminal
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=ghcr.io/xerodok/promptfolio:1.0.0
+ContainerName=promptfolio
+PublishPort=3000:3000
+# Same posture as docker-compose.yml.
+ReadOnly=true
+Tmpfs=/tmp
+DropCapability=ALL
+NoNewPrivileges=true
+PidsLimit=128
+HealthCmd=node /app/healthcheck.mjs
+HealthInterval=30s
+HealthTimeout=3s
+HealthStartPeriod=10s
+HealthRetries=3
+# Pull a newer image nightly with podman-auto-update.timer:
+# AutoUpdate=registry
+
+[Service]
+Restart=on-failure
+RestartSec=5
+MemoryMax=128M
+
+[Install]
+WantedBy=default.target

@@ -9,16 +9,12 @@ security and FAQ docs. The template is used in production by its author.
 
 Roadmap, in order:
 
-1. **Containers, all the ways** — Compose profiles (bare / Caddy / Traefik),
-   Podman and Quadlet units, bare-metal systemd, reverse-proxy snippets,
-   Cloudflare Tunnel.
-2. **Self-hosting guide** — from zero to a URL on a VPS or a home lab, DNS and
-   TLS choices, what to expose and what not to.
-3. **Clouds, cheapest first** — Cloud Run, App Runner / Lightsail, static
-   S3+CloudFront, Fly.io, Azure Container Apps; Terraform for each; one cost
-   and footprint table.
-4. **Kubernetes** — overlays, HPA/PDB/NetworkPolicy, cert-manager, a Helm chart.
-5. **Template experience** — "pick your path" README, deploy scripts, issue
+1. ~~Deployment guides per medium~~ — done 2026-10-26: `docs/deploy/` (static,
+   Docker/Compose + proxies, Podman/Quadlet, systemd, Kubernetes, Cloud Run,
+   AWS, Fly/Azure/Render) with units, snippets, Terraform and a Pages workflow.
+   Cloud paths are written from provider docs and not exercised by CI.
+2. **Kubernetes extras** — HPA/PDB/NetworkPolicy, a Helm chart.
+3. **Template experience** — "pick your path" README, deploy scripts, issue
    templates, a hash-based CSP, Trivy in CI.
 
 A resume that is a real, running web application: one structured document

@@ -1,0 +1,45 @@
+name: Deploy static site to GitHub Pages
+
+# Manual by default so that forking never publishes anything by surprise.
+# To publish on every push, uncomment the `push:` block. Enable Pages first:
+# Settings -> Pages -> Source: GitHub Actions. See docs/deploy/static.md.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm export:static
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out/static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,29 @@
+# Fly.io app definition for Promptfolio. See docs/deploy/other-platforms.md.
+#   fly launch --copy-config --config deploy/fly.toml --no-deploy
+#   fly deploy --config deploy/fly.toml
+app = "promptfolio"
+primary_region = "iad"
+
+[build]
+  dockerfile = "../Dockerfile"
+
+[env]
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/ready"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

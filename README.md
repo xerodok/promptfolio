@@ -78,15 +78,16 @@ an agent can take it from template to a deployed resume with your content.
 
 ## Pick your path
 
-| I want…                       | Do this                                                      | Costs         |
-| ----------------------------- | ------------------------------------------------------------ | ------------- |
-| the cheapest thing that works | `pnpm build && pnpm export:static` → GitHub/Cloudflare Pages | $0            |
-| a container on a box I own    | `docker compose up --build` (Podman works too)               | the box       |
-| scale-to-zero in the cloud    | the container on Cloud Run / App Runner (guides in progress) | cents at idle |
-| Kubernetes                    | `kubectl apply -k deploy/kubernetes`                         | your cluster  |
+| I want…                       | Guide                                                                                                                            | Idle cost      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| the cheapest thing that works | [Static hosting](docs/deploy/static.md) — GitHub Pages workflow included                                                         | $0             |
+| a container on a box I own    | [Docker / Compose](docs/deploy/docker.md), [Podman / Quadlet](docs/deploy/podman.md), [systemd](docs/deploy/systemd.md)          | the box        |
+| Kubernetes                    | [Kustomize base + overlay](docs/deploy/kubernetes.md)                                                                            | your cluster   |
+| scale-to-zero in the cloud    | [GCP Cloud Run](docs/deploy/gcp-cloud-run.md), [AWS](docs/deploy/aws.md), [Fly / Azure / Render](docs/deploy/other-platforms.md) | ≈ $0 – $7 / mo |
 
-Every path serves the same build; only the manifests differ. Details, numbers
-and the measured footprint table are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Every path serves the same build; only the manifests differ. Each guide has the
+same shape — prerequisites, deploy, verify, update, remove, cost — and
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) is the hub with the footprint table.
 
 ## Routes
 

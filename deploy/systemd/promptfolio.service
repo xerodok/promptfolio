@@ -1,0 +1,39 @@
+# Promptfolio as a plain systemd service (no container). See docs/deploy/systemd.md.
+# Expects the standalone build in /opt/promptfolio (server.js, .next/static,
+# public/, healthcheck.mjs) and a system user `promptfolio`.
+[Unit]
+Description=Promptfolio — a resume that boots to a terminal
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=promptfolio
+Group=promptfolio
+WorkingDirectory=/opt/promptfolio
+Environment=NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0 NEXT_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/node /opt/promptfolio/server.js
+Restart=on-failure
+RestartSec=5
+
+# Sandbox — the same posture as the container.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+AmbientCapabilities=
+MemoryMax=128M
+TasksMax=128
+
+[Install]
+WantedBy=multi-user.target
