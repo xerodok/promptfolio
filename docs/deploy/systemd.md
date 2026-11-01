@@ -73,3 +73,7 @@ The unit ([`deploy/systemd/promptfolio.service`](../../deploy/systemd/promptfoli
 runs as a dedicated user with `ProtectSystem=strict`, a private `/tmp`, no new
 privileges, no capabilities, memory and task limits — the same posture as the
 container. `systemd-analyze security promptfolio` scores it; expect "OK".
+
+---
+
+Back to the deployment hub: [docs/DEPLOYMENT.md](../DEPLOYMENT.md).

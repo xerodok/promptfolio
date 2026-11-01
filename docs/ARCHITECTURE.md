@@ -15,14 +15,17 @@ memory, or as ~1 MB of static files.
 
 ## Routes
 
-| Route         | Kind                 | What it serves                                               |
-| ------------- | -------------------- | ------------------------------------------------------------ |
-| `/`           | prerendered page     | the site: hero, terminal, sections                           |
-| `/about`      | prerendered page     | the longer narrative from `content/about.json`               |
-| `/print`      | prerendered page     | single-column, ink-friendly view for "Save as PDF"           |
-| `/api/resume` | route handler        | the resume as a JSON Resume document (5-minute cache)        |
-| `/api/health` | route handler (live) | liveness: uptime, version, commit; `Cache-Control: no-store` |
-| `/api/ready`  | route handler (live) | readiness: re-validates the content, `503` if it fails       |
+| Route                         | Kind                 | What it serves                                                           |
+| ----------------------------- | -------------------- | ------------------------------------------------------------------------ |
+| `/`                           | prerendered page     | the site: hero, terminal, sections                                       |
+| `/about`                      | prerendered page     | the longer narrative from `content/about.json`                           |
+| `/print`                      | prerendered page     | single-column, ink-friendly view for "Save as PDF"                       |
+| `/api/resume`                 | route handler        | the resume as a JSON Resume document (5-minute cache)                    |
+| `/api/health`                 | route handler (live) | liveness: uptime, version, commit; `Cache-Control: no-store`             |
+| `/api/ready`                  | route handler (live) | readiness: re-validates the content, `503` if it fails                   |
+| `/robots.txt`, `/sitemap.xml` | prerendered metadata | crawl rules and the two indexable pages; absolute URLs need `basics.url` |
+| `/opengraph-image`            | prerendered image    | the link-preview card (name, tagline, host) that social networks fetch   |
+| `/.well-known/security.txt`   | route handler (live) | RFC 9116 contact from `basics.email`; `404` without one                  |
 
 ## Content model
 
@@ -86,10 +89,12 @@ sequenceDiagram
   unit-tested; `Terminal.tsx` executes the actions (scroll, navigate, open,
   clear). The Settings tab stores per-browser preferences in `localStorage`
   under `promptfolio.settings`, guarded so a blocked store changes nothing.
-- **The aurora** is a fixed CSS layer in the root layout: three gradient
-  "curtains" animated with `transform` and a brightness filter only, so the
-  compositor does the work; it is static under `prefers-reduced-motion` and
-  hidden in print. Settings can turn it off (`html[data-aurora="off"]`).
+- **The background layer** is a fixed layer in the root layout, selected by
+  `background` in `site.json`: the ASCII field (default; a Canvas 2D glyph
+  halftone at a low frame rate) or the aurora curtains (three CSS gradients
+  animated with `transform` and a brightness filter only, so the compositor
+  does the work). Both are static under `prefers-reduced-motion` and hidden in
+  print, and Settings can turn either off (`html[data-aurora="off"]`).
 - **Print** is the same data through a plain, single-column page with its
   own `@media print` tokens; `.no-print` hides chrome.
 
@@ -114,7 +119,7 @@ flowchart TB
 - `output: "standalone"` makes Next.js trace exactly the files `server.js`
   needs, which is why the app layer is ~60 MB instead of a full
   `node_modules`.
-- The Dockerfile has four stages: `base` (Node + pnpm), `deps` (frozen
+- The Dockerfile has five stages: `base` (Node + pnpm), `deps` (frozen
   lockfile install with a cache mount), `build`, `nodebin` (strips debug
   symbols from the Node binary), and a `runtime` stage on bare Alpine that
   receives only the stripped binary, two libraries and the build output.
@@ -154,8 +159,8 @@ flowchart TB
 - No third-party requests at runtime: fonts are self-hosted via
   `@fontsource-variable`, icons are inline SVG.
 - Supply chain: CI runs gitleaks; releases are multi-arch with an SBOM, SLSA
-  provenance and a keyless cosign signature; Renovate keeps dependencies,
-  actions and base images current.
+  provenance and a keyless cosign signature; Dependabot keeps dependencies,
+  actions (pinned to commit SHAs) and base images current.
 - Details and the reporting policy: [SECURITY.md](../SECURITY.md).
 
 ## Design system
@@ -163,19 +168,19 @@ flowchart TB
 Tokens live in `src/app/globals.css` and reach Tailwind through
 `@theme inline`. The look follows Tabby: navy canvas, Source Sans 3 light
 display type, a frosted-glass terminal (`.glass`), an angled colour band behind
-the hero (`.hero-band`), the aurora, and card/chip/button primitives. The nav is
+the hero (`.hero-band`), the background layer, and card/chip/button primitives. The nav is
 deliberately in the terminal's idiom (monospace, prompt markers, square
 actions). Everything below the hero is centered; long lists stay left-aligned
 inside a centered block.
 
 ## What changes per deployment target
 
-| Target                       | Process          | Probes             | TLS / domain           | Where it is documented      |
-| ---------------------------- | ---------------- | ------------------ | ---------------------- | --------------------------- |
-| Static host                  | none             | none               | the host's             | DEPLOYMENT.md, SELF-HOSTING |
-| Docker / Podman on one box   | `node server.js` | Docker HEALTHCHECK | reverse proxy          | DEPLOYMENT.md, SELF-HOSTING |
-| Kubernetes                   | 2 replicas       | HTTP probes        | Ingress + cert-manager | DEPLOYMENT.md               |
-| Cloud Run / App Runner / Fly | managed          | HTTP probes        | managed                | deploy/gcp, deploy/aws      |
+| Target                       | Process          | Probes             | TLS / domain           | Where it is documented                            |
+| ---------------------------- | ---------------- | ------------------ | ---------------------- | ------------------------------------------------- |
+| Static host                  | none             | none               | the host's             | DEPLOYMENT.md, deploy/static.md                   |
+| Docker / Podman on one box   | `node server.js` | Docker HEALTHCHECK | reverse proxy          | DEPLOYMENT.md, deploy/docker.md, deploy/podman.md |
+| Kubernetes                   | 2 replicas       | HTTP probes        | Ingress + cert-manager | DEPLOYMENT.md                                     |
+| Cloud Run / App Runner / Fly | managed          | HTTP probes        | managed                | deploy/gcp, deploy/aws                            |
 
 The application is identical in all of them; only the manifests differ.
 

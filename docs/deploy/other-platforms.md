@@ -43,3 +43,7 @@ inactivity (the ~1 s cold start is fine for a resume).
 
 `/api/health` returns the commit the build was made from, so you can always
 tell which version a platform is running.
+
+---
+
+Back to the deployment hub: [docs/DEPLOYMENT.md](../DEPLOYMENT.md).

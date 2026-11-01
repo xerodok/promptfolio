@@ -137,8 +137,8 @@ Before you report a change as done:
 
 ## Deployment summary
 
-`Dockerfile` builds a standalone Next.js server on `node:22-alpine`, runs as a
-non-root user, exposes 3000 and has a HEALTHCHECK. `docker-compose.yml` runs it
+`Dockerfile` builds a standalone Next.js server on `node:22-alpine`, runs it on
+bare Alpine 3.21 with a stripped Node binary as a non-root user, exposes 3000 and has a HEALTHCHECK. `docker-compose.yml` runs it
 read-only. `deploy/kubernetes/` is a Kustomize base with probes wired to the API.
 `release.yml` pushes `ghcr.io/<owner>/<repo>` on pushes to `main` and on tags.
 Details in `docs/DEPLOYMENT.md`.

@@ -15,7 +15,6 @@ services:
     environment:
       DOMAIN: ${DOMAIN:?set DOMAIN}
       UPSTREAM: web:3000
-      ACME_AGREE: "true"
     command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
     volumes:
       - ../caddy/Caddyfile:/etc/caddy/Caddyfile:ro

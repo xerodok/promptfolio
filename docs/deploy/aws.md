@@ -97,3 +97,7 @@ curl -s https://<service-url>/api/ready
 Static if you don't need the JSON API or probes (you probably don't).
 Lightsail if you want the container and a fixed, predictable bill. App Runner
 if you already use ECR and want push-to-deploy.
+
+---
+
+Back to the deployment hub: [docs/DEPLOYMENT.md](../DEPLOYMENT.md).

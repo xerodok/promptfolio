@@ -92,14 +92,17 @@ same shape — prerequisites, deploy, verify, update, remove, cost — and
 
 ## Routes
 
-| Path          | What it is                                     |
-| ------------- | ---------------------------------------------- |
-| `/`           | The site                                       |
-| `/about`      | The longer version, from `content/about.json`  |
-| `/print`      | Paper-friendly view; print to PDF              |
-| `/api/resume` | The resume as a JSON Resume document           |
-| `/api/health` | Liveness probe with version and commit         |
-| `/api/ready`  | Readiness probe; 503 if the content is invalid |
+| Path                          | What it is                                     |
+| ----------------------------- | ---------------------------------------------- |
+| `/`                           | The site                                       |
+| `/about`                      | The longer version, from `content/about.json`  |
+| `/print`                      | Paper-friendly view; print to PDF              |
+| `/api/resume`                 | The resume as a JSON Resume document           |
+| `/api/health`                 | Liveness probe with version and commit         |
+| `/api/ready`                  | Readiness probe; 503 if the content is invalid |
+| `/robots.txt`, `/sitemap.xml` | Crawl rules and the indexable pages            |
+| `/opengraph-image`            | The link-preview card social networks show     |
+| `/.well-known/security.txt`   | How to report a problem with the deployment    |
 
 ## Checks
 

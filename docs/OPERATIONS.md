@@ -68,8 +68,9 @@ saving.
 
 ## Routine maintenance
 
-- **Dependencies**: Renovate opens grouped PRs weekly (npm minor/patch,
-  GitHub Actions, base images). CI must stay green before merging.
+- **Dependencies**: Dependabot opens grouped PRs weekly (npm minor/patch,
+  GitHub Actions, base images) and security updates as they appear. CI must
+  stay green before merging.
 - **Node major**: bump `NODE_VERSION` in the Dockerfile and `.nvmrc`
   together; CI builds the image, so a breaking change shows up there.
 - **Certificates**: belong to whatever terminates TLS (reverse proxy, Ingress,

@@ -83,3 +83,7 @@ Delete the Pages project / site / bucket. Nothing else exists.
 - The terminal's `about` command navigates to `/about`; GitHub Pages, Netlify
   and Cloudflare Pages serve `about.html` for it automatically, S3 needs a
   CloudFront function or a redirect rule (shown in aws.md).
+
+---
+
+Back to the deployment hub: [docs/DEPLOYMENT.md](../DEPLOYMENT.md).

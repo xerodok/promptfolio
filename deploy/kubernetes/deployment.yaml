@@ -21,7 +21,9 @@ spec:
       containers:
         - name: web
           image: ghcr.io/OWNER/REPO:main
-          imagePullPolicy: IfNotPresent
+          # :main is a floating tag, so always re-pull; a sha-* pin (see the
+          # overlay example in docs/deploy/kubernetes.md) makes IfNotPresent safe.
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 3000

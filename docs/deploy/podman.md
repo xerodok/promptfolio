@@ -5,7 +5,8 @@ unit so it starts at boot, restarts on failure and logs to the journal.
 
 ## Prerequisites
 
-- Podman 4.4+ (Quadlet ships with it); `podman --version`.
+- Podman 4.8+ (5.x recommended): the unit uses the `HealthStartPeriod` and
+  `NoNewPrivileges` Quadlet keys, which arrived in 4.7 and 4.8; `podman --version`.
 - Rootless user set up (`podman info` works without sudo).
 - An `$IMAGE` (see [DEPLOYMENT.md](../DEPLOYMENT.md#which-image)).
 

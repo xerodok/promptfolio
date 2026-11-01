@@ -1,6 +1,7 @@
 # Customizing
 
-Everything a fork needs to change lives in two files and one constant.
+Everything a fork needs to change lives in three content files:
+`content/resume.json`, `content/site.json` and `content/about.json`.
 
 ## 1. `content/resume.json` (facts)
 
@@ -71,6 +72,33 @@ colour rendered as a grid of monospace glyphs, drifting slowly), `"aurora"`
 tokens, pause when the tab is hidden, paint once under `prefers-reduced-motion`,
 and can be switched off by a visitor in the terminal's Settings tab.
 
+### Interface copy (`ui`)
+
+Every button label and small link is a field with a default, so you can rename
+or translate without touching components. Set only what you change:
+
+```jsonc
+{
+  "ui": {
+    "experience": "Experience", // hero button
+    "contact": "Contact", // hero button
+    "json": "JSON", // nav
+    "pdf": "PDF", // nav
+    "backToResume": "back to the resume", // /about footer link
+    "updated": "updated", // footer and /about date prefix
+    "builtWith": "Built with", // footer attribution
+    "print": {
+      "hint": "Press Ctrl/⌘ + P and choose “Save as PDF”.",
+      "backToSite": "Back to site",
+      "experience": "Experience",
+      "skills": "Skills",
+      "projects": "Projects",
+      "education": "Education & Certifications",
+    },
+  },
+}
+```
+
 ## 3. `content/about.json` (the About page)
 
 `/about` is a longer-form page that lives apart from the resume so it can
@@ -88,8 +116,8 @@ footer. Forks keep it; your own name comes from the resume.
 ## Photo
 
 Put `photo.jpg` in `public/` and set `"image": "/photo.jpg"`, or use a full
-URL. The hero shows it as a large portrait above the name and the nav as a
-32px circle; initials are the nav fallback and the hero simply omits it.
+URL. The hero shows it as a large portrait beside the name (stacked above it
+on phones) and the nav as a 32px circle; initials are the nav fallback and the hero simply omits it.
 
 ## Terminal
 
@@ -100,7 +128,7 @@ Besides the resume commands, the terminal understands a few shell basics:
 with `;` or `&&`. All of it is pure and unit-tested in `commands.ts`.
 
 Commands live in `src/components/terminal/commands.ts`. The boot sequence
-types `whoami` then `help`; change `INTRO` in `Terminal.tsx`. Quick-command
+types `whoami`; change `INTRO` in `Terminal.tsx`. Quick-command
 chips come from `quickCommands`.
 
 ## Theme

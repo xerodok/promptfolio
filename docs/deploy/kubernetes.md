@@ -97,3 +97,7 @@ for rolling updates, not load. Add an HPA only if you are famous.
   seccomp and an `emptyDir` on `/tmp`; keep them in your overlay.
 - Probes are HTTP; no exec, no shell needed in the image.
 - Cost: your cluster; the workload itself is negligible.
+
+---
+
+Back to the deployment hub: [docs/DEPLOYMENT.md](../DEPLOYMENT.md).
