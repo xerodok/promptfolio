@@ -42,6 +42,9 @@ Keep these when you write your own manifests; none of them costs anything.
   Node script.
 - Base images and GitHub Actions are pinned (actions by commit SHA) and bumped
   by Dependabot; the lockfile is frozen in the build.
+- `minimumReleaseAge` (three days, `pnpm-workspace.yaml`) keeps a freshly
+  published package version out of any resolution until it has been public
+  long enough for a compromised release to be noticed and pulled.
 - Releases carry an SBOM and SLSA provenance and are signed with cosign
   (keyless, bound to the workflow identity). Verify before you trust a tag:
 

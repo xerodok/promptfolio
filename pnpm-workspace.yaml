@@ -1,3 +1,10 @@
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+# Supply-chain guard: never resolve a package version published less than
+# three days ago (pnpm's minimumReleaseAge, in minutes). A frozen install is
+# unaffected; `pnpm update` and Dependabot wait the release out. Dependabot
+# reports "update_not_possible" when a transitive release is younger than this,
+# which is the guard working, not a broken job (docs/OPERATIONS.md).
+minimumReleaseAge: 4320
