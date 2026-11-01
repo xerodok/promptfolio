@@ -78,10 +78,11 @@ inline boot script the static export injects.
 ## Dependencies
 
 Dependabot opens grouped update PRs weekly (`.github/dependabot.yml`) and
-security updates immediately. `pnpm audit` may still list advisories in
-development-only tooling (for example `minimatch` inside ESLint): those
-packages never enter the image, whose runtime dependencies are Next, React,
-Zod and the two font packages. `pnpm audit --prod` is the number that matters
-and is expected to be zero. `pnpm audit` is not gated in CI on
+security updates immediately. Advisories in development-only tooling (ESLint,
+Vitest, jsdom) never reach the image, whose runtime dependencies are Next,
+React, Zod and two font packages; when a transitive fix is available but its
+consumer has not bumped yet, `pnpm.overrides` in `package.json` lifts it (as
+with `minimatch`), and the override is dropped once upstream catches up.
+`pnpm audit` is not gated in CI on
 purpose (it is noisy for a site with no runtime dependencies beyond Next and
 React); run it before releases if you care about the number.
