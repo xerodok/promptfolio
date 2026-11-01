@@ -16,7 +16,10 @@ export function Education({
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-4">
           {education.map((e) => (
-            <div key={e.institution} className="card p-6 text-center">
+            <div
+              key={`${e.institution}-${e.studyType ?? ""}-${e.area ?? ""}`}
+              className="card p-6 text-center"
+            >
               <h3 className="text-fg-strong font-semibold">
                 {[e.studyType, e.area].filter(Boolean).join(" ")}
               </h3>
@@ -29,19 +32,21 @@ export function Education({
             </div>
           ))}
         </div>
-        <ul className="card divide-border divide-y p-2">
-          {certificates.map((c) => (
-            <li key={c.name} className="flex items-center justify-between gap-4 px-4 py-3">
-              <div>
-                <div className="text-fg-strong font-medium">{c.name}</div>
-                {c.issuer && <div className="text-fg-muted text-sm">{c.issuer}</div>}
-              </div>
-              {c.date && (
-                <span className="text-fg-muted font-mono text-sm">{formatDate(c.date)}</span>
-              )}
-            </li>
-          ))}
-        </ul>
+        {certificates.length > 0 && (
+          <ul className="card divide-border divide-y p-2">
+            {certificates.map((c) => (
+              <li key={c.name} className="flex items-center justify-between gap-4 px-4 py-3">
+                <div>
+                  <div className="text-fg-strong font-medium">{c.name}</div>
+                  {c.issuer && <div className="text-fg-muted text-sm">{c.issuer}</div>}
+                </div>
+                {c.date && (
+                  <span className="text-fg-muted font-mono text-sm">{formatDate(c.date)}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </Section>
   );

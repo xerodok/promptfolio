@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { formatDate, formatRange } from "@/lib/resume/format";
-import { getResume } from "@/lib/resume/load";
+import { getResume, getSite } from "@/lib/resume/load";
 
 export const metadata: Metadata = { title: "Print", robots: { index: false } };
 
@@ -11,16 +11,14 @@ export const metadata: Metadata = { title: "Print", robots: { index: false } };
  */
 export default function PrintPage() {
   const r = getResume();
+  const { print: ui } = getSite().ui;
   const b = r.basics;
   return (
     <main className="mx-auto w-full max-w-3xl bg-white px-8 py-10 text-[#111] print:px-0 print:py-0">
       <div className="no-print mb-6 flex items-center justify-between rounded-md border border-[#ddd] bg-[#f6f7f9] px-4 py-3 text-sm">
-        <span>
-          Press <kbd className="rounded border border-[#bbb] px-1">Ctrl/⌘ + P</kbd> and choose “Save
-          as PDF”.
-        </span>
+        <span>{ui.hint}</span>
         <Link href="/" className="underline">
-          Back to site
+          {ui.backToSite}
         </Link>
       </div>
 
@@ -41,7 +39,7 @@ export default function PrintPage() {
 
       {b.summary && <p className="mt-4">{b.summary}</p>}
 
-      <PrintSection title="Experience">
+      <PrintSection title={ui.experience}>
         {r.work.map((w) => (
           <div key={`${w.name}-${w.startDate}`} className="mb-4 break-inside-avoid">
             <div className="flex justify-between gap-4">
@@ -62,7 +60,7 @@ export default function PrintPage() {
         ))}
       </PrintSection>
 
-      <PrintSection title="Skills">
+      <PrintSection title={ui.skills}>
         {r.skills.map((s) => (
           <div key={s.name} className="flex gap-2">
             <span className="w-48 shrink-0 font-medium text-black">{s.name}</span>
@@ -72,7 +70,7 @@ export default function PrintPage() {
       </PrintSection>
 
       {r.projects.length > 0 && (
-        <PrintSection title="Projects">
+        <PrintSection title={ui.projects}>
           {r.projects.map((p) => (
             <div key={p.name} className="mb-2 break-inside-avoid">
               <strong className="text-black">{p.name}</strong>
@@ -85,7 +83,7 @@ export default function PrintPage() {
         </PrintSection>
       )}
 
-      <PrintSection title="Education & Certifications">
+      <PrintSection title={ui.education}>
         {r.education.map((e) => (
           <div key={e.institution} className="flex justify-between gap-4">
             <span>

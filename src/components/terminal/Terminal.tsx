@@ -3,7 +3,14 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import type { About, Resume, SiteConfig } from "@/lib/resume/schema";
 import { completeCommand, quickCommands, runCommand, type Line } from "./commands";
-import { Settings, applySettings, loadSettings, type TerminalSettings } from "./Settings";
+import {
+  DEFAULT_SETTINGS,
+  Settings,
+  applySettings,
+  loadSettings,
+  saveSettings,
+  type TerminalSettings,
+} from "./Settings";
 
 type Entry = { id: number; input?: string; lines: Line[] };
 
@@ -39,7 +46,9 @@ export function Terminal({
   const [cursor, setCursor] = useState<number | null>(null);
   const [booted, setBooted] = useState(false);
   const [tab, setTab] = useState<"shell" | "settings">("shell");
-  const [settings, setSettings] = useState<TerminalSettings>(() => loadSettings());
+  // Defaults first so the server and the first client render agree; the saved
+  // preferences load in the boot effect below (localStorage is client-only).
+  const [settings, setSettings] = useState<TerminalSettings>(DEFAULT_SETTINGS);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
@@ -84,7 +93,8 @@ export function Terminal({
     [resume, site, about],
   );
 
-  // Settings take effect on the document (aurora on/off) and persist per browser.
+  // Settings take effect on the document (background on/off). Persisting is
+  // done where the visitor changes them, so loading can never overwrite storage.
   useEffect(() => {
     applySettings(settings);
   }, [settings]);
@@ -93,8 +103,13 @@ export function Terminal({
   // Any tap or keypress on the terminal skips ahead and runs what is left.
   // With the boot animation turned off in Settings the intro runs instantly.
   useEffect(() => {
+    // localStorage is client-only, so the saved preferences can only be read
+    // here, after hydration; the first render used the defaults on purpose.
+    const saved = loadSettings();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSettings(saved);
     const reduced =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches || !settings.bootAnimation;
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches || !saved.bootAnimation;
     let cancelled = false;
     let done = 0;
     const timers: number[] = [];
@@ -139,7 +154,6 @@ export function Terminal({
       skipRef.current = null;
     };
     // The boot runs once per mount; a later settings change must not replay it.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [execute]);
 
   useEffect(() => {
@@ -260,7 +274,13 @@ export function Terminal({
           className="term-scroll h-[22rem] overflow-y-auto px-4 py-3 sm:h-[24rem]"
           onClick={(e) => e.stopPropagation()}
         >
-          <Settings value={settings} onChange={setSettings} />
+          <Settings
+            value={settings}
+            onChange={(next) => {
+              setSettings(next);
+              saveSettings(next);
+            }}
+          />
         </div>
       ) : (
         <div

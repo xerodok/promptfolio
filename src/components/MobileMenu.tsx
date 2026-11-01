@@ -7,7 +7,7 @@ import { NavLink } from "./NavLink";
 import type { SiteConfig } from "@/lib/resume/schema";
 
 /** Hamburger menu shown below the md breakpoint; the desktop link row hides it. */
-export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
+export function MobileMenu({ nav, ui }: { nav: SiteConfig["nav"]; ui: SiteConfig["ui"] }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
 
@@ -46,7 +46,7 @@ export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
           </ul>
           <div className="border-border mt-3 flex gap-2 border-t pt-3">
             <a href="/api/resume" className="nav-btn flex-1 justify-center">
-              <Icon name="json" className="h-4 w-4" /> JSON
+              <Icon name="json" className="h-4 w-4" /> {ui.json}
             </a>
             <Link
               href="/print"
@@ -54,7 +54,7 @@ export function MobileMenu({ nav }: { nav: SiteConfig["nav"] }) {
               onClick={() => setOpen(false)}
               className="nav-btn nav-btn-accent flex-1 justify-center"
             >
-              <Icon name="download" className="h-4 w-4" /> PDF
+              <Icon name="download" className="h-4 w-4" /> {ui.pdf}
             </Link>
           </div>
         </div>

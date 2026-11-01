@@ -16,7 +16,7 @@ export default function AboutPage() {
   const about = getAbout();
   return (
     <>
-      <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} />
+      <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} ui={site.ui} />
       <main className="flex-1 pt-24 sm:pt-28">
         <article className="mx-auto w-full max-w-3xl px-4 pb-16">
           <header className="mb-10 text-center">
@@ -52,13 +52,17 @@ export default function AboutPage() {
               <span aria-hidden="true" className="text-accent">
                 &lt;
               </span>{" "}
-              back to the resume
+              {site.ui.backToResume}
             </Link>
-            {about.updated && <span>updated {about.updated}</span>}
+            {about.updated && (
+              <span>
+                {site.ui.updated} {about.updated}
+              </span>
+            )}
           </div>
         </article>
       </main>
-      <Footer resume={resume} />
+      <Footer resume={resume} site={site} />
     </>
   );
 }

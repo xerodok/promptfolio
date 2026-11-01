@@ -55,11 +55,11 @@ export function Hero({ resume, site, about }: { resume: Resume; site: SiteConfig
             >
               {hasExperience && (
                 <a href="#experience" className="btn btn-primary">
-                  Experience
+                  {site.ui.experience}
                 </a>
               )}
               <a href="#contact" className={hasExperience ? "btn btn-ghost" : "btn btn-primary"}>
-                Contact
+                {site.ui.contact}
               </a>
               {basics.profiles.map((p) => (
                 <a

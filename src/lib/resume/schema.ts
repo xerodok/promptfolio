@@ -134,7 +134,7 @@ export const siteSchema = z.object({
     .object({
       highlights: z
         .object({ eyebrow: z.string(), title: z.string() })
-        .default({ eyebrow: "Skill Portfolio", title: "Platform engineering, end to end" }),
+        .default({ eyebrow: "Skill Portfolio", title: "What I do" }),
       experience: z
         .object({ eyebrow: z.string(), title: z.string() })
         .default({ eyebrow: "Experience", title: "Where I have worked" }),
@@ -152,6 +152,31 @@ export const siteSchema = z.object({
         title: "Let's talk",
         blurb: "The fastest way to reach me is email.",
       }),
+    })
+    .prefault({}),
+  /**
+   * Interface copy: buttons, small links and the print page's labels. Every
+   * field has a default, so set only what you want to change (or translate).
+   */
+  ui: z
+    .object({
+      experience: z.string().default("Experience"),
+      contact: z.string().default("Contact"),
+      json: z.string().default("JSON"),
+      pdf: z.string().default("PDF"),
+      backToResume: z.string().default("back to the resume"),
+      updated: z.string().default("updated"),
+      builtWith: z.string().default("Built with"),
+      print: z
+        .object({
+          hint: z.string().default("Press Ctrl/⌘ + P and choose “Save as PDF”."),
+          backToSite: z.string().default("Back to site"),
+          experience: z.string().default("Experience"),
+          skills: z.string().default("Skills"),
+          projects: z.string().default("Projects"),
+          education: z.string().default("Education & Certifications"),
+        })
+        .prefault({}),
     })
     .prefault({}),
   /**

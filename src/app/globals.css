@@ -18,6 +18,8 @@
   --fg-muted: #8696a7;
   --accent: #3b8ff2;
   --accent-strong: #63a6ff;
+  /* Darker accent for filled controls: white text on it passes WCAG AA (4.6:1). */
+  --accent-deep: #2a74d0;
   --glow-magenta: #ff3d81;
   --glow-orange: #ff7a1a;
   --glow-cyan: #22d3ee;
@@ -303,12 +305,12 @@ html[data-aurora="off"] .aurora {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: var(--accent-deep);
   color: white;
 }
 
 .btn-primary:hover {
-  background: var(--accent-strong);
+  background: var(--accent);
 }
 
 .btn-ghost {

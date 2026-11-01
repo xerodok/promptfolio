@@ -17,8 +17,11 @@ export const metadata: Metadata = {
     title: resume.basics.name,
     description: site.tagline,
     type: "profile",
+    url: "./",
   },
-  alternates: { types: { "application/json": "/api/resume" } },
+  // "./" resolves to the current page against metadataBase, so each page gets
+  // its own canonical URL. Both are omitted when `basics.url` is unset.
+  alternates: { canonical: "./", types: { "application/json": "/api/resume" } },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

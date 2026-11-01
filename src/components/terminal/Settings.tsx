@@ -41,10 +41,14 @@ export function loadSettings(): TerminalSettings {
   }
 }
 
-/** Persist and apply document-level effects (the aurora lives outside the terminal). */
+/** Document-level effects (the background layer lives outside the terminal). Idempotent. */
 export function applySettings(s: TerminalSettings): void {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.aurora = s.aurora ? "on" : "off";
+}
+
+/** Persist a change the visitor made. Never called with the defaults on load. */
+export function saveSettings(s: TerminalSettings): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
   } catch {

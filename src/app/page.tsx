@@ -16,7 +16,7 @@ export default function HomePage() {
   const site = getSite();
   return (
     <>
-      <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} />
+      <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} ui={site.ui} />
       <main className="flex-1">
         <Hero resume={resume} site={site} about={getAbout()} />
         <Stats stats={site.stats} />
@@ -42,7 +42,7 @@ export default function HomePage() {
         )}
         <Contact basics={resume.basics} heading={site.sections.contact} />
       </main>
-      <Footer resume={resume} />
+      <Footer resume={resume} site={site} />
     </>
   );
 }

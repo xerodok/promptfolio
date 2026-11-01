@@ -29,7 +29,7 @@ export function Skills({
               <div className="flex flex-col items-center gap-2">
                 <h3 className="text-fg-strong font-semibold">{s.name}</h3>
                 {level > 0 && (
-                  <div className="flex gap-1" title={s.level} aria-label={`${s.level}`}>
+                  <div className="flex gap-1" title={s.level} role="img" aria-label={`${s.level}`}>
                     {[1, 2, 3, 4].map((n) => (
                       <span
                         key={n}

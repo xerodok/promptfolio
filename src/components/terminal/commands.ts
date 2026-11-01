@@ -54,6 +54,8 @@ const SECTIONS = ["experience", "skills", "projects", "education", "contact"] as
 /** The pretend home directory: the sections as folders, two files. */
 const FILES = ["resume.json", "about.txt"] as const;
 const DIRS = ["leadership", ...SECTIONS] as const;
+/** The folders that exist for this site: `leadership/` only when the block is configured. */
+const dirsFor = (site: SiteConfig): string[] => (site.leadership ? [...DIRS] : [...SECTIONS]);
 
 const user = (site: SiteConfig) => site.prompt.split("@")[0] || "guest";
 const host = (site: SiteConfig) => site.prompt.split("@")[1] || "resume";
@@ -168,7 +170,7 @@ const commands: Command[] = [
     name: "open",
     usage: "open <section>",
     group: "resume",
-    run: (_ctx, args) => goToSection(args[0], "open"),
+    run: (ctx, args) => goToSection(args[0], "open", ctx.site),
   },
   {
     name: "about",
@@ -206,7 +208,7 @@ const commands: Command[] = [
       const target = args.find((a) => !a.startsWith("-"));
       const long = args.includes("-l") || args.includes("-la") || args.includes("-al");
       if (!target || target === "~" || target === "." || target === "/") {
-        const names = [...DIRS.map((d) => `${d}/`), ...FILES];
+        const names = [...dirsFor(ctx.site).map((d) => `${d}/`), ...FILES];
         return long
           ? names.map((n) => cols("out", n.endsWith("/") ? "drwxr-xr-x" : "-rw-r--r--", n))
           : [out(names.join("  "))];
@@ -259,12 +261,12 @@ const commands: Command[] = [
     name: "cd",
     usage: "cd [section]",
     group: "shell",
-    run: (_ctx, args) => {
+    run: (ctx, args) => {
       const target = args[0];
       if (!target || target === "~" || target === "/") {
         return { lines: [], action: { type: "navigate", href: "#" } };
       }
-      return goToSection(target.replace(/\/$/, ""), "cd");
+      return goToSection(target.replace(/\/$/, ""), "cd", ctx.site);
     },
   },
   {
@@ -343,9 +345,10 @@ const commands: Command[] = [
   },
 ];
 
-function goToSection(target: string | undefined, verb: string): CommandResult {
-  if (!target || !(SECTIONS as readonly string[]).includes(target)) {
-    return { lines: [err(`Usage: ${verb} <${SECTIONS.join("|")}>`)] };
+function goToSection(target: string | undefined, verb: string, site: SiteConfig): CommandResult {
+  const dirs = dirsFor(site);
+  if (!target || !dirs.includes(target)) {
+    return { lines: [err(`Usage: ${verb} <${dirs.join("|")}>`)] };
   }
   return {
     lines: [muted(`Scrolling to #${target}…`)],
@@ -411,7 +414,7 @@ export function completeCommand(partial: string): string[] {
       : name === "ls"
         ? [...DIRS, ...FILES]
         : name === "cd" || name === "open"
-          ? [...SECTIONS]
+          ? [...DIRS]
           : name === "man"
             ? commandNames
             : [];

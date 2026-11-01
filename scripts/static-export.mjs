@@ -44,7 +44,7 @@ function relocate(html) {
     .replaceAll('href="/print"', 'href="print.html"')
     .replaceAll('href="/about"', 'href="about.html"')
     .replaceAll('href="/api/resume"', 'href="resume.json"')
-    .replaceAll('href="/api/health"', 'href="resume.json"')
+    .replaceAll('href="/api/health"', 'href="health.json"')
     .replaceAll('href="/"', 'href="index.html"')
     // Content assets from public/ (photo, logos, favicon) become relative too —
     // in the HTML and in the embedded RSC payload React hydrates from.
@@ -78,4 +78,21 @@ if (existsSync("public")) cpSync("public", outDir, { recursive: true });
 if (existsSync("src/app/favicon.ico")) cpSync("src/app/favicon.ico", join(outDir, "favicon.ico"));
 const resume = JSON.parse(readFileSync("content/resume.json", "utf8"));
 writeFileSync(join(outDir, "resume.json"), JSON.stringify(resume, null, 2) + "\n");
+// A static stand-in for /api/health so the footer link lands somewhere true.
+writeFileSync(
+  join(outDir, "health.json"),
+  JSON.stringify({ status: "ok", mode: "static", generatedAt: new Date().toISOString() }, null, 2) +
+    "\n",
+);
+// Metadata routes Next prerendered: robots, sitemap and the Open Graph image.
+// They carry absolute URLs from `basics.url`, so they only mean something when
+// the static site is hosted at that origin.
+for (const [src, dest] of [
+  ["robots.txt.body", "robots.txt"],
+  ["sitemap.xml.body", "sitemap.xml"],
+  ["opengraph-image.body", "opengraph-image.png"],
+]) {
+  const file = join(serverApp, src);
+  if (existsSync(file)) cpSync(file, join(outDir, dest));
+}
 console.log(`wrote ${outDir}`);

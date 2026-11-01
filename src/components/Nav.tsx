@@ -12,15 +12,18 @@ export function Nav({
   name,
   image,
   nav,
+  ui,
 }: {
   name: string;
   image?: string;
   nav: SiteConfig["nav"];
+  ui: SiteConfig["ui"];
 }) {
   return (
     <header className="no-print border-border bg-bg/55 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md">
       <div className="relative mx-auto flex h-14 max-w-6xl items-center gap-3 px-4">
-        <Link href="/" className="text-fg-strong flex items-center gap-2.5">
+        {/* aria-label: on phones the name is hidden and the photo is decorative. */}
+        <Link href="/" className="text-fg-strong flex items-center gap-2.5" aria-label={name}>
           {image ? (
             // Plain <img>: the photo is a static asset or an external URL and needs no optimization pipeline.
             // eslint-disable-next-line @next/next/no-img-element
@@ -51,12 +54,12 @@ export function Nav({
             className="nav-btn hidden sm:inline-flex"
             title="JSON Resume document"
           >
-            <Icon name="json" className="h-4 w-4" /> JSON
+            <Icon name="json" className="h-4 w-4" /> {ui.json}
           </a>
           <Link href="/print" className="nav-btn nav-btn-accent" prefetch={false}>
-            <Icon name="download" className="h-4 w-4" /> PDF
+            <Icon name="download" className="h-4 w-4" /> {ui.pdf}
           </Link>
-          <MobileMenu nav={nav} />
+          <MobileMenu nav={nav} ui={ui} />
         </div>
       </div>
     </header>
