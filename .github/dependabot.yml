@@ -12,6 +12,15 @@ updates:
       npm-minor-and-patch:
         update-types: [minor, patch]
     # Majors are reviewed by hand; they show up as separate PRs.
+    # Mirror pnpm's minimumReleaseAge (pnpm-workspace.yaml) so Dependabot does
+    # not propose a version pnpm would then refuse to resolve.
+    cooldown:
+      default-days: 3
+    ignore:
+      # Type definitions follow the runtime: bump with NODE_VERSION in the
+      # Dockerfile and .nvmrc, not on their own.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

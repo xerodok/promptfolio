@@ -71,12 +71,16 @@ saving.
 - **Dependencies**: Dependabot opens grouped PRs weekly (npm minor/patch,
   GitHub Actions, base images) and security updates as they appear. CI must
   stay green before merging.
-  `pnpm-workspace.yaml` sets `minimumReleaseAge` to three days, so a
-  Dependabot run that lands while some transitive package is younger than
-  that fails with `update_not_possible` and simply succeeds on a later run;
-  no action is needed.
-- **Node major**: bump `NODE_VERSION` in the Dockerfile and `.nvmrc`
-  together; CI builds the image, so a breaking change shows up there.
+  `pnpm-workspace.yaml` sets `minimumReleaseAge` to three days (Dependabot's
+  `cooldown` mirrors it), so a Dependabot run that lands while some transitive
+  package is younger than that fails with `update_not_possible` and simply
+  succeeds on a later run; no action is needed. The same guard makes a local
+  `pnpm add` or `pnpm update` fail while the lockfile still holds an entry
+  younger than three days; wait, or pass `--config.minimumReleaseAge=0` for
+  that one command when the package you are adding is itself mature.
+- **Node major**: bump `NODE_VERSION` in the Dockerfile, `.nvmrc` and
+  `@types/node` together (Dependabot ignores `@types/node` majors for this
+  reason); CI builds the image, so a breaking change shows up there.
 - **Certificates**: belong to whatever terminates TLS (reverse proxy, Ingress,
   the cloud). The app never sees them.
 
