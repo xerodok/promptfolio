@@ -12,6 +12,7 @@ jobs:
   secrets:
     name: Secret scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # gitleaks reads the pull request's commit list through the API. In a
     # private repository the read-only token of a Dependabot pull request has
     # no implicit access to that, so grant it explicitly.
@@ -29,6 +30,7 @@ jobs:
   verify:
     name: Lint, typecheck, test, build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
@@ -46,6 +48,7 @@ jobs:
   image:
     name: Build container image
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     needs: verify
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
