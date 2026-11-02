@@ -38,7 +38,7 @@ FROM base AS nodebin
 RUN apk add --no-cache binutils && strip /usr/local/bin/node
 
 # --- runtime: bare Alpine + Node + the standalone output, as an unprivileged user
-FROM alpine:3.21 AS runtime
+FROM alpine:3.24 AS runtime
 RUN apk add --no-cache libstdc++ libgcc && addgroup -S app && adduser -S -G app app
 COPY --from=nodebin /usr/local/bin/node /usr/local/bin/node
 ARG APP_VERSION=dev
