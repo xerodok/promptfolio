@@ -66,6 +66,21 @@ saving.
   needs and is a tmpfs.
 - Network: one HTTP port. Outbound: none at runtime.
 
+## Cutting a release
+
+Releases are annotated tags on `main`:
+
+```sh
+git tag -a v1.2.0 -m "v1.2.0: what changed"
+git push origin v1.2.0
+```
+
+`release.yml` builds the tag and publishes `ghcr.io/<owner>/<repo>:1.2.0`,
+`:1.2` and `:latest`; pushes to `main` keep publishing `:main` and
+`:sha-<commit>`. `APP_VERSION` inside the image is the tag name, which is what
+`/api/health` and the footer show. The `protect-tags` ruleset refuses to delete
+or move a `v*` tag, so a bad release gets a new tag, never a rewritten one.
+
 ## Routine maintenance
 
 - **Dependencies**: Dependabot opens grouped PRs weekly (npm minor/patch,

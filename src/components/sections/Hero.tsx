@@ -34,10 +34,12 @@ export function Hero({ resume, site, about }: { resume: Resume; site: SiteConfig
           <div className="min-w-0">
             <h1 className="display text-6xl sm:text-7xl md:text-8xl">{basics.name}</h1>
             {subtitle && (
-              // One line from tablet width up: the size follows the viewport so the
-              // tagline never wraps or overflows beside the photo; phones wrap.
+              // One line from laptop width up, where the column beside the photo is
+              // wide enough for a sentence; the size follows the viewport so it does
+              // not overflow there. Phones and tablets wrap (the font cannot shrink
+              // below 20px, so a one-line rule at tablet width overflowed real taglines).
               <p
-                className="text-fg-muted mt-3 text-2xl font-light md:whitespace-nowrap"
+                className="text-fg-muted mt-3 text-2xl font-light text-pretty lg:whitespace-nowrap"
                 style={{ fontSize: "clamp(1.25rem, 1.85vw, 1.875rem)" }}
               >
                 {subtitle}
