@@ -60,22 +60,31 @@ const dirsFor = (site: SiteConfig): string[] => (site.leadership ? [...DIRS] : [
 const user = (site: SiteConfig) => site.prompt.split("@")[0] || "guest";
 const host = (site: SiteConfig) => site.prompt.split("@")[1] || "resume";
 
+/** Text-only commands from site.json (`commands`); a built-in with the same name wins. */
+type SiteCommand = SiteConfig["commands"][number];
+const siteCommands = (site: SiteConfig | undefined): SiteCommand[] =>
+  (site?.commands ?? []).filter((c) => !commands.some((b) => b.name === c.name));
+
 const commands: Command[] = [
   {
     name: "help",
     usage: "help",
     group: "shell",
-    run: () => {
+    run: ({ site }) => {
       const list = (group: Command["group"]) =>
         commands
           .filter((c) => c.group === group)
           .map((c) => cols("muted", c.usage, describe(c.name)));
+      const extra = siteCommands(site);
       return [
         out("Resume:"),
         ...list("resume"),
         muted(""),
         out("Shell:"),
         ...list("shell"),
+        ...(extra.length
+          ? [muted(""), out("Site:"), ...extra.map((c) => cols("muted", c.name, c.description))]
+          : []),
         muted(""),
         muted(
           "Tip: ↑/↓ for history, Tab to complete, `cmd --help` for one command, `a && b` to chain.",
@@ -321,7 +330,7 @@ const commands: Command[] = [
     name: "man",
     usage: "man <cmd>",
     group: "shell",
-    run: (_ctx, args) => manual(args[0]),
+    run: ({ site }, args) => manual(args[0], site),
   },
   {
     name: "sudo",
@@ -356,10 +365,13 @@ function goToSection(target: string | undefined, verb: string, site: SiteConfig)
   };
 }
 
-function manual(name: string | undefined): Line[] {
-  const cmd = name && commands.find((c) => c.name === name.toLowerCase());
-  if (!cmd) return [err(name ? `No manual entry for ${name}` : "What manual page do you want?")];
-  return [ok(cmd.usage), out(describe(cmd.name))];
+function manual(name: string | undefined, site?: SiteConfig): Line[] {
+  if (!name) return [err("What manual page do you want?")];
+  const cmd = commands.find((c) => c.name === name.toLowerCase());
+  if (cmd) return [ok(cmd.usage), out(describe(cmd.name))];
+  const extra = siteCommands(site).find((c) => c.name === name.toLowerCase());
+  if (extra) return [ok(extra.name), out(extra.description)];
+  return [err(`No manual entry for ${name}`)];
 }
 
 function describe(name: string): string {
@@ -400,13 +412,15 @@ export const commandNames = commands.map((c) => c.name);
 export const quickCommands = ["help", "experience", "skills", "about", "contact"] as const;
 
 /**
- * Tab completion for the whole input: the command name, or the first
- * argument of commands that take a section or a file.
+ * Tab completion for the whole input: the command name (built-ins, then the
+ * site's own commands), or the first argument of commands that take a
+ * section or a file.
  */
-export function completeCommand(partial: string): string[] {
+export function completeCommand(partial: string, site?: SiteConfig): string[] {
   if (!partial) return [];
+  const names = [...commandNames, ...siteCommands(site).map((c) => c.name)];
   const [name, arg, ...rest] = partial.toLowerCase().split(/\s+/);
-  if (arg === undefined) return commandNames.filter((n) => n.startsWith(name));
+  if (arg === undefined) return names.filter((n) => n.startsWith(name));
   if (rest.length) return [];
   const choices =
     name === "cat"
@@ -416,7 +430,7 @@ export function completeCommand(partial: string): string[] {
         : name === "cd" || name === "open"
           ? [...DIRS]
           : name === "man"
-            ? commandNames
+            ? names
             : [];
   return choices.filter((c) => c.startsWith(arg)).map((c) => `${name} ${c}`);
 }
@@ -427,6 +441,13 @@ function run(input: string, ctx: CommandContext): CommandResult {
   if (!name) return { lines: [] };
   const cmd = commands.find((c) => c.name === name.toLowerCase());
   if (!cmd) {
+    const extra = siteCommands(ctx.site).find((c) => c.name === name.toLowerCase());
+    if (extra) {
+      if (args.includes("--help") || args.includes("-h")) {
+        return { lines: manual(extra.name, ctx.site) };
+      }
+      return { lines: extra.output.map(out) };
+    }
     return {
       lines: [err(`command not found: ${name}`), muted("Type `help` to see what is available.")],
     };

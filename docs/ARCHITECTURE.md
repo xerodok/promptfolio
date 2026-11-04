@@ -89,6 +89,9 @@ sequenceDiagram
   unit-tested; `Terminal.tsx` executes the actions (scroll, navigate, open,
   clear). The Settings tab stores per-browser preferences in `localStorage`
   under `promptfolio.settings`, guarded so a blocked store changes nothing.
+  Text-only commands a site defines in `site.json` (`commands`) run through
+  the same engine and get `help`, `man` and Tab completion; a built-in name
+  always wins.
 - **The background layer** is a fixed layer in the root layout, selected by
   `background` in `site.json`: the ASCII field (default; a Canvas 2D glyph
   halftone at a low frame rate) or the aurora curtains (three CSS gradients

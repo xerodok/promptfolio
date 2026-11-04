@@ -195,7 +195,7 @@ export function Terminal({
       }
     } else if (e.key === "Tab") {
       e.preventDefault();
-      const matches = completeCommand(value);
+      const matches = completeCommand(value, site);
       if (matches.length === 1) setValue(matches[0] + " ");
       else if (matches.length > 1) {
         setEntries((prev) => [

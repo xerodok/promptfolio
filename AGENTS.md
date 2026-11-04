@@ -116,7 +116,8 @@ docs/               ARCHITECTURE, CUSTOMIZING, CONFIGURATION, DEPLOYMENT (hub) +
   add it to `nav` in `site.json`, and update `docs/CUSTOMIZING.md`.
 - **A new terminal command**: add it to the `commands` array and `describe()`
   in `commands.ts`, add a unit test, and if it is touch-worthy add it to
-  `quickCommands`.
+  `quickCommands`. A command that only prints text is content, not code: add
+  it to `commands` in `site.json`.
 - **A new route**: under `src/app/`. Route handlers that must be live call
   `await connection()` first.
 - **A dependency**: `pnpm add` it, explain why in the PR, keep the image small.

@@ -115,6 +115,46 @@ describe("shell features", () => {
   });
 });
 
+describe("site commands from site.json", () => {
+  const site = {
+    ...ctx.site,
+    commands: [
+      { name: "lab", description: "the machines", output: ["  pi ── vm", "edge"] },
+      { name: "help", description: "hijacked", output: ["nope"] },
+    ],
+  };
+  const sctx = { ...ctx, site };
+  it("runs and prints its lines verbatim", () => {
+    expect(runCommand("lab", sctx).lines).toEqual([
+      { kind: "out", text: "  pi ── vm" },
+      { kind: "out", text: "edge" },
+    ]);
+  });
+  it("is listed in help under Site and explained by man and --help", () => {
+    const text = runCommand("help", sctx)
+      .lines.map((l) => l.text)
+      .join("\n");
+    expect(text).toContain("Site:");
+    expect(text).toContain("lab  the machines");
+    expect(runCommand("man lab", sctx).lines[1].text).toBe("the machines");
+    expect(runCommand("lab --help", sctx).lines[0].text).toBe("lab");
+  });
+  it("never shadows a built-in", () => {
+    expect(runCommand("help", sctx).lines[0].text).toBe("Resume:");
+    expect(runCommand("help", sctx).lines.map((l) => l.text)).not.toContain("nope");
+  });
+  it("completes like a built-in", () => {
+    expect(completeCommand("la", site)).toEqual(["lab"]);
+    expect(completeCommand("man la", site)).toEqual(["man lab"]);
+    expect(completeCommand("la")).toEqual([]);
+  });
+  it("the sample site's own command works", () => {
+    const sample = ctx.site.commands[0];
+    expect(sample).toBeDefined();
+    expect(runCommand(sample.name, ctx).lines.map((l) => l.text)).toEqual(sample.output);
+  });
+});
+
 describe("completeCommand", () => {
   it("completes command names", () => {
     expect(completeCommand("exp")).toEqual(["experience"]);

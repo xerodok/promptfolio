@@ -21,6 +21,12 @@ describe("siteSchema defaults", () => {
   it("rejects an unknown background", () => {
     expect(siteSchema.safeParse({ background: "matrix" }).success).toBe(false);
   });
+  it("defaults commands to none and requires shell-safe names", () => {
+    expect(siteSchema.parse({}).commands).toEqual([]);
+    const ok = { name: "stack-2", description: "d", output: ["x"] };
+    expect(siteSchema.parse({ commands: [ok] }).commands).toEqual([ok]);
+    expect(siteSchema.safeParse({ commands: [{ ...ok, name: "Stack!" }] }).success).toBe(false);
+  });
 });
 
 describe("aboutSchema", () => {

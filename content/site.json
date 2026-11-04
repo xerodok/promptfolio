@@ -111,6 +111,19 @@
       "href": "#contact"
     }
   ],
+  "commands": [
+    {
+      "name": "stack",
+      "description": "what this site runs on",
+      "output": [
+        "Next.js 16, React 19, Tailwind 4 — prerendered, one client island",
+        "content: a JSON Resume document, validated at build time",
+        "image: bare Alpine + a stripped Node binary, non-root, read-only",
+        "delivery: GitHub Actions → signed image → Argo CD in the lab",
+        "probes: /api/health and /api/ready"
+      ]
+    }
+  ],
   "logos": {
     "Acme Talent (sample employer)": "/logos/sample-acme.svg",
     "Northwind Logistics (sample employer)": "/logos/sample-northwind.svg",

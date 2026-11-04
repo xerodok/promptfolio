@@ -99,6 +99,28 @@ or translate without touching components. Set only what you change:
 }
 ```
 
+### Site commands (`commands`)
+
+Commands that only print text need no code. Each has a name (lowercase
+letters, digits and dashes), a one-line description that `help` and `man`
+show, and the lines it prints, verbatim, so an ASCII diagram keeps its spaces:
+
+```jsonc
+{
+  "commands": [
+    {
+      "name": "stack",
+      "description": "what this site runs on",
+      "output": ["Next.js 16, React 19, Tailwind 4", "one container, no root"],
+    },
+  ],
+}
+```
+
+They get Tab completion and `--help` like the built-ins. A name that clashes
+with a built-in command is ignored; the built-in wins. Anything that needs
+logic or an action (scrolling, opening a page) is still code in `commands.ts`.
+
 ## 3. `content/about.json` (the About page)
 
 `/about` is a longer-form page that lives apart from the resume so it can
@@ -127,9 +149,10 @@ Besides the resume commands, the terminal understands a few shell basics:
 `cmd --help`, Tab completion of commands and their arguments, and chaining
 with `;` or `&&`. All of it is pure and unit-tested in `commands.ts`.
 
-Commands live in `src/components/terminal/commands.ts`. The boot sequence
-types `whoami`; change `INTRO` in `Terminal.tsx`. Quick-command
-chips come from `quickCommands`.
+Commands live in `src/components/terminal/commands.ts`; text-only ones come
+from `site.json` (see [Site commands](#site-commands-commands)). The boot
+sequence types `whoami`; change `INTRO` in `Terminal.tsx`. Quick-command chips
+come from `quickCommands`.
 
 ## Theme
 

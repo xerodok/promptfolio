@@ -5,13 +5,13 @@ listed so nothing is a surprise.
 
 ## Content files (build time)
 
-| File                  | Schema                       | Purpose                                                                                               |
-| --------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `content/resume.json` | `resumeSchema` (JSON Resume) | facts: basics, work, education, certificates, skills, projects, meta                                  |
-| `content/site.json`   | `siteSchema`                 | presentation: tagline, prompt, section headings, `ui` copy, leadership, stats, highlights, nav, logos |
-| `content/about.json`  | `aboutSchema`                | the `/about` page: eyebrow, title, intro, sections, updated                                           |
-| `public/photo.jpg`    | —                            | referenced by `basics.image` (`"/photo.jpg"`); any size, square works best                            |
-| `public/logos/*`      | —                            | referenced by `site.json` → `logos`                                                                   |
+| File                  | Schema                       | Purpose                                                                                                         |
+| --------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `content/resume.json` | `resumeSchema` (JSON Resume) | facts: basics, work, education, certificates, skills, projects, meta                                            |
+| `content/site.json`   | `siteSchema`                 | presentation: tagline, prompt, section headings, `ui` copy, leadership, stats, highlights, nav, logos, commands |
+| `content/about.json`  | `aboutSchema`                | the `/about` page: eyebrow, title, intro, sections, updated                                                     |
+| `public/photo.jpg`    | —                            | referenced by `basics.image` (`"/photo.jpg"`); any size, square works best                                      |
+| `public/logos/*`      | —                            | referenced by `site.json` → `logos`                                                                             |
 
 Field-by-field documentation is in [CUSTOMIZING.md](CUSTOMIZING.md). All three
 JSON files are validated at build time; a broken file fails `pnpm build`, never

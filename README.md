@@ -61,8 +61,9 @@ fictional sample.
 The terminal is a real little shell: `help`, `whoami`, `experience [n]`,
 `skills`, `repos`, `education`, `contact`, `about`, `open <section>`, `json`,
 `pdf`, plus `ls`, `cat`, `cd`, `pwd`, `echo`, `date`, `history`, `man`,
-`--help`, Tab completion and `&&`/`;` chaining. A Settings tab remembers
-per-browser preferences (background animation, boot animation, font size).
+`--help`, Tab completion, `&&`/`;` chaining, and any text-only commands you
+add in `site.json`. A Settings tab remembers per-browser preferences
+(background animation, boot animation, font size).
 
 ## Use this template
 
