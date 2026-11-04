@@ -10,12 +10,18 @@ import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { Stats } from "@/components/sections/Stats";
 import { getAbout, getResume, getSite } from "@/lib/resume/load";
+import { personJsonLd, serializeJsonLd } from "@/lib/seo/jsonld";
 
 export default function HomePage() {
   const resume = getResume();
   const site = getSite();
   return (
     <>
+      {/* schema.org Person for search engines; built from the resume, `<` escaped. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(personJsonLd(resume)) }}
+      />
       <Nav name={resume.basics.name} image={resume.basics.image} nav={site.nav} ui={site.ui} />
       <main className="flex-1">
         <Hero resume={resume} site={site} about={getAbout()} />

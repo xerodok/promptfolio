@@ -15,17 +15,17 @@ memory, or as ~1 MB of static files.
 
 ## Routes
 
-| Route                         | Kind                 | What it serves                                                           |
-| ----------------------------- | -------------------- | ------------------------------------------------------------------------ |
-| `/`                           | prerendered page     | the site: hero, terminal, sections                                       |
-| `/about`                      | prerendered page     | the longer narrative from `content/about.json`                           |
-| `/print`                      | prerendered page     | single-column, ink-friendly view for "Save as PDF"                       |
-| `/api/resume`                 | route handler        | the resume as a JSON Resume document (5-minute cache)                    |
-| `/api/health`                 | route handler (live) | liveness: uptime, version, commit; `Cache-Control: no-store`             |
-| `/api/ready`                  | route handler (live) | readiness: re-validates the content, `503` if it fails                   |
-| `/robots.txt`, `/sitemap.xml` | prerendered metadata | crawl rules and the two indexable pages; absolute URLs need `basics.url` |
-| `/opengraph-image`            | prerendered image    | the link-preview card (name, tagline, host) that social networks fetch   |
-| `/.well-known/security.txt`   | route handler (live) | RFC 9116 contact from `basics.email`; `404` without one                  |
+| Route                         | Kind                 | What it serves                                                                         |
+| ----------------------------- | -------------------- | -------------------------------------------------------------------------------------- |
+| `/`                           | prerendered page     | the site: hero, terminal, sections, a schema.org `Person` (JSON-LD) for search engines |
+| `/about`                      | prerendered page     | the longer narrative from `content/about.json`                                         |
+| `/print`                      | prerendered page     | single-column, ink-friendly view for "Save as PDF"                                     |
+| `/api/resume`                 | route handler        | the resume as a JSON Resume document (5-minute cache)                                  |
+| `/api/health`                 | route handler (live) | liveness: uptime, version, commit; `Cache-Control: no-store`                           |
+| `/api/ready`                  | route handler (live) | readiness: re-validates the content, `503` if it fails                                 |
+| `/robots.txt`, `/sitemap.xml` | prerendered metadata | crawl rules and the two indexable pages; absolute URLs need `basics.url`               |
+| `/opengraph-image`            | prerendered image    | the link-preview card (name, tagline, host) that social networks fetch                 |
+| `/.well-known/security.txt`   | route handler (live) | RFC 9116 contact from `basics.email`; `404` without one                                |
 
 ## Content model
 
