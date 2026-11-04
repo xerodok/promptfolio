@@ -1,10 +1,11 @@
 # Promptfolio — Plan
 
-## Status (2026-10-29)
+## Status (2026-11-04)
 
 Done: the site, print view, JSON API and probes; the About page; employer
-logos; a shell-like terminal with a Settings tab; a ~257 MB signed multi-arch
-image; a ~1 MB static export; the architecture, configuration, operations,
+logos; a shell-like terminal with a Settings tab and text-only commands from
+`site.json`; a schema.org `Person` for search engines; a report-only Content
+Security Policy; a ~257 MB signed multi-arch image; a ~1 MB static export; the architecture, configuration, operations,
 security, FAQ and per-medium deployment docs (`docs/deploy/`: static,
 Docker/Compose + proxies, Podman/Quadlet, systemd, Kubernetes, Cloud Run, AWS,
 Fly/Azure/Render, with units, snippets, Terraform and a Pages workflow); issue
@@ -17,8 +18,8 @@ paths are written from provider docs and not exercised by CI.
 
 1. **Kubernetes extras** — HPA/PDB/NetworkPolicy, a Helm chart.
 2. **Supply chain** — Trivy image scan in CI.
-3. **Hash-based CSP** — a strict Content-Security-Policy once inline scripts
-   are hashed at build time.
+3. **CSP enforcement** — the report-only policy ships; enforce it once the
+   reports are clean, hashing inline scripts at build time.
 4. **Lighthouse in CI** — a performance/accessibility/SEO budget on every push.
 
 ## What it is
@@ -68,7 +69,7 @@ content/about.json   ──┤  (the About page)
 - **Observability hooks**: `/api/health` exposes version and commit from build
   args.
 - **Container**: multi-stage Dockerfile built on `node:22-alpine`, running on
-  bare Alpine 3.21 with a stripped Node binary; standalone output, non-root
+  bare Alpine 3.24 with a stripped Node binary; standalone output, non-root
   user, read-only root filesystem in compose, HEALTHCHECK.
 - **CI**: GitHub Actions runs lint, typecheck, tests, format check and build,
   then builds the image and smoke-tests `/`, `/api/ready` and `/api/resume`;

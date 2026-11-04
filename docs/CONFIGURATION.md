@@ -23,11 +23,12 @@ face by accident; a fork that wants its photo in the repo adds it with
 
 ## Build arguments (`docker build --build-arg`)
 
-| Argument       | Default   | Effect                                                            |
-| -------------- | --------- | ----------------------------------------------------------------- |
-| `APP_VERSION`  | `dev`     | shown by `/api/health` (`version`) and the `uname`-style commands |
-| `GIT_SHA`      | `unknown` | shown by `/api/health` (`commit`)                                 |
-| `NODE_VERSION` | `22`      | Node major for the build and the runtime binary                   |
+| Argument          | Default   | Effect                                                                                                                                                            |
+| ----------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `APP_VERSION`     | `dev`     | shown by `/api/health` (`version`) and the `uname`-style commands                                                                                                 |
+| `GIT_SHA`         | `unknown` | shown by `/api/health` (`commit`)                                                                                                                                 |
+| `NODE_VERSION`    | `22`      | Node major for the build and the runtime binary                                                                                                                   |
+| `CSP_EXTRA_HOSTS` | empty     | origins (space-separated) appended to `script-src` and `connect-src` of the report-only Content Security Policy, e.g. a CDN's analytics beacon; see `SECURITY.md` |
 
 The release workflow passes `GIT_SHA=${{ github.sha }}` and
 `APP_VERSION=${{ github.ref_name }}` automatically.

@@ -61,10 +61,21 @@ Set in `next.config.ts` for every response: `X-Content-Type-Options: nosniff`,
 `Permissions-Policy: camera=(), microphone=(), geolocation=()`; `X-Powered-By`
 is removed. **HSTS** belongs on whatever terminates TLS in front of the app.
 
-**Content Security Policy** is a known gap. A nonce-based CSP requires
-per-request rendering, which conflicts with prerendering; a hash-based policy
-is feasible and is on the roadmap. If you add one at the proxy, note the
-inline boot script the static export injects.
+**Content Security Policy** ships report-only. `next.config.ts` sends a
+`Content-Security-Policy-Report-Only` header: `default-src 'self'`; inline
+scripts and styles allowed, because the prerendered pages carry Next's
+hydration script inline and React sets style attributes; images from `self`,
+`data:` and any `https:` origin, since the photo and employer logos may be
+URLs; fonts, connections and everything else `self`; `object-src 'none'`,
+`base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`. Violations
+appear in the browser console and block nothing. A deployment that injects a
+script, such as a CDN's analytics beacon, adds its origins at build time with
+`CSP_EXTRA_HOSTS="https://one.example https://two.example"` (space-separated;
+appended to `script-src` and `connect-src`; also a Docker build argument).
+Enforcement is the next step and needs the inline scripts hashed at build
+time; a nonce-based policy would force per-request rendering. If you enforce
+a policy at the proxy instead, note the inline boot script the static export
+injects.
 
 ## Content and privacy
 

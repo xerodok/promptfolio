@@ -3,7 +3,10 @@
 The site is fully prerendered, so it can be served as plain files with no
 server at all. The terminal, About page and print view all work; `/api/resume`
 becomes a static `resume.json`; the health probes do not exist (nothing to
-probe). This is the smallest possible deployment: about 1 MB.
+probe). This is the smallest possible deployment: about 1 MB. Response
+headers from `next.config.ts` (nosniff, frame options, the report-only Content
+Security Policy) are not part of a static export; set them at the host if it
+supports custom headers (Cloudflare Pages and Netlify read a `_headers` file).
 
 ## Prerequisites
 
