@@ -1,15 +1,19 @@
 import { formatDate, formatRange } from "@/lib/resume/format";
-import type { Resume } from "@/lib/resume/schema";
+import type { Resume, SiteConfig } from "@/lib/resume/schema";
+import { LogoMark } from "./LogoMark";
 import { Section } from "./Section";
 
 export function Education({
   education,
   certificates,
   heading,
+  logos,
 }: {
   education: Resume["education"];
   certificates: Resume["certificates"];
   heading: { eyebrow: string; title: string };
+  /** Institution name -> logo image, from site.json; a monogram when absent. */
+  logos: SiteConfig["logos"];
 }) {
   return (
     <Section id="education" eyebrow={heading.eyebrow} title={heading.title}>
@@ -20,6 +24,9 @@ export function Education({
               key={`${e.institution}-${e.studyType ?? ""}-${e.area ?? ""}`}
               className="card p-6 text-center"
             >
+              <div className="mb-3 flex justify-center">
+                <LogoMark name={e.institution} logo={logos[e.institution]} />
+              </div>
               <h3 className="text-fg-strong font-semibold">
                 {[e.studyType, e.area].filter(Boolean).join(" ")}
               </h3>

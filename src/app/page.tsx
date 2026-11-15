@@ -42,6 +42,7 @@ export default function HomePage() {
         {(resume.education.length > 0 || resume.certificates.length > 0) && (
           <Education
             education={resume.education}
+            logos={site.logos}
             certificates={resume.certificates}
             heading={site.sections.education}
           />

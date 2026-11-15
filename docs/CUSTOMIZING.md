@@ -55,14 +55,15 @@ role. Empty arrays hide their section.
 Highlight icons: `cluster`, `git`, `pulse`, `shield`, `code`, `terminal`.
 Add more in `src/components/Icon.tsx` and the `highlightIcons` list in the schema.
 
-### Employer logos
+### Employer and school logos
 
 `site.json` → `"logos": { "<work[].name>": "/logos/acme.svg" }` puts a logo tile
-beside that employer in the experience timeline (the key must match the
-employer name in `resume.json` exactly; a unit test checks it). Files go in
-`public/logos/` — or `private/logos/`, which `pnpm content:private` copies
-there. Employers without an entry get a two-letter monogram tile. Logos are
-shown on a white tile, so transparent or light-background artwork works best.
+beside that employer in the experience timeline; a key that matches an
+`education[].institution` puts the same tile on that school's card. The key
+must match the name in `resume.json` exactly (a unit test checks it). Files go
+in `public/logos/` — or `private/logos/`, which `pnpm content:private` copies
+there. Names without an entry get a two-letter monogram tile. Logos are shown
+on a white tile, so transparent or light-background artwork works best.
 
 ### Background
 

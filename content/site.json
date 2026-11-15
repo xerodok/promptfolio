@@ -127,6 +127,7 @@
   "logos": {
     "Acme Talent (sample employer)": "/logos/sample-acme.svg",
     "Northwind Logistics (sample employer)": "/logos/sample-northwind.svg",
-    "Contoso Health (sample employer)": "/logos/sample-contoso.svg"
+    "Contoso Health (sample employer)": "/logos/sample-contoso.svg",
+    "State University (sample)": "/logos/sample-state-university.svg"
   }
 }

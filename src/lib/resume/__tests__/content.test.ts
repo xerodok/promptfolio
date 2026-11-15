@@ -33,8 +33,12 @@ describe("content/site.json", () => {
     expect(site.highlights.length).toBeGreaterThan(0);
     expect(site.nav.every((n) => n.href.startsWith("#") || n.href.startsWith("/"))).toBe(true);
   });
-  it("only maps logos to employers that exist in the resume", () => {
-    const employers = new Set(getResume().work.map((w) => w.name));
-    for (const name of Object.keys(getSite().logos)) expect(employers).toContain(name);
+  it("only maps logos to employers or institutions that exist in the resume", () => {
+    const resume = getResume();
+    const names = new Set([
+      ...resume.work.map((w) => w.name),
+      ...resume.education.map((e) => e.institution),
+    ]);
+    for (const name of Object.keys(getSite().logos)) expect(names).toContain(name);
   });
 });

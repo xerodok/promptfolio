@@ -231,9 +231,10 @@ export const siteSchema = z.object({
     )
     .default([]),
   /**
-   * Employer logos for the experience timeline, keyed by the exact `work[].name`
-   * from resume.json: a path under public/ (e.g. "/logos/acme.svg") or a URL.
-   * Employers without an entry get a monogram tile.
+   * Logos for the experience timeline and the education cards, keyed by the
+   * exact `work[].name` or `education[].institution` from resume.json: a path
+   * under public/ (e.g. "/logos/acme.svg") or a URL. Names without an entry
+   * get a two-letter monogram tile.
    */
   logos: z.record(z.string(), z.string()).default({}),
 });
