@@ -94,7 +94,10 @@ docker rmi $IMAGE              # drops it
   Keep them; the app needs none of what they remove.
 - **Health check** runs `node /app/healthcheck.mjs` (the image has no wget).
 - **Logs**: `docker compose logs -f web`. Nothing is written to disk.
-- **Pi / ARM**: the published image is `linux/arm64` too; building locally on
-  a Pi works but takes a few minutes.
+- **Pi / ARM**: the published image is `linux/arm64` too. The release
+  cross-builds it: `pnpm install` and `next build` run natively on the amd64
+  runner (`--platform=$BUILDPLATFORM`), and only the Node binary and the
+  runtime layer are assembled under emulation. Building locally on a Pi works
+  but takes a few minutes.
 - **Cost**: whatever the box costs. Idle RSS is ~40 MB, so it shares a $5
   VPS with plenty of room.

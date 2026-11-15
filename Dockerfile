@@ -14,7 +14,11 @@
 # server entirely: `pnpm export:static` is ~1 MB of files.
 
 ARG NODE_VERSION=22
-FROM node:${NODE_VERSION}-alpine AS base
+# Install and build run natively on the builder (BUILDPLATFORM); a cross-build
+# emulates only the two short stages below that assemble the target image.
+# next.config.ts excludes sharp from the output, so nothing platform-specific
+# crosses from the build stage into the runtime stage.
+FROM --platform=$BUILDPLATFORM node:${NODE_VERSION}-alpine AS base
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH NEXT_TELEMETRY_DISABLED=1
 RUN corepack enable
 WORKDIR /app
@@ -37,8 +41,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm build
 
-# --- nodebin: the Node binary without debug symbols (the official one ships unstripped)
-FROM base AS nodebin
+# --- nodebin: the TARGET platform's Node binary without debug symbols (the official one ships unstripped)
+FROM node:${NODE_VERSION}-alpine AS nodebin
 RUN apk add --no-cache binutils && strip /usr/local/bin/node
 
 # --- runtime: bare Alpine + Node + the standalone output, as an unprivileged user

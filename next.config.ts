@@ -44,6 +44,11 @@ const securityHeaders = (dev: boolean) => [
 const nextConfig = (phase: string): NextConfig => ({
   // Self-contained server bundle for the container image (node .next/standalone/server.js).
   output: "standalone",
+  // No next/image anywhere (logos and the photo are plain <img>), so the image
+  // optimizer and its native sharp binary stay out of the standalone output.
+  // That also keeps the output platform-neutral for the cross-built image.
+  images: { unoptimized: true },
+  outputFileTracingExcludes: { "*": ["**/node_modules/sharp/**", "**/node_modules/@img/**"] },
   poweredByHeader: false,
   cacheComponents: true,
   partialPrefetching: true,
