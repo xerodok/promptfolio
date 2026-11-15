@@ -1,11 +1,11 @@
 # Promptfolio — Plan
 
-## Status (2026-11-04)
+## Status (2026-11-15)
 
-Done: the site, print view, JSON API and probes; the About page; employer
-logos; a shell-like terminal with a Settings tab and text-only commands from
-`site.json`; a schema.org `Person` for search engines; a report-only Content
-Security Policy; a ~257 MB signed multi-arch image; a ~1 MB static export; the architecture, configuration, operations,
+Done: the site, print view, JSON API and probes; the About page; employer and
+school logos; a shell-like terminal with a Settings tab and text-only commands from
+`site.json`; a schema.org `Person` for search engines; an enforced Content
+Security Policy; a signed multi-arch image cross-built natively; a ~1 MB static export; the architecture, configuration, operations,
 security, FAQ and per-medium deployment docs (`docs/deploy/`: static,
 Docker/Compose + proxies, Podman/Quadlet, systemd, Kubernetes, Cloud Run, AWS,
 Fly/Azure/Render, with units, snippets, Terraform and a Pages workflow); issue
@@ -18,8 +18,8 @@ paths are written from provider docs and not exercised by CI.
 
 1. **Kubernetes extras** — HPA/PDB/NetworkPolicy, a Helm chart.
 2. **Supply chain** — Trivy image scan in CI.
-3. **CSP enforcement** — the report-only policy ships; enforce it once the
-   reports are clean, hashing inline scripts at build time.
+3. **Stricter CSP** — the policy is enforced; drop `'unsafe-inline'` from
+   `script-src` by hashing the inline hydration scripts at build time.
 4. **Lighthouse in CI** — a performance/accessibility/SEO budget on every push.
 
 ## What it is
