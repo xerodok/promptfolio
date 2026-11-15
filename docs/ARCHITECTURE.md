@@ -156,11 +156,12 @@ flowchart TB
 - No shell is needed at runtime; the health probe is a Node script.
 - Security headers from `next.config.ts`: `X-Content-Type-Options: nosniff`,
   `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`,
-  a restrictive `Permissions-Policy`, no `X-Powered-By`, and a
-  `Content-Security-Policy-Report-Only` that mirrors what the pages load
-  (`CSP_EXTRA_HOSTS` adds a CDN beacon). It is report-only because the
-  prerendered pages carry Next's hydration script inline; enforcing it means
-  hashing those scripts at build time, which is the next step.
+  a restrictive `Permissions-Policy`, no `X-Powered-By`, and an enforced
+  `Content-Security-Policy` that mirrors what the pages load
+  (`CSP_EXTRA_HOSTS` adds a CDN beacon; `CSP_REPORT_ONLY=1` ships the same
+  policy report-only). Inline scripts and styles stay allowed because the
+  prerendered pages carry Next's hydration script inline; hashing those
+  scripts at build time is the next step.
 - No third-party requests at runtime: fonts are self-hosted via
   `@fontsource-variable`, icons are inline SVG.
 - Supply chain: CI runs gitleaks; releases are multi-arch with an SBOM, SLSA

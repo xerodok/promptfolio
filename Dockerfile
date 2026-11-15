@@ -28,9 +28,11 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 FROM base AS build
 ARG APP_VERSION=dev
 ARG GIT_SHA=unknown
-# Extra origins for the report-only Content Security Policy (next.config.ts).
+# Content Security Policy (next.config.ts): extra origins, and "1" to ship it
+# report-only instead of enforced.
 ARG CSP_EXTRA_HOSTS=""
-ENV APP_VERSION=$APP_VERSION GIT_SHA=$GIT_SHA CSP_EXTRA_HOSTS=$CSP_EXTRA_HOSTS
+ARG CSP_REPORT_ONLY=""
+ENV APP_VERSION=$APP_VERSION GIT_SHA=$GIT_SHA CSP_EXTRA_HOSTS=$CSP_EXTRA_HOSTS CSP_REPORT_ONLY=$CSP_REPORT_ONLY
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm build

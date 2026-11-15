@@ -61,21 +61,24 @@ Set in `next.config.ts` for every response: `X-Content-Type-Options: nosniff`,
 `Permissions-Policy: camera=(), microphone=(), geolocation=()`; `X-Powered-By`
 is removed. **HSTS** belongs on whatever terminates TLS in front of the app.
 
-**Content Security Policy** ships report-only. `next.config.ts` sends a
-`Content-Security-Policy-Report-Only` header: `default-src 'self'`; inline
-scripts and styles allowed, because the prerendered pages carry Next's
-hydration script inline and React sets style attributes; images from `self`,
-`data:` and any `https:` origin, since the photo and employer logos may be
-URLs; fonts, connections and everything else `self`; `object-src 'none'`,
-`base-uri 'self'`, `form-action 'self'`, `frame-ancestors 'none'`. Violations
-appear in the browser console and block nothing. A deployment that injects a
-script, such as a CDN's analytics beacon, adds its origins at build time with
+**Content Security Policy** is enforced. `next.config.ts` sends a
+`Content-Security-Policy` header: `default-src 'self'`; inline scripts and
+styles allowed, because the prerendered pages carry Next's hydration script
+inline and React sets style attributes; images from `self`, `data:` and any
+`https:` origin, since the photo and logos may be URLs; fonts, connections and
+everything else `self`; `object-src 'none'`, `base-uri 'self'`, `form-action
+'self'`, `frame-ancestors 'none'`. A deployment that injects a script, such as
+a CDN's analytics beacon, adds its origins at build time with
 `CSP_EXTRA_HOSTS="https://one.example https://two.example"` (space-separated;
 appended to `script-src` and `connect-src`; also a Docker build argument).
-Enforcement is the next step and needs the inline scripts hashed at build
-time; a nonce-based policy would force per-request rendering. If you enforce
-a policy at the proxy instead, note the inline boot script the static export
-injects.
+`CSP_REPORT_ONLY=1` at build time ships the same policy as
+`Content-Security-Policy-Report-Only` instead: violations appear in the browser
+console and nothing is blocked, which is the way to watch a new deployment
+before enforcing. The dev server alone adds `'unsafe-eval'` for Fast Refresh.
+The next step is dropping `'unsafe-inline'` from `script-src` by hashing the
+inline scripts at build time; a nonce-based policy would force per-request
+rendering. If you enforce a policy at the proxy instead, note the inline boot
+script the static export injects.
 
 ## Content and privacy
 
